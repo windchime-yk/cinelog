@@ -21,3 +21,4 @@ export {
   getCookies,
   setCookie,
 } from "https://deno.land/std@0.163.0/http/cookie.ts";
+export { connect } from "https://esm.sh/@planetscale/database@1.4.0";

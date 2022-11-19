@@ -12,7 +12,7 @@ import { CommonApiResponse, MovieInfo } from "../model.ts";
  * @param req Request
  * @returns 鑑賞作品データの配列
  */
-export const cinelogApi = (req: Request): Response => {
+export const cinelogApi = async (req: Request): Promise<Response> => {
   if (
     req.method !== "OPTIONS" &&
     isInvalidAccount(req.headers.get("username"), req.headers.get("password"))
@@ -26,5 +26,7 @@ export const cinelogApi = (req: Request): Response => {
     }, statusCode.unauthorized);
   }
 
-  return jsonResponse<Array<MovieInfo>>(fetchMovieInfo());
+  const movies = await fetchMovieInfo();
+
+  return jsonResponse<Array<MovieInfo>>(movies);
 };
