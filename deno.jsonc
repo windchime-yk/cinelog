@@ -1,6 +1,7 @@
 {
   "tasks": {
     "dev": "deno run --allow-net --allow-write --allow-read --allow-env --watch mod.tsx",
+    "sql-gen": "deno run command.ts",
     "fmt": "deno fmt --ignore=README.md"
   }
 }

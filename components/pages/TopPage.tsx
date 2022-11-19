@@ -15,7 +15,7 @@ import type { MovieInfo } from "../../model.ts";
  * TOP画面
  * @returns JSX
  */
-export const TopPage = (req: Request): Promise<Response> => {
+export const TopPage = async (req: Request): Promise<Response> => {
   const elapsedTime = (movie: MovieInfo) =>
     movie.view_start_time === null || movie.view_end_time === null
       ? "不明"
@@ -25,6 +25,8 @@ export const TopPage = (req: Request): Promise<Response> => {
           `${movie.view_date} ${movie.view_end_time}`,
         )
       }分`;
+  const movies = await fetchMovieInfo();
+
   return html({
     title: SITE_NAME,
     status: statusCode.ok,
@@ -37,8 +39,8 @@ export const TopPage = (req: Request): Promise<Response> => {
           <p>なお、APIも提供されています。</p>
 
           <section class="px-5 mt-9">
-            <Heading level={2}>直近で観た映画</Heading>
-            {fetchMovieInfo().map((movie) => {
+            <Heading level={2}>直近の鑑賞10作品</Heading>
+            {movies.map((movie) => {
               return (
                 <section class="flex max-w-2xl flex-col mx-a mt-5 pt-3 pb-5 px-2 border">
                   <Heading className="order-2 text-center" level={3}>

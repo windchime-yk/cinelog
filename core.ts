@@ -1,5 +1,4 @@
-import { statusCode, type StatusCodeNumber } from "./deps.ts";
-import testJson from "./assets/test.json" assert { type: "json" };
+import { connect, statusCode, type StatusCodeNumber } from "./deps.ts";
 import { config } from "./config.ts";
 import type { ApiCodeOptions, MovieInfo } from "./model.ts";
 
@@ -58,11 +57,16 @@ export const redirectResponse = (path: `/${string}`): Response =>
 /**
  * 鑑賞作品データの配列を返却する
  */
-export const fetchMovieInfo = (): MovieInfo[] => {
-  // TODO: Local Storageの取得処理を入れる
-  // TODO: SurrealDBの取得処理を入れる
-  // TODO: limitの引数を追加して鑑賞作品データの出力数を絞る処理を入れる
-  return testJson;
+export const fetchMovieInfo = async (): Promise<MovieInfo[]> => {
+  const conn = connect({
+    host: config.ps_host,
+    username: config.ps_username,
+    password: config.ps_password,
+  });
+  const result = await conn.execute(
+    "SELECT title,view_date,view_start_time,view_end_time FROM tbl_movieinfo ORDER BY view_date desc LIMIT 10",
+  );
+  return result.rows;
 };
 
 /**
