@@ -4,6 +4,8 @@ import { StatusCodeNumber } from "./deps.ts";
  * 映画鑑賞情報
  */
 export interface MovieInfo {
+  /** ID */
+  id: string;
   /** 映画タイトル */
   title: string;
   /** 吹替版かどうか */
@@ -32,6 +34,18 @@ export interface MovieInfo {
   rating?: number;
   /** コメント */
   comment?: string;
+}
+
+/**
+ * 鑑賞作品データ取得関数のオプション
+ */
+export interface FetchMovieInfoOptions {
+  /** field名（デフォルトは"*"） */
+  fields?: Array<keyof MovieInfo>;
+  /** 昇順（asc）か降順（desc）で並べ替える（デフォルトは降順） */
+  sort?: "desc" | "asc";
+  /** データ表示数 */
+  limit?: number;
 }
 
 export interface UserParam {
