@@ -1,6 +1,10 @@
 import { connect, statusCode, type StatusCodeNumber } from "./deps.ts";
 import { config } from "./config.ts";
-import type { ApiCodeOptions, MovieInfo } from "./model.ts";
+import type {
+  ApiCodeOptions,
+  FetchMovieInfoOptions,
+  MovieInfo,
+} from "./model.ts";
 
 /**
  * ユーザー名かパスワードがシステム側に保存されているものと一致するか
@@ -57,15 +61,24 @@ export const redirectResponse = (path: `/${string}`): Response =>
 /**
  * 鑑賞作品データの配列を返却する
  */
-export const fetchMovieInfo = async (): Promise<MovieInfo[]> => {
+export const fetchMovieInfo = async (
+  options?: FetchMovieInfoOptions,
+): Promise<MovieInfo[]> => {
   const conn = connect({
     host: config.ps_host,
     username: config.ps_username,
     password: config.ps_password,
   });
-  const result = await conn.execute(
-    "SELECT title,view_date,view_start_time,view_end_time FROM tbl_movieinfo ORDER BY view_date desc LIMIT 10",
-  );
+  const fieldset = options?.fields?.join(",");
+  const sort = options?.sort ?? "desc";
+  let sql: string;
+  if (options?.limit) {
+    sql =
+      `SELECT ${fieldset} FROM tbl_movieinfo ORDER BY view_date ${sort} LIMIT ${options?.limit}`;
+  } else if (options?.fields && options?.fields.length > 0) {
+    sql = `SELECT ${fieldset} FROM tbl_movieinfo ORDER BY view_date ${sort}`;
+  } else sql = `SELECT * FROM tbl_movieinfo ORDER BY view_date ${sort}`;
+  const result = await conn.execute(sql);
   return result.rows;
 };
 

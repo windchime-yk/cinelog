@@ -25,7 +25,10 @@ export const TopPage = async (req: Request): Promise<Response> => {
           `${movie.view_date} ${movie.view_end_time}`,
         )
       }分`;
-  const movies = await fetchMovieInfo();
+  const movies = await fetchMovieInfo({
+    fields: ["title", "view_date", "view_start_time", "view_end_time"],
+    limit: 10,
+  });
 
   return html({
     title: SITE_NAME,

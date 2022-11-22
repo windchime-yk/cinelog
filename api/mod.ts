@@ -26,7 +26,10 @@ export const cinelogApi = async (req: Request): Promise<Response> => {
     }, statusCode.unauthorized);
   }
 
-  const movies = await fetchMovieInfo();
+  const movies = await fetchMovieInfo({
+    fields: ["id", "title", "view_date", "view_start_time", "view_end_time"],
+    sort: "asc",
+  });
 
   return jsonResponse<Array<MovieInfo>>(movies);
 };
