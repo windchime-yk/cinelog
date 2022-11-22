@@ -13,7 +13,7 @@ import { SITE_NAME } from "../../config.ts";
 /**
  * ダッシュボード画面
  * @param req Request
- * @returns JSX
+ * @returns HTMLレスポンス
  */
 export const DashboardPage = (req: Request): Promise<Response> | Response => {
   const cookie = getCookies(req.headers);

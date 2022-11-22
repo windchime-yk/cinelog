@@ -11,7 +11,8 @@ import { SITE_NAME } from "../../config.ts";
 
 /**
  * ログイン画面
- * @returns JSX
+ * @param req Request
+ * @returns HTMLレスポンス
  */
 export const LoginPage = (req: Request): Promise<Response> => {
   return html({

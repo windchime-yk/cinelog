@@ -11,7 +11,8 @@ import {
 
 /**
  * データ追加画面
- * @returns JSX
+ * @param req Request
+ * @returns リダイレクトレスポンス
  */
 export const AddMoviePage = async (req: Request): Promise<Response> => {
   const body = await getUrlParams(req);

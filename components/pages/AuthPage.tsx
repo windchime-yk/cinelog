@@ -12,7 +12,7 @@ import {
 /**
  * 認証画面
  * @param req Request
- * @returns JSX
+ * @returns リダイレクトレスポンス
  */
 export const AuthPage = async (req: Request): Promise<Response> => {
   const body = await getUrlParams(req);

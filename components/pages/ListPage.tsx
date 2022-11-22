@@ -13,7 +13,7 @@ import { SITE_NAME } from "../../config.ts";
 /**
  * 鑑賞作品一覧画面
  * @param req Request
- * @returns JSX
+ * @returns HTMLレスポンス
  */
 export const ListPage = async (req: Request): Promise<Response> => {
   const movies = await fetchMovieInfo({
