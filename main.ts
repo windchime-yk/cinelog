@@ -1,7 +1,3 @@
-/**
- * @jsx h
- * @jsxFrag Fragment
- */
 import { type Handler, html, serve, UnoCSS } from "./deps.ts";
 import { TopPage } from "./components/pages/TopPage.tsx";
 import { ListPage } from "./components/pages/ListPage.tsx";
