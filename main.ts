@@ -3,6 +3,7 @@ import { TopPage } from "./components/pages/TopPage.tsx";
 import { ListPage } from "./components/pages/ListPage.tsx";
 import { LoginPage } from "./components/pages/LoginPage.tsx";
 import { DashboardPage } from "./components/pages/DashboardPage.tsx";
+import { SearchPage } from "./components/pages/SearchPage.tsx";
 import { AuthPage } from "./components/pages/redirect/AuthPage.tsx";
 import { AddMoviePage } from "./components/pages/redirect/movie/Add.tsx";
 import { NotFoundPage } from "./components/pages/error/NotFoundPage.tsx";
@@ -18,6 +19,7 @@ const handler: Handler = (req) => {
   if (pathname === "/list") return ListPage(req);
   if (pathname === "/login") return LoginPage(req);
   if (pathname === "/dashboard") return DashboardPage(req);
+  if (pathname === "/search") return SearchPage(req);
 
   // リダイレクト画面系
   if (pathname === "/auth") return AuthPage(req);

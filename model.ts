@@ -46,6 +46,8 @@ export interface FetchMovieInfoOptions {
   sort?: "desc" | "asc";
   /** データ表示数 */
   limit?: number;
+  /** 検索文言 */
+  search?: string | null;
 }
 
 export interface UserParam {

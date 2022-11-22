@@ -72,7 +72,11 @@ export const fetchMovieInfo = async (
   const fieldset = options?.fields?.join(",");
   const sort = options?.sort ?? "desc";
   let sql: string;
-  if (options?.limit) {
+
+  if (options?.search) {
+    sql =
+      `SELECT ${fieldset} FROM tbl_movieinfo WHERE title LIKE '%${options.search}%' ORDER BY view_date ${sort}`;
+  } else if (options?.limit) {
     sql =
       `SELECT ${fieldset} FROM tbl_movieinfo ORDER BY view_date ${sort} LIMIT ${options?.limit}`;
   } else if (options?.fields && options?.fields.length > 0) {
