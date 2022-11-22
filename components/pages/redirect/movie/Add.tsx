@@ -2,12 +2,12 @@
  * @jsx h
  * @jsxFrag Fragment
  */
-import { getCookies } from "../../../deps.ts";
+import { getCookies } from "../../../../deps.ts";
 import {
   getUrlParams,
   isInvalidAccount,
   redirectResponse,
-} from "../../../core.ts";
+} from "../../../../core.ts";
 
 /**
  * データ追加画面

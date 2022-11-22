@@ -2,12 +2,12 @@
  * @jsx h
  * @jsxFrag Fragment
  */
-import { setCookie } from "../../deps.ts";
+import { setCookie } from "../../../deps.ts";
 import {
   getUrlParams,
   isInvalidAccount,
   redirectResponse,
-} from "../../core.ts";
+} from "../../../core.ts";
 
 /**
  * 認証画面
