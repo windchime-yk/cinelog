@@ -3,7 +3,11 @@
  * @jsxFrag Fragment
  */
 import { setCookie } from "../../deps.ts";
-import { isInvalidAccount, redirectResponse } from "../../core.ts";
+import {
+  getUrlParams,
+  isInvalidAccount,
+  redirectResponse,
+} from "../../core.ts";
 
 /**
  * 認証画面
@@ -11,11 +15,7 @@ import { isInvalidAccount, redirectResponse } from "../../core.ts";
  * @returns JSX
  */
 export const AuthPage = async (req: Request): Promise<Response> => {
-  const bodyReader = await req.body?.getReader().read();
-  const bodyReaderValue = bodyReader?.value;
-  const decoder = new TextDecoder();
-  const body = new URLSearchParams(decoder.decode(bodyReaderValue));
-
+  const body = await getUrlParams(req);
   const response = redirectResponse("/");
 
   if (!isInvalidAccount(body.get("username"), body.get("password"))) {

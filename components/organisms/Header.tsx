@@ -28,6 +28,9 @@ export const Header = ({ req }: HeaderProps): VNode => {
               <a class="underline" href="/login">ログイン</a>
             </li>
           )}
+          <li>
+            <a class="underline" href="/list">鑑賞作品一覧</a>
+          </li>
         </ul>
       </nav>
     </header>

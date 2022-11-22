@@ -3,17 +3,18 @@
  * @jsxFrag Fragment
  */
 import { getCookies } from "../../../deps.ts";
-import { isInvalidAccount, redirectResponse } from "../../../core.ts";
+import {
+  getUrlParams,
+  isInvalidAccount,
+  redirectResponse,
+} from "../../../core.ts";
 
 /**
  * データ追加画面
  * @returns JSX
  */
 export const AddMoviePage = async (req: Request): Promise<Response> => {
-  const bodyReader = await req.body?.getReader().read();
-  const bodyReaderValue = bodyReader?.value;
-  const decoder = new TextDecoder();
-  const body = new URLSearchParams(decoder.decode(bodyReaderValue));
+  const body = await getUrlParams(req);
   const cookie = getCookies(req.headers);
 
   if (!isInvalidAccount(cookie.username, cookie.password)) {
