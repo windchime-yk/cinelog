@@ -11,7 +11,8 @@ import { Heading } from "../../atoms/Heading.tsx";
 
 /**
  * 404画面
- * @returns JSX
+ * @param req Request
+ * @returns HTMLレスポンス
  */
 export const NotFoundPage = (req: Request): Promise<Response> => {
   return html({

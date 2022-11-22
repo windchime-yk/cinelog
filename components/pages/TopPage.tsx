@@ -13,7 +13,8 @@ import type { MovieInfo } from "../../model.ts";
 
 /**
  * TOP画面
- * @returns JSX
+ * @param req Request
+ * @returns HTMLレスポンス
  */
 export const TopPage = async (req: Request): Promise<Response> => {
   const elapsedTime = (movie: MovieInfo) =>
