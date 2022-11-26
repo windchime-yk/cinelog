@@ -1,10 +1,6 @@
 import { connect, statusCode, type StatusCodeNumber } from "./deps.ts";
 import { config } from "./config.ts";
-import type {
-  ApiCodeOptions,
-  FetchMovieInfoOptions,
-  MovieInfo,
-} from "./model.ts";
+import type { ApiCodeOptions, CombineSqlOptions, MovieInfo } from "./model.ts";
 
 /**
  * ユーザー名かパスワードがシステム側に保存されているものと一致するか
@@ -62,27 +58,27 @@ export const redirectResponse = (path: `/${string}`): Response =>
  * 鑑賞作品データの配列を返却する
  */
 export const fetchMovieInfo = async (
-  options?: FetchMovieInfoOptions,
+  options: CombineSqlOptions,
 ): Promise<MovieInfo[]> => {
   const conn = connect({
     host: config.ps_host,
     username: config.ps_username,
     password: config.ps_password,
   });
-  const fieldset = options?.fields?.join(",");
-  const sort = options?.sort ?? "desc";
-  let sql: string;
 
-  if (options?.search) {
-    sql =
-      `SELECT ${fieldset} FROM tbl_movieinfo WHERE title LIKE '%${options.search}%' ORDER BY view_date ${sort}`;
-  } else if (options?.limit) {
-    sql =
-      `SELECT ${fieldset} FROM tbl_movieinfo ORDER BY view_date ${sort} LIMIT ${options?.limit}`;
-  } else if (options?.fields && options?.fields.length > 0) {
-    sql = `SELECT ${fieldset} FROM tbl_movieinfo ORDER BY view_date ${sort}`;
-  } else sql = `SELECT * FROM tbl_movieinfo ORDER BY view_date ${sort}`;
-  const result = await conn.execute(sql);
+  const sql = new CombineSql();
+  const result = await conn.execute(sql.generateSelectSql({
+    table: options.table,
+    fields: options.fields,
+    where: options.where,
+    like: options.like,
+    order: {
+      target: options.order?.target ?? "view_date",
+      sort: options.order?.sort ?? "desc",
+    },
+    limit: options.limit,
+  }));
+
   return result.rows;
 };
 
@@ -125,3 +121,79 @@ export const elapsedTime = (movie: MovieInfo) =>
         `${movie.view_date} ${movie.view_end_time}`,
       )
     }分`;
+
+/** SQL文の断片を1つにまとめて文字列として生成する */
+export class CombineSql {
+  /**
+   * フィールドを指定するSQL断片を生成
+   * @param fields フィールド名
+   */
+  private getFields(fields: CombineSqlOptions["fields"]): string {
+    if (!fields) return "*";
+    return fields.join(",");
+  }
+
+  /**
+   * テーブルを指定するSQL断片を生成
+   * @param table テーブル名
+   */
+  private getTable(table: CombineSqlOptions["table"]) {
+    return `FROM ${table}`;
+  }
+
+  /**
+   * 検索条件を指定するSQL断片を生成
+   * @param where 検索条件
+   * @param like 曖昧検索条件
+   */
+  private getWhere(
+    where: CombineSqlOptions["where"],
+    like: CombineSqlOptions["like"],
+  ): string {
+    if (!where) return "";
+    if (like) return `WHERE ${where} LIKE '%${like}%'`;
+    return `WHERE ${where}`;
+  }
+
+  /**
+   * 並び替え順を指定するSQL断片を生成
+   * @param order 並び替え順
+   */
+  private getOrder(order: CombineSqlOptions["order"]): string {
+    if (!order) return "";
+    return `ORDER BY ${order.target} ${order.sort}`;
+  }
+
+  /**
+   * 出力データ数を指定するSQL断片を生成
+   * @param limit 出力データ数
+   */
+  private getLimit(limit: CombineSqlOptions["limit"]): string {
+    if (!limit) return "";
+    return `LIMIT ${limit}`;
+  }
+
+  /**
+   * SQL断片を1つのSQL文に結合する
+   * @param sql SQL文の断片の配列
+   */
+  private joinSqlFragment(sql: string[]): string {
+    return sql.join(" ").trim().replace(/ {2,}/g, " ");
+  }
+
+  /**
+   * SELECT文の生成
+   * @param options テーブル名やフィールド名などの条件
+   */
+  public generateSelectSql(options: CombineSqlOptions): string {
+    const sql = [
+      this.getFields(options.fields),
+      this.getTable(options.table),
+      this.getWhere(options.where, options.like),
+      this.getOrder(options.order),
+      this.getLimit(options.limit),
+    ];
+
+    return `SELECT ${this.joinSqlFragment(sql)}`;
+  }
+}

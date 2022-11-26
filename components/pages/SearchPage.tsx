@@ -20,8 +20,10 @@ export const SearchPage = async (req: Request): Promise<Response> => {
   const search = body.get("search");
   const title = search ? "検索結果" : "検索画面";
   const movies = await fetchMovieInfo({
+    table: "tbl_movieinfo",
     fields: ["title", "view_date", "view_start_time", "view_end_time"],
-    search,
+    where: search ? "title" : undefined,
+    like: search,
   });
 
   return html({

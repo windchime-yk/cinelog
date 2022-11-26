@@ -17,6 +17,7 @@ import { SITE_NAME } from "../../config.ts";
  */
 export const ListPage = async (req: Request): Promise<Response> => {
   const movies = await fetchMovieInfo({
+    table: "tbl_movieinfo",
     fields: ["title", "view_date", "view_start_time", "view_end_time"],
   });
 

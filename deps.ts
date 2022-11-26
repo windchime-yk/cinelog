@@ -6,12 +6,10 @@ export {
   Fragment,
   h,
   html,
-  type JSX,
   type VNode,
 } from "https://deno.land/x/htm@0.0.10/mod.tsx";
 export { UnoCSS } from "https://deno.land/x/htm@0.0.10/plugins.ts";
 export * as dotenv from "https://deno.land/std@0.152.0/dotenv/mod.ts";
-export { kakuyomuOriginalTagConvert } from "https://pax.deno.dev/windchime-yk/deno-util@v1.6.0/text.ts";
 export {
   statusCode,
   type StatusCodeNumber,
@@ -22,3 +20,6 @@ export {
   setCookie,
 } from "https://deno.land/std@0.163.0/http/cookie.ts";
 export { connect } from "https://esm.sh/@planetscale/database@1.4.0";
+
+// Testing dependencies
+export { assertEquals } from "https://deno.land/std@0.110.0/testing/asserts.ts";
