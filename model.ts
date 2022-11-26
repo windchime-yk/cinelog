@@ -36,18 +36,23 @@ export interface MovieInfo {
   comment?: string;
 }
 
-/**
- * 鑑賞作品データ取得関数のオプション
- */
-export interface FetchMovieInfoOptions {
-  /** field名（デフォルトは"*"） */
+/** SQL断片統合Class宣言のオプション */
+export interface CombineSqlOptions {
+  /** テーブル名 */
+  table: string;
+  /** フィールド名（デフォルトは"*"） */
   fields?: Array<keyof MovieInfo>;
-  /** 昇順（asc）か降順（desc）で並べ替える（デフォルトは降順） */
-  sort?: "desc" | "asc";
-  /** データ表示数 */
+  /** 検索条件 */
+  where?: string;
+  /** 曖昧な検索条件 */
+  like?: string | null;
+  /** 昇順（asc）か降順（desc）で並べ替える */
+  order?: {
+    target: keyof MovieInfo;
+    sort: "desc" | "asc";
+  };
+  /** データ出力数 */
   limit?: number;
-  /** 検索文言 */
-  search?: string | null;
 }
 
 export interface UserParam {
