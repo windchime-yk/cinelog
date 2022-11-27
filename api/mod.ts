@@ -27,8 +27,12 @@ export const cinelogApi = async (req: Request): Promise<Response> => {
   }
 
   const movies = await fetchMovieInfo({
+    table: "tbl_movieinfo",
     fields: ["id", "title", "view_date", "view_start_time", "view_end_time"],
-    sort: "asc",
+    order: {
+      target: "view_date",
+      sort: "asc",
+    },
   });
 
   return jsonResponse<Array<MovieInfo>>(movies);
