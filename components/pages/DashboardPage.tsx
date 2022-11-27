@@ -51,6 +51,22 @@ export const DashboardPage = (req: Request): Promise<Response> | Response => {
                 </tr>
                 <tr>
                   <th class="c-white bg-gray text-left py-1 px-2">
+                    <label htmlFor="is_domestic">国内映画かどうか</label>
+                  </th>
+                  <td class="bg-light py-1 px-2">
+                    <input type="checkbox" name="is_domestic" />
+                  </td>
+                </tr>
+                <tr>
+                  <th class="c-white bg-gray text-left py-1 px-2">
+                    <label htmlFor="is_live_action">実写かどうか</label>
+                  </th>
+                  <td class="bg-light py-1 px-2">
+                    <input type="checkbox" name="is_live_action" />
+                  </td>
+                </tr>
+                <tr>
+                  <th class="c-white bg-gray text-left py-1 px-2">
                     <label htmlFor="theater">鑑賞した映画館</label>
                   </th>
                   <td class="bg-light py-1 px-2">
@@ -91,10 +107,18 @@ export const DashboardPage = (req: Request): Promise<Response> | Response => {
                 </tr>
                 <tr>
                   <th class="c-white bg-gray text-left py-1 px-2">
-                    <label htmlFor="accompanier_type">同伴者の属性</label>
+                    <label htmlFor="rating">評価</label>
                   </th>
                   <td class="bg-light py-1 px-2">
-                    <input type="text" name="accompanier_type" />
+                    <input type="number" name="rating" />
+                  </td>
+                </tr>
+                <tr>
+                  <th class="c-white bg-gray text-left py-1 px-2">
+                    <label htmlFor="comment">コメント</label>
+                  </th>
+                  <td class="bg-light py-1 px-2">
+                    <input type="text" name="comment" />
                   </td>
                 </tr>
               </table>

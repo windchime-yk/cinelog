@@ -83,6 +83,27 @@ export const fetchMovieInfo = async (
 };
 
 /**
+ * 鑑賞作品データを追加する
+ */
+export const addMovieInfo = async (
+  options: CombineSqlOptions,
+): Promise<MovieInfo[]> => {
+  const conn = connect({
+    host: config.ps_host,
+    username: config.ps_username,
+    password: config.ps_password,
+  });
+
+  const sql = new CombineSql();
+  const result = await conn.execute(sql.generateInsertSql({
+    table: options.table,
+    inserts: options.inserts,
+  }));
+
+  return result.rows;
+};
+
+/**
  * URLパラメータ取得関数を取得する
  * @param req Request
  */
@@ -121,6 +142,44 @@ export const elapsedTime = (movie: MovieInfo) =>
         `${movie.view_date} ${movie.view_end_time}`,
       )
     }分`;
+
+/**
+ * 文字列の変換処理
+ */
+export class Convert {
+  /**
+   * 文字列にシングルクォートを挿入する
+   * @param value DBやフォームから取得した値
+   */
+  public insertSingleQuote(value: string | number | boolean | null): string {
+    if (
+      typeof value === "number" || typeof value === "boolean" ||
+      value === "true" || value === "false" ||
+      typeof value === "string" && value.match(/^[1-99]$/) ||
+      value === "null" ||
+      value === null
+    ) return `${value}`;
+    return `'${value}'`;
+  }
+
+  /**
+   * フォームから取得した文字列をbooleanに変換する
+   * @param value フォームから取得した値
+   */
+  public isFormToDatabase(value: "on" | "null" | string | null): boolean {
+    if (value === "on") return true;
+    return false;
+  }
+
+  /**
+   * nullに該当する文字列をnullに変換する
+   * @param value DBやフォームから取得した値
+   */
+  public nullish(value: string | null) {
+    if (value === "") return null;
+    return value;
+  }
+}
 
 /** SQL文の断片を1つにまとめて文字列として生成する */
 export class CombineSql {
@@ -195,5 +254,21 @@ export class CombineSql {
     ];
 
     return `SELECT ${this.joinSqlFragment(sql)}`;
+  }
+
+  /**
+   * INSERT INTO文の生成
+   * @param options テーブル名やフィールド名などの条件
+   */
+  public generateInsertSql(options: CombineSqlOptions): string {
+    if (!options.inserts) return "";
+    return `INSERT INTO ${options.table}(${
+      Object.keys(options.inserts).join(",")
+    }) VALUES (${
+      Object.values(options.inserts).map((value) => {
+        const convert = new Convert();
+        return convert.insertSingleQuote(value);
+      }).join(",")
+    })`;
   }
 }

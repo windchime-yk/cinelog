@@ -27,9 +27,6 @@ export interface MovieInfo {
   view_end_time: string | null;
   /** 同伴者数 */
   accompanier?: number;
-  /** 同伴者の属性 */
-  // accompanier_type?: Array<"friend" | "family" | "lover">
-  accompanier_type?: Array<string>;
   /** 5段階評価 */
   rating?: number;
   /** コメント */
@@ -53,6 +50,8 @@ export interface CombineSqlOptions {
   };
   /** データ出力数 */
   limit?: number;
+  /** 追加データ */
+  inserts?: Partial<Record<keyof MovieInfo, MovieInfo[keyof MovieInfo]>>;
 }
 
 export interface UserParam {
