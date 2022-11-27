@@ -1,20 +1,16 @@
-/**
- * @jsx h
- * @jsxFrag Fragment
- */
-import { setCookie } from "../../../deps.ts";
+import { setCookie } from "../../deps.ts";
 import {
   getUrlParams,
   isInvalidAccount,
   redirectResponse,
-} from "../../../core.ts";
+} from "../../core.ts";
 
 /**
- * 認証画面
+ * アカウント認証
  * @param req Request
  * @returns リダイレクトレスポンス
  */
-export const AuthPage = async (req: Request): Promise<Response> => {
+export const AuthRedirect = async (req: Request): Promise<Response> => {
   const body = await getUrlParams(req);
   const response = redirectResponse("/");
 
