@@ -1,22 +1,18 @@
-/**
- * @jsx h
- * @jsxFrag Fragment
- */
-import { getCookies } from "../../../../deps.ts";
+import { getCookies } from "../../../deps.ts";
 import {
   addMovieInfo,
   Convert,
   getUrlParams,
   isInvalidAccount,
   redirectResponse,
-} from "../../../../core.ts";
+} from "../../../core.ts";
 
 /**
- * データ追加画面
+ * 鑑賞作品データ追加
  * @param req Request
  * @returns リダイレクトレスポンス
  */
-export const AddMoviePage = async (req: Request): Promise<Response> => {
+export const AddMovieRedirect = async (req: Request): Promise<Response> => {
   const body = await getUrlParams(req);
   const cookie = getCookies(req.headers);
 

@@ -2,13 +2,13 @@
  * @jsx h
  * @jsxFrag Fragment
  */
-import { Fragment, getCookies, h, html, statusCode } from "../../deps.ts";
-import { isInvalidAccount, redirectResponse } from "../../core.ts";
-import { Heading } from "../atoms/Heading.tsx";
-import { Header } from "../organisms/Header.tsx";
-import { Main } from "../organisms/Main.tsx";
-import { Footer } from "../organisms/Footer.tsx";
-import { SITE_NAME } from "../../config.ts";
+import { Fragment, getCookies, h, html, statusCode } from "../deps.ts";
+import { isInvalidAccount, redirectResponse } from "../core.ts";
+import { Heading } from "../components/atoms/Heading.tsx";
+import { Header } from "../components/organisms/Header.tsx";
+import { Main } from "../components/organisms/Main.tsx";
+import { Footer } from "../components/organisms/Footer.tsx";
+import { SITE_NAME } from "../config.ts";
 
 /**
  * ダッシュボード画面
