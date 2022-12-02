@@ -3,13 +3,13 @@
  * @jsxFrag Fragment
  */
 import { Fragment, h, html, statusCode } from "../deps.ts";
-import { caliculateShowtimes, fetchMovieInfo } from "../core.ts";
+import { elapsedTime, fetchMovieInfo } from "../core.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Header } from "../components/organisms/Header.tsx";
 import { Main } from "../components/organisms/Main.tsx";
+import { Card } from "../components/organisms/Card.tsx";
 import { Footer } from "../components/organisms/Footer.tsx";
 import { SITE_NAME } from "../config.ts";
-import type { MovieInfo } from "../model.ts";
 
 /**
  * TOP画面
@@ -17,15 +17,6 @@ import type { MovieInfo } from "../model.ts";
  * @returns HTMLレスポンス
  */
 export const TopPage = async (req: Request): Promise<Response> => {
-  const elapsedTime = (movie: MovieInfo) =>
-    movie.view_start_time === null || movie.view_end_time === null
-      ? "不明"
-      : `${
-        caliculateShowtimes(
-          `${movie.view_date} ${movie.view_start_time}`,
-          `${movie.view_date} ${movie.view_end_time}`,
-        )
-      }分`;
   const movies = await fetchMovieInfo({
     table: "tbl_movieinfo",
     fields: ["title", "view_date", "view_start_time", "view_end_time"],
@@ -57,19 +48,11 @@ export const TopPage = async (req: Request): Promise<Response> => {
             <Heading level={2}>直近の鑑賞10作品</Heading>
             {movies.map((movie) => {
               return (
-                <section class="flex max-w-2xl flex-col mx-a mt-5 pt-3 pb-5 px-2 border">
-                  <Heading className="order-2 text-center" level={3}>
-                    {movie.title}
-                  </Heading>
-                  <ul class="flex gap-2 order-1">
-                    <li>
-                      <time>{movie.view_date}</time>
-                    </li>
-                    <li>
-                      <time>{elapsedTime(movie)}</time>
-                    </li>
-                  </ul>
-                </section>
+                <Card
+                  title={movie.title}
+                  viewDate={movie.view_date}
+                  viewTime={elapsedTime(movie)}
+                />
               );
             })}
           </section>
