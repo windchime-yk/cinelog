@@ -7,6 +7,7 @@ import { elapsedTime, fetchMovieInfo } from "../core.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Header } from "../components/organisms/Header.tsx";
 import { Main } from "../components/organisms/Main.tsx";
+import { Card } from "../components/organisms/Card.tsx";
 import { Footer } from "../components/organisms/Footer.tsx";
 import { SITE_NAME } from "../config.ts";
 
@@ -33,19 +34,11 @@ export const ListPage = async (req: Request): Promise<Response> => {
             <Heading level={2}>すべての鑑賞作品</Heading>
             {movies.map((movie) => {
               return (
-                <section class="flex max-w-2xl flex-col mx-a mt-5 pt-3 pb-5 px-2 border">
-                  <Heading className="order-2 text-center" level={3}>
-                    {movie.title}
-                  </Heading>
-                  <ul class="flex gap-2 order-1">
-                    <li>
-                      <time>{movie.view_date}</time>
-                    </li>
-                    <li>
-                      <time>{elapsedTime(movie)}</time>
-                    </li>
-                  </ul>
-                </section>
+                <Card
+                  title={movie.title}
+                  viewDate={movie.view_date}
+                  viewTime={elapsedTime(movie)}
+                />
               );
             })}
           </section>
