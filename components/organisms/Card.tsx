@@ -21,5 +21,15 @@ export const Card = ({ title, viewDate, viewTime }: CardProps): VNode => (
         <time>{viewTime}</time>
       </li>
     </ul>
+    <p class="mt-3 text-right order-3">
+      <a
+        class="underline"
+        href={`https://eiga.com/search/${title}/`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        映画.comで検索する
+      </a>
+    </p>
   </section>
 );
