@@ -117,6 +117,33 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
         `INSERT INTO ${TABLE}(title,is_dubbed,comment) VALUES ('title',null,'comment')`,
       );
     });
+    await t.step("単体更新（日付あり）", () => {
+      assertEquals<string>(
+        sql.generateInsertSql({
+          table: TABLE,
+          inserts: {
+            title: "title",
+            view_date: "2022/04/19",
+            comment: "comment",
+          },
+        }),
+        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19','comment')`,
+      );
+    });
+    await t.step("単体更新（日付ゼロ詰め）", () => {
+      assertEquals<string>(
+        sql.generateInsertSql({
+          table: TABLE,
+          inserts: {
+            title: "title",
+            view_date: Intl.DateTimeFormat("ja-JP", { dateStyle: "medium" })
+              .format(new Date("2022/4/19")),
+            comment: "comment",
+          },
+        }),
+        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19','comment')`,
+      );
+    });
   });
 });
 
