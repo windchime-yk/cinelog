@@ -27,7 +27,7 @@ export const AddMovieRedirect = async (req: Request): Promise<Response> => {
         is_domestic: convert.isFormToDatabase(body.get("is_domestic")),
         is_live_action: convert.isFormToDatabase(body.get("is_live_action")),
         theater: body.get("theater"),
-        view_date: Intl.DateTimeFormat("ja-JP").format(
+        view_date: Intl.DateTimeFormat("ja-JP", { dateStyle: "medium" }).format(
           new Date(body.get("view_date") ?? ""),
         ),
         view_start_time: body.get("view_start_time"),
