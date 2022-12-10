@@ -1,8 +1,8 @@
 {
   "tasks": {
     "dev": "deno run --allow-net --allow-write --allow-read --allow-env --watch main.ts",
-    "sql-gen": "deno run command.ts",
     "test": "deno test --allow-read --allow-env --no-check",
-    "fmt": "deno fmt --ignore=README.md"
+    "fmt": "deno fmt --ignore=README.md",
+    "archives": "deno run --allow-net=aws.connect.psdb.cloud --allow-write=sql/insert_data.sql --allow-read=.env,.env.defaults,sql/insert_data.sql --allow-env script/archives-insert-data.ts"
   }
 }

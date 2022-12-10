@@ -144,6 +144,26 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
         `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19','comment')`,
       );
     });
+    await t.step("複数更新", () => {
+      assertEquals<string>(
+        sql.generateInsertSql({
+          table: TABLE,
+          inserts: [
+            {
+              title: "title",
+              view_date: "2022/04/19",
+              comment: "",
+            },
+            {
+              title: "title2",
+              view_date: "2022/04/20",
+              comment: "comment2",
+            },
+          ],
+        }),
+        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19',null),('title2','2022/04/20','comment2')`,
+      );
+    });
   });
 });
 
@@ -194,13 +214,28 @@ Deno.test("文字列変換Class宣言テスト", async (t) => {
 
   await t.step("nullに変換", async (t) => {
     await t.step("空文字列をnullに変換", () => {
-      assertEquals<string | null>(convert.nullish(""), null);
+      assertEquals<string | number | boolean | null>(convert.nullish(""), null);
     });
     await t.step("nullをそのまま出力", () => {
-      assertEquals<string | null>(convert.nullish(null), null);
+      assertEquals<string | number | boolean | null>(
+        convert.nullish(null),
+        null,
+      );
     });
     await t.step("文字列をそのまま出力", () => {
-      assertEquals<string | null>(convert.nullish("テスト"), "テスト");
+      assertEquals<string | number | boolean | null>(
+        convert.nullish("テスト"),
+        "テスト",
+      );
+    });
+    await t.step("数字をそのまま出力", () => {
+      assertEquals<string | number | boolean | null>(convert.nullish(1), 1);
+    });
+    await t.step("真偽値をそのまま出力", () => {
+      assertEquals<string | number | boolean | null>(
+        convert.nullish(true),
+        true,
+      );
     });
   });
 });

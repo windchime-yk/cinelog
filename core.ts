@@ -144,6 +144,33 @@ export const elapsedTime = (movie: MovieInfo) =>
     }分`;
 
 /**
+ * PlanetScaleとの接続処理
+ */
+export class Conn {
+  private conn: {
+    execute: <T>(sql: string) => Promise<{
+      rows: T[];
+    }>;
+  };
+
+  constructor() {
+    this.conn = connect({
+      host: config.ps_host,
+      username: config.ps_username,
+      password: config.ps_password,
+    });
+  }
+
+  /**
+   * PlanetScaleにSQLを送信する
+   */
+  public async execute<T>(sql: string): Promise<T[]> {
+    const result = await this.conn.execute<T>(sql);
+    return result.rows;
+  }
+}
+
+/**
  * 文字列の変換処理
  */
 export class Convert {
@@ -175,7 +202,7 @@ export class Convert {
    * nullに該当する文字列をnullに変換する
    * @param value DBやフォームから取得した値
    */
-  public nullish(value: string | null) {
+  public nullish(value: string | number | boolean | null) {
     if (value === "") return null;
     return value;
   }
@@ -183,6 +210,12 @@ export class Convert {
 
 /** SQL文の断片を1つにまとめて文字列として生成する */
 export class CombineSql {
+  private convert: Convert;
+
+  constructor() {
+    this.convert = new Convert();
+  }
+
   /**
    * フィールドを指定するSQL断片を生成
    * @param fields フィールド名
@@ -233,6 +266,40 @@ export class CombineSql {
   }
 
   /**
+   * 追加データを指定するSQL断片を生成
+   * @param inserts 追加データ
+   */
+  private getInserts(inserts: CombineSqlOptions["inserts"]): string {
+    if (!inserts) return "";
+
+    if (Array.isArray(inserts)) {
+      const keys = new Set();
+      for (let i = 0; i < inserts.length; i++) {
+        const insert = inserts[i];
+        for (const value of Object.keys(insert)) {
+          keys.add(value);
+        }
+      }
+      const values = inserts.map((insert) => {
+        return `(${
+          Object.values(insert).map((value) =>
+            this.convert.insertSingleQuote(this.convert.nullish(value))
+          )
+        })`;
+      });
+
+      return `(${[...keys]}) VALUES ${values}`;
+    }
+
+    const keys = Object.keys(inserts).join(",");
+    const values = Object.values(inserts).map((value) => {
+      return this.convert.insertSingleQuote(value);
+    }).join(",");
+
+    return `(${keys}) VALUES (${values})`;
+  }
+
+  /**
    * SQL断片を1つのSQL文に結合する
    * @param sql SQL文の断片の配列
    */
@@ -262,13 +329,6 @@ export class CombineSql {
    */
   public generateInsertSql(options: CombineSqlOptions): string {
     if (!options.inserts) return "";
-    return `INSERT INTO ${options.table}(${
-      Object.keys(options.inserts).join(",")
-    }) VALUES (${
-      Object.values(options.inserts).map((value) => {
-        const convert = new Convert();
-        return convert.insertSingleQuote(value);
-      }).join(",")
-    })`;
+    return `INSERT INTO ${options.table}${this.getInserts(options.inserts)}`;
   }
 }

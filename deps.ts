@@ -16,6 +16,10 @@ export {
 } from "https://pax.deno.dev/windchime-yk/deno-util@v1.4.0/server.ts";
 export { typedJsonParse } from "https://pax.deno.dev/windchime-yk/deno-util@v1.4.0/object.ts";
 export {
+  isExistFile,
+  writeFile,
+} from "https://pax.deno.dev/windchime-yk/deno-util@v1.4.0/file.ts";
+export {
   getCookies,
   setCookie,
 } from "https://deno.land/std@0.163.0/http/cookie.ts";

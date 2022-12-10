@@ -1,4 +1,5 @@
 .DS_Store
 .env
-sql/test.json
+sql/
+!sql/create_table.sql
 deno.lock
