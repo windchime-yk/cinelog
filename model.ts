@@ -33,6 +33,8 @@ export interface MovieInfo {
   comment?: string;
 }
 
+type Inserts = Partial<Record<keyof MovieInfo, MovieInfo[keyof MovieInfo]>>;
+
 /** SQL断片統合Class宣言のオプション */
 export interface CombineSqlOptions {
   /** テーブル名 */
@@ -51,7 +53,7 @@ export interface CombineSqlOptions {
   /** データ出力数 */
   limit?: number;
   /** 追加データ */
-  inserts?: Partial<Record<keyof MovieInfo, MovieInfo[keyof MovieInfo]>>;
+  inserts?: Inserts | Inserts[];
 }
 
 export interface UserParam {
