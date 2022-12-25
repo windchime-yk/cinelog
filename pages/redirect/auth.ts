@@ -1,10 +1,6 @@
 import { setCookie } from "../../deps.ts";
-import {
-  getUrlParams,
-  isInvalidAccount,
-  redirectResponse,
-} from "../../core.ts";
-
+import { getUrlParams, redirectResponse } from "../../core/api.ts";
+import { isInvalidAccount } from "../../core/util.ts";
 /**
  * アカウント認証
  * @param req Request

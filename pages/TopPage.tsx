@@ -3,7 +3,8 @@
  * @jsxFrag Fragment
  */
 import { Fragment, h, html, statusCode } from "../deps.ts";
-import { elapsedTime, fetchMovieInfo } from "../core.ts";
+import { fetchMovieInfo } from "../core/ps.ts";
+import { elapsedTime } from "../core/util.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Header } from "../components/organisms/Header.tsx";
 import { Main } from "../components/organisms/Main.tsx";
@@ -31,7 +32,9 @@ export const TopPage = async (req: Request): Promise<Response> => {
       <>
         <Header req={req} />
         <Main>
-          <p>このWebサイトは、WhyKが映画館で鑑賞した映画をただ記録していくところです。感想や評価は今のところ載せる予定はありません。</p>
+          <p>
+            このWebサイトは、WhyKが映画館で鑑賞した映画をただ記録していくところです。感想や評価は今のところ載せる予定はありません。
+          </p>
           <p>なお、APIも提供されています。</p>
 
           <section class="px-5 mt-9">

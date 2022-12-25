@@ -23,7 +23,11 @@ export {
   getCookies,
   setCookie,
 } from "https://deno.land/std@0.163.0/http/cookie.ts";
-export { connect } from "https://esm.sh/@planetscale/database@1.4.0";
+// @deno-types="https://esm.sh/@planetscale/database@1.5.0/dist/index.d.ts"
+export {
+  connect,
+  type Connection,
+} from "https://esm.sh/@planetscale/database@1.4.0";
 
 // Testing dependencies
 export { assertEquals } from "https://deno.land/std@0.110.0/testing/asserts.ts";

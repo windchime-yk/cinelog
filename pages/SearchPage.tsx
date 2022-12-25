@@ -3,7 +3,9 @@
  * @jsxFrag Fragment
  */
 import { Fragment, h, html, statusCode } from "../deps.ts";
-import { elapsedTime, fetchMovieInfo, getUrlParams } from "../core.ts";
+import { getUrlParams } from "../core/api.ts";
+import { fetchMovieInfo } from "../core/ps.ts";
+import { elapsedTime } from "../core/util.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Header } from "../components/organisms/Header.tsx";
 import { Main } from "../components/organisms/Main.tsx";
@@ -47,7 +49,9 @@ export const SearchPage = async (req: Request): Promise<Response> => {
           <section>
             <Heading level={2}>検索結果</Heading>
             {movies.length === 0 && (
-              <span class="block mt-5">該当する検索結果はありませんでした。</span>
+              <span class="block mt-5">
+                該当する検索結果はありませんでした。
+              </span>
             )}
             {movies.map((movie) => {
               return (
