@@ -3,7 +3,9 @@
  * @jsxFrag Fragment
  */
 import { Fragment, getCookies, h, html, statusCode } from "../deps.ts";
-import { isInvalidAccount, redirectResponse } from "../core.ts";
+import { isInvalidAccount } from "../core/util.ts";
+import { redirectResponse } from "../core/api.ts";
+import { fetchTheaterInfo } from "../core/ps.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Header } from "../components/organisms/Header.tsx";
 import { Main } from "../components/organisms/Main.tsx";
@@ -15,14 +17,18 @@ import { SITE_NAME } from "../config.ts";
  * @param req Request
  * @returns HTMLレスポンス
  */
-export const DashboardPage = (req: Request): Promise<Response> | Response => {
+export const DashboardPage = async (req: Request): Promise<Response> => {
   const cookie = getCookies(req.headers);
   if (isInvalidAccount(cookie.username, cookie.password)) {
     return redirectResponse("/login");
   }
+  const theaters = await fetchTheaterInfo({
+    table: "tbl_theater",
+    fields: ["name"],
+  });
 
   return html({
-    title: `鑑賞作品の追加 | ${SITE_NAME}`,
+    title: `ダッシュボード | ${SITE_NAME}`,
     status: statusCode.ok,
     lang: "ja",
     body: (
@@ -67,10 +73,17 @@ export const DashboardPage = (req: Request): Promise<Response> | Response => {
                 </tr>
                 <tr>
                   <th class="c-white bg-gray text-left py-1 px-2">
-                    <label htmlFor="theater">鑑賞した映画館</label>
+                    <label htmlFor="theater_id">鑑賞した映画館</label>
                   </th>
                   <td class="bg-light py-1 px-2">
-                    <input type="text" name="theater" required />
+                    <select name="theater_id" required>
+                      <option value="0">選択してください</option>
+                      {theaters.map((theater) => {
+                        return (
+                          <option value={theater.id}>{theater.name}</option>
+                        );
+                      })}
+                    </select>
                   </td>
                 </tr>
                 <tr>
@@ -119,6 +132,25 @@ export const DashboardPage = (req: Request): Promise<Response> | Response => {
                   </th>
                   <td class="bg-light py-1 px-2">
                     <input type="text" name="comment" />
+                  </td>
+                </tr>
+              </table>
+              <button class="mt-6 py-2 px-5 bg-dark c-light" type="submit">
+                追加
+              </button>
+            </form>
+          </section>
+
+          <section>
+            <Heading level={2}>鑑賞した映画館の追加</Heading>
+            <form action="">
+              <table>
+                <tr>
+                  <th class="c-white bg-gray text-left py-1 px-2">
+                    <label htmlFor="theater">館名</label>
+                  </th>
+                  <td class="bg-light py-1 px-2">
+                    <input type="text" name="theater" required />
                   </td>
                 </tr>
               </table>

@@ -1,10 +1,7 @@
 import { statusCode } from "../deps.ts";
-import {
-  fetchMovieInfo,
-  getApiCode,
-  isInvalidAccount,
-  jsonResponse,
-} from "../core.ts";
+import { getApiCode, jsonResponse } from "../core/api.ts";
+import { isInvalidAccount } from "../core/util.ts";
+import { fetchMovieInfo } from "../core/ps.ts";
 import { CommonApiResponse, MovieInfo } from "../model.ts";
 
 /**

@@ -1,33 +1,42 @@
 import { isExistFile, writeFile } from "../deps.ts";
-import { CombineSql, Conn } from "../core.ts";
-import { MovieInfo } from "../model.ts";
-
-const SQL_FILE_NAME = "sql/insert_data.sql";
-
-if (await isExistFile(SQL_FILE_NAME)) await Deno.truncate(SQL_FILE_NAME);
+import { Conn } from "../core/conn.ts";
+import { CombineSql } from "../core/sql.ts";
+import { MovieInfo, Table, TheaterInfo } from "../model.ts";
 
 // PlanetScaleからデータ取得
-const outputPlanetScaleData = (table: string): Promise<MovieInfo[]> => {
+const outputPlanetScaleData = <T>(table: Table): Promise<T[]> => {
   const sql = new CombineSql();
   const selectSql = sql.generateSelectSql({ table });
   const conn = new Conn();
-  return conn.execute<MovieInfo>(selectSql);
+  return conn.execute<T>(selectSql);
 };
 
-const movieinfoData = await outputPlanetScaleData("tbl_movieinfo");
+const movieinfoData = await outputPlanetScaleData<MovieInfo>("tbl_movieinfo");
 const movieinfoDataMap = movieinfoData.map((data: Partial<MovieInfo>) => {
   delete data.id;
   return data;
 });
+const theaterinfoData = await outputPlanetScaleData<TheaterInfo>("tbl_theater");
+const theaterinfoDataMap = theaterinfoData.map((data) => {
+  delete data.id;
+  return data;
+});
+
+const getSqlFileName = (table: Table) => `sql/insert_data_${table}.sql`;
 
 // SQLで全文取得してINSERT INTO文に整形して.sqlにして保存
-const writeInsertSqlFile = async (
-  table: string,
-  inserts: Partial<MovieInfo>[],
+const writeInsertSqlFile = async <T>(
+  table: Table,
+  inserts: Partial<T>[],
 ) => {
-  const insertSql = new CombineSql().generateInsertSql({ table, inserts });
-  await writeFile(`${insertSql};`, SQL_FILE_NAME);
+  if (await isExistFile(getSqlFileName(table))) {
+    await Deno.truncate(getSqlFileName(table));
+  }
+  console.debug({ inserts });
+  const insertSql = new CombineSql<T>().generateInsertSql({ table, inserts });
+  await writeFile(`${insertSql};`, getSqlFileName(table));
   console.log(`create insert data: ${table}`);
 };
 
-await writeInsertSqlFile("tbl_movieinfo", movieinfoDataMap);
+await writeInsertSqlFile<MovieInfo>("tbl_movieinfo", movieinfoDataMap);
+await writeInsertSqlFile<TheaterInfo>("tbl_theater", theaterinfoDataMap);

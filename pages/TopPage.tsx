@@ -3,7 +3,8 @@
  * @jsxFrag Fragment
  */
 import { Fragment, h, html, statusCode } from "../deps.ts";
-import { elapsedTime, fetchMovieInfo } from "../core.ts";
+import { fetchMovieInfo } from "../core/ps.ts";
+import { elapsedTime } from "../core/util.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Header } from "../components/organisms/Header.tsx";
 import { Main } from "../components/organisms/Main.tsx";

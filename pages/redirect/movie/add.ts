@@ -1,11 +1,8 @@
 import { getCookies } from "../../../deps.ts";
-import {
-  addMovieInfo,
-  Convert,
-  getUrlParams,
-  isInvalidAccount,
-  redirectResponse,
-} from "../../../core.ts";
+import { getUrlParams, redirectResponse } from "../../../core/api.ts";
+import { Convert } from "../../../core/convert.ts";
+import { addMovieInfo } from "../../../core/ps.ts";
+import { isInvalidAccount } from "../../../core/util.ts";
 
 /**
  * 鑑賞作品データ追加
@@ -26,7 +23,7 @@ export const AddMovieRedirect = async (req: Request): Promise<Response> => {
         is_dubbed: convert.isFormToDatabase(body.get("is_dubbed")),
         is_domestic: convert.isFormToDatabase(body.get("is_domestic")),
         is_live_action: convert.isFormToDatabase(body.get("is_live_action")),
-        theater: body.get("theater"),
+        theater_id: body.get("theater_id"),
         view_date: Intl.DateTimeFormat("ja-JP", { dateStyle: "medium" }).format(
           new Date(body.get("view_date") ?? ""),
         ),
