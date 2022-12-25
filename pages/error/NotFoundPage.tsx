@@ -26,7 +26,9 @@ export const NotFoundPage = (req: Request): Promise<Response> => {
           <section>
             <Heading level={2}>404 Not Found</Heading>
             <p>
-              存在しない画面にアクセスしています。<a href="/">TOP画面</a>に移動してください。
+              存在しない画面にアクセスしています。<a href="/">
+                TOP画面
+              </a>に移動してください。
             </p>
           </section>
         </Main>

@@ -1,11 +1,11 @@
--- 鑑賞作品テーブル作成
+-- 鑑賞作品テーブル
 CREATE TABLE IF NOT EXISTS tbl_movieinfo (
   id INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT COMMENT 'ID',
   title VARCHAR(246) NOT NULL COMMENT '作品タイトル',
   is_dubbed BOOLEAN COMMENT '吹替版かどうか',
   is_domestic BOOLEAN COMMENT '国内映画かどうか',
   is_live_action BOOLEAN COMMENT '実写かどうか',
-  theater VARCHAR(246) NOT NULL COMMENT '上映館',
+  theater_id VARCHAR(246) NOT NULL COMMENT '上映館テーブルID',
   view_date VARCHAR(10) NOT NULL COMMENT '上映日',
   view_start_time VARCHAR(5) COMMENT '上映開始時間',
   view_end_time VARCHAR(5) COMMENT '上映終了時間',
@@ -17,18 +17,10 @@ CREATE TABLE IF NOT EXISTS tbl_movieinfo (
   PRIMARY KEY (id)
 );
 
--- 初期データ追加
-INSERT INTO
-  tbl_movieinfo (
-    title,
-    is_dubbed,
-    is_domestic,
-    is_live_action,
-    theater,
-    view_date,
-    view_start_time,
-    view_end_time,
-    accompanier,
-    rating,
-    comment
-  ) VALUES ()
+-- 上映館テーブル
+CREATE TABLE IF NOT EXISTS tbl_theater (
+  id INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT COMMENT 'ID',
+  name VARCHAR(246) NOT NULL UNIQUE COMMENT '上映館',
+
+  PRIMARY KEY (id)
+);

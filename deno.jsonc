@@ -3,6 +3,6 @@
     "dev": "deno run --allow-net --allow-write --allow-read --allow-env --watch main.ts",
     "test": "deno test --allow-read --allow-env --no-check",
     "fmt": "deno fmt --ignore=README.md",
-    "archives": "deno run --allow-net=aws.connect.psdb.cloud --allow-write=sql/insert_data.sql --allow-read=.env,.env.defaults,sql/insert_data.sql --allow-env scripts/archives-insert-data.ts"
+    "archives": "deno run --allow-net=aws.connect.psdb.cloud --allow-write=sql/ --allow-read=.env,.env.defaults,sql/ --allow-env scripts/archives-insert-data.ts"
   }
 }

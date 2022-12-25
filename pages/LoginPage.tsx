@@ -16,7 +16,7 @@ import { SITE_NAME } from "../config.ts";
  */
 export const LoginPage = (req: Request): Promise<Response> => {
   return html({
-    title: `ログイン | ${SITE_NAME}"`,
+    title: `ログイン | ${SITE_NAME}`,
     status: statusCode.ok,
     lang: "ja",
     body: (
