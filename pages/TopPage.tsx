@@ -31,7 +31,9 @@ export const TopPage = async (req: Request): Promise<Response> => {
       <>
         <Header req={req} />
         <Main>
-          <p>このWebサイトは、WhyKが映画館で鑑賞した映画をただ記録していくところです。感想や評価は今のところ載せる予定はありません。</p>
+          <p>
+            このWebサイトは、WhyKが映画館で鑑賞した映画をただ記録していくところです。感想や評価は今のところ載せる予定はありません。
+          </p>
           <p>なお、APIも提供されています。</p>
 
           <section class="px-5 mt-9">

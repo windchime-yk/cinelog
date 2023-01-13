@@ -172,7 +172,10 @@ Deno.test("文字列変換Class宣言テスト", async (t) => {
 
   await t.step("シングルクォート挿入", async (t) => {
     await t.step("文字列", () => {
-      assertEquals<string>(convert.insertSingleQuote("あいうえお"), "'あいうえお'");
+      assertEquals<string>(
+        convert.insertSingleQuote("あいうえお"),
+        "'あいうえお'",
+      );
     });
     await t.step("数値", () => {
       assertEquals<string>(convert.insertSingleQuote(1), "1");
