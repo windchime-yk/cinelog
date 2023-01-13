@@ -33,7 +33,7 @@ export const cinelogApi = async (req: Request): Promise<Response> => {
     fields: ["id", "title", "view_date", "view_start_time", "view_end_time"],
     order: {
       target: "view_date",
-      sort: "asc",
+      sort: "desc",
     },
     limit: Number(searchParams.get("limit")),
   });
