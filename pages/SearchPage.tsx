@@ -47,7 +47,9 @@ export const SearchPage = async (req: Request): Promise<Response> => {
           <section>
             <Heading level={2}>検索結果</Heading>
             {movies.length === 0 && (
-              <span class="block mt-5">該当する検索結果はありませんでした。</span>
+              <span class="block mt-5">
+                該当する検索結果はありませんでした。
+              </span>
             )}
             {movies.map((movie) => {
               return (

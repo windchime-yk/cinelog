@@ -13,6 +13,8 @@ import { CommonApiResponse, MovieInfo } from "../model.ts";
  * @returns 鑑賞作品データの配列
  */
 export const cinelogApi = async (req: Request): Promise<Response> => {
+  const { searchParams } = new URL(req.url);
+
   if (
     req.method !== "OPTIONS" &&
     isInvalidAccount(req.headers.get("username"), req.headers.get("password"))
@@ -33,6 +35,7 @@ export const cinelogApi = async (req: Request): Promise<Response> => {
       target: "view_date",
       sort: "asc",
     },
+    limit: Number(searchParams.get("limit")),
   });
 
   return jsonResponse<Array<MovieInfo>>(movies);
