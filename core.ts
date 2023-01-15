@@ -69,6 +69,7 @@ export const fetchMovieInfo = async (
   const sql = new CombineSql();
   const result = await conn.execute(sql.generateSelectSql({
     table: options.table,
+    distinct: options.distinct,
     fields: options.fields,
     where: options.where,
     like: options.like,
@@ -225,6 +226,11 @@ export class CombineSql {
     return fields.join(",");
   }
 
+  private getDistinct(distinct: CombineSqlOptions["distinct"]): string {
+    if (!distinct) return "";
+    return "DISTINCT";
+  }
+
   /**
    * テーブルを指定するSQL断片を生成
    * @param table テーブル名
@@ -313,6 +319,7 @@ export class CombineSql {
    */
   public generateSelectSql(options: CombineSqlOptions): string {
     const sql = [
+      this.getDistinct(options.distinct),
       this.getFields(options.fields),
       this.getTable(options.table),
       this.getWhere(options.where, options.like),

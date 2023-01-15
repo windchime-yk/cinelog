@@ -39,6 +39,8 @@ type Inserts = Partial<Record<keyof MovieInfo, MovieInfo[keyof MovieInfo]>>;
 export interface CombineSqlOptions {
   /** テーブル名 */
   table: string;
+  /** 重複排除するかどうか */
+  distinct?: boolean;
   /** フィールド名（デフォルトは"*"） */
   fields?: Array<keyof MovieInfo>;
   /** 検索条件 */

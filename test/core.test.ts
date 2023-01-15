@@ -18,6 +18,16 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
         `SELECT title,rating FROM ${TABLE}`,
       );
     });
+    await t.step("fieldsあり、重複排除", () => {
+      assertEquals<string>(
+        sql.generateSelectSql({
+          table: TABLE,
+          distinct: true,
+          fields: ["title", "rating"],
+        }),
+        `SELECT DISTINCT title,rating FROM ${TABLE}`,
+      );
+    });
     await t.step("fields、where", () => {
       assertEquals<string>(
         sql.generateSelectSql({

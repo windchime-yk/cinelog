@@ -30,7 +30,8 @@ export const cinelogApi = async (req: Request): Promise<Response> => {
 
   const movies = await fetchMovieInfo({
     table: "tbl_movieinfo",
-    fields: ["id", "title", "view_date", "view_start_time", "view_end_time"],
+    distinct: Boolean(searchParams.get("distinct")),
+    fields: ["id", "title", "view_date"],
     order: {
       target: "view_date",
       sort: "desc",
