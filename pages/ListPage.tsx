@@ -32,15 +32,17 @@ export const ListPage = async (req: Request): Promise<Response> => {
         <Main>
           <section class="px-5 mt-9">
             <Heading level={2}>すべての鑑賞作品</Heading>
-            {movies.map((movie) => {
-              return (
-                <Card
-                  title={movie.title}
-                  viewDate={movie.view_date}
-                  viewTime={elapsedTime(movie)}
-                />
-              );
-            })}
+            {movies.length
+              ? movies.map((movie) => {
+                return (
+                  <Card
+                    title={movie.title}
+                    viewDate={movie.view_date}
+                    viewTime={elapsedTime(movie)}
+                  />
+                );
+              })
+              : <p>データ取得失敗により表示するものがありません</p>}
           </section>
         </Main>
         <Footer />

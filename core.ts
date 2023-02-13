@@ -10,7 +10,7 @@ import type { ApiCodeOptions, CombineSqlOptions, MovieInfo } from "./model.ts";
  */
 export const isInvalidAccount = (
   username: string | null,
-  password: string | null,
+  password: string | null
 ): boolean => username !== config.username || password !== config.password;
 
 /**
@@ -31,7 +31,7 @@ export const getApiCode = (options: ApiCodeOptions): string => {
  */
 export const jsonResponse = <T extends Record<never, never>>(
   data: T,
-  status: StatusCodeNumber = statusCode.ok,
+  status: StatusCodeNumber = statusCode.ok
 ): Response =>
   new Response(JSON.stringify(data), {
     headers: {
@@ -49,7 +49,7 @@ export const jsonResponse = <T extends Record<never, never>>(
 export const redirectResponse = (path: `/${string}`): Response =>
   new Response(null, {
     headers: {
-      "Location": path,
+      Location: path,
     },
     status: statusCode.movedPermanently,
   });
@@ -58,7 +58,7 @@ export const redirectResponse = (path: `/${string}`): Response =>
  * 鑑賞作品データの配列を返却する
  */
 export const fetchMovieInfo = async (
-  options: CombineSqlOptions,
+  options: CombineSqlOptions
 ): Promise<MovieInfo[]> => {
   const conn = connect({
     host: config.ps_host,
@@ -67,26 +67,33 @@ export const fetchMovieInfo = async (
   });
 
   const sql = new CombineSql();
-  const result = await conn.execute(sql.generateSelectSql({
-    table: options.table,
-    fields: options.fields,
-    where: options.where,
-    like: options.like,
-    order: {
-      target: options.order?.target ?? "view_date",
-      sort: options.order?.sort ?? "desc",
-    },
-    limit: options.limit,
-  }));
 
-  return result.rows;
+  try {
+    const result = await conn.execute(
+      sql.generateSelectSql({
+        table: options.table,
+        fields: options.fields,
+        where: options.where,
+        like: options.like,
+        order: {
+          target: options.order?.target ?? "view_date",
+          sort: options.order?.sort ?? "desc",
+        },
+        limit: options.limit,
+      })
+    );
+
+    return result.rows;
+  } catch (error) {
+    return [];
+  }
 };
 
 /**
  * 鑑賞作品データを追加する
  */
 export const addMovieInfo = async (
-  options: CombineSqlOptions,
+  options: CombineSqlOptions
 ): Promise<MovieInfo[]> => {
   const conn = connect({
     host: config.ps_host,
@@ -95,10 +102,12 @@ export const addMovieInfo = async (
   });
 
   const sql = new CombineSql();
-  const result = await conn.execute(sql.generateInsertSql({
-    table: options.table,
-    inserts: options.inserts,
-  }));
+  const result = await conn.execute(
+    sql.generateInsertSql({
+      table: options.table,
+      inserts: options.inserts,
+    })
+  );
 
   return result.rows;
 };
@@ -122,7 +131,7 @@ export const getUrlParams = async (req: Request) => {
  */
 export const caliculateShowtimes = (
   startTime: string,
-  lastTime: string,
+  lastTime: string
 ): number => {
   const diff = new Date(lastTime).getTime() - new Date(startTime).getTime();
   // TODO: もしdiffがマイナスだったらlastTimeを分解して次の日にしてから再計算させる
@@ -136,12 +145,10 @@ export const caliculateShowtimes = (
 export const elapsedTime = (movie: MovieInfo) =>
   movie.view_start_time === null || movie.view_end_time === null
     ? "不明"
-    : `${
-      caliculateShowtimes(
+    : `${caliculateShowtimes(
         `${movie.view_date} ${movie.view_start_time}`,
-        `${movie.view_date} ${movie.view_end_time}`,
-      )
-    }分`;
+        `${movie.view_date} ${movie.view_end_time}`
+      )}分`;
 
 /**
  * PlanetScaleとの接続処理
@@ -180,12 +187,15 @@ export class Convert {
    */
   public insertSingleQuote(value: string | number | boolean | null): string {
     if (
-      typeof value === "number" || typeof value === "boolean" ||
-      value === "true" || value === "false" ||
-      typeof value === "string" && value.match(/^[1-99]$/) ||
+      typeof value === "number" ||
+      typeof value === "boolean" ||
+      value === "true" ||
+      value === "false" ||
+      (typeof value === "string" && value.match(/^[1-99]$/)) ||
       value === "null" ||
       value === null
-    ) return `${value}`;
+    )
+      return `${value}`;
     return `'${value}'`;
   }
 
@@ -240,7 +250,7 @@ export class CombineSql {
    */
   private getWhere(
     where: CombineSqlOptions["where"],
-    like: CombineSqlOptions["like"],
+    like: CombineSqlOptions["like"]
   ): string {
     if (!where) return "";
     if (like) return `WHERE ${where} LIKE '%${like}%'`;
@@ -281,20 +291,20 @@ export class CombineSql {
         }
       }
       const values = inserts.map((insert) => {
-        return `(${
-          Object.values(insert).map((value) =>
-            this.convert.insertSingleQuote(this.convert.nullish(value))
-          )
-        })`;
+        return `(${Object.values(insert).map((value) =>
+          this.convert.insertSingleQuote(this.convert.nullish(value))
+        )})`;
       });
 
       return `(${[...keys]}) VALUES ${values}`;
     }
 
     const keys = Object.keys(inserts).join(",");
-    const values = Object.values(inserts).map((value) => {
-      return this.convert.insertSingleQuote(value);
-    }).join(",");
+    const values = Object.values(inserts)
+      .map((value) => {
+        return this.convert.insertSingleQuote(value);
+      })
+      .join(",");
 
     return `(${keys}) VALUES (${values})`;
   }
