@@ -6,7 +6,7 @@ import type { CombineSqlOptions, MovieInfo, TheaterInfo } from "../model.ts";
  * 鑑賞作品データの配列を返却する
  */
 export const fetchMovieInfo = async (
-  options: CombineSqlOptions<MovieInfo>
+  options: CombineSqlOptions<MovieInfo>,
 ): Promise<MovieInfo[]> => {
   const conn = new Conn();
   const sql = new CombineSql<MovieInfo>();
@@ -23,7 +23,7 @@ export const fetchMovieInfo = async (
           sort: options.order?.sort ?? "desc",
         },
         limit: options.limit,
-      })
+      }),
     );
 
     return result;
@@ -41,14 +41,16 @@ export const addMovieInfo = (
   const conn = new Conn();
   const sql = new CombineSql<MovieInfo>();
 
-  return conn.execute<MovieInfo>(sql.generateInsertSql({
-    table: options.table,
-    inserts: options.inserts,
-  }));
+  return conn.execute<MovieInfo>(
+    sql.generateInsertSql({
+      table: options.table,
+      inserts: options.inserts,
+    }),
+  );
 };
 
 export const fetchTheaterInfo = async (
-  options: CombineSqlOptions<TheaterInfo>
+  options: CombineSqlOptions<TheaterInfo>,
 ): Promise<TheaterInfo[]> => {
   const conn = new Conn();
   const sql = new CombineSql<TheaterInfo>();
@@ -58,7 +60,7 @@ export const fetchTheaterInfo = async (
       sql.generateSelectSql({
         table: options.table,
         fields: options.fields,
-      })
+      }),
     );
 
     return result;
@@ -73,8 +75,10 @@ export const addTheaterInfo = (
   const conn = new Conn();
   const sql = new CombineSql<TheaterInfo>();
 
-  return conn.execute<TheaterInfo>(sql.generateInsertSql({
-    table: options.table,
-    inserts: options.inserts,
-  }));
+  return conn.execute<TheaterInfo>(
+    sql.generateInsertSql({
+      table: options.table,
+      inserts: options.inserts,
+    }),
+  );
 };

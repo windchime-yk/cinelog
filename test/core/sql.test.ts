@@ -10,13 +10,13 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
     await t.step("SELECTのみ", () => {
       assertEquals<string>(
         sql.generateSelectSql({ table: TABLE }),
-        `SELECT * FROM ${TABLE}`
+        `SELECT * FROM ${TABLE}`,
       );
     });
     await t.step("fieldsあり", () => {
       assertEquals<string>(
         sql.generateSelectSql({ table: TABLE, fields: ["title", "rating"] }),
-        `SELECT title,rating FROM ${TABLE}`
+        `SELECT title,rating FROM ${TABLE}`,
       );
     });
     await t.step("fields、where", () => {
@@ -26,7 +26,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           fields: ["title", "rating"],
           where: "rating = 5",
         }),
-        `SELECT title,rating FROM ${TABLE} WHERE rating = 5`
+        `SELECT title,rating FROM ${TABLE} WHERE rating = 5`,
       );
     });
     await t.step("fields、where、like", () => {
@@ -37,7 +37,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           where: "title",
           like: "ブラック",
         }),
-        `SELECT title,rating FROM ${TABLE} WHERE title LIKE '%ブラック%'`
+        `SELECT title,rating FROM ${TABLE} WHERE title LIKE '%ブラック%'`,
       );
     });
     await t.step("fields、order", () => {
@@ -50,7 +50,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
             sort: "desc",
           },
         }),
-        `SELECT title,rating FROM ${TABLE} ORDER BY view_date desc`
+        `SELECT title,rating FROM ${TABLE} ORDER BY view_date desc`,
       );
     });
     await t.step("fields、limit", () => {
@@ -60,7 +60,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           fields: ["title", "rating"],
           limit: 10,
         }),
-        `SELECT title,rating FROM ${TABLE} LIMIT 10`
+        `SELECT title,rating FROM ${TABLE} LIMIT 10`,
       );
     });
     await t.step("全部入り", () => {
@@ -76,7 +76,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           },
           limit: 10,
         }),
-        `SELECT title,rating FROM ${TABLE} WHERE title LIKE '%ブラック%' ORDER BY view_date desc LIMIT 10`
+        `SELECT title,rating FROM ${TABLE} WHERE title LIKE '%ブラック%' ORDER BY view_date desc LIMIT 10`,
       );
     });
   });
@@ -88,7 +88,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           table: TABLE,
           inserts: { title: "title", comment: "comment" },
         }),
-        `INSERT INTO ${TABLE}(title,comment) VALUES ('title','comment')`
+        `INSERT INTO ${TABLE}(title,comment) VALUES ('title','comment')`,
       );
     });
     await t.step("単体更新（数値あり）", () => {
@@ -97,7 +97,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           table: TABLE,
           inserts: { title: "title", rating: 1, comment: "comment" },
         }),
-        `INSERT INTO ${TABLE}(title,rating,comment) VALUES ('title',1,'comment')`
+        `INSERT INTO ${TABLE}(title,rating,comment) VALUES ('title',1,'comment')`,
       );
     });
     await t.step("単体更新（真偽値あり）", () => {
@@ -106,7 +106,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           table: TABLE,
           inserts: { title: "title", is_dubbed: true, comment: "comment" },
         }),
-        `INSERT INTO ${TABLE}(title,is_dubbed,comment) VALUES ('title',true,'comment')`
+        `INSERT INTO ${TABLE}(title,is_dubbed,comment) VALUES ('title',true,'comment')`,
       );
     });
     await t.step("単体更新（nullあり）", () => {
@@ -115,7 +115,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
           table: TABLE,
           inserts: { title: "title", is_dubbed: null, comment: "comment" },
         }),
-        `INSERT INTO ${TABLE}(title,is_dubbed,comment) VALUES ('title',null,'comment')`
+        `INSERT INTO ${TABLE}(title,is_dubbed,comment) VALUES ('title',null,'comment')`,
       );
     });
     await t.step("単体更新（日付あり）", () => {
@@ -128,7 +128,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
             comment: "comment",
           },
         }),
-        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19','comment')`
+        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19','comment')`,
       );
     });
     await t.step("単体更新（日付ゼロ詰め）", () => {
@@ -143,7 +143,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
             comment: "comment",
           },
         }),
-        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19','comment')`
+        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19','comment')`,
       );
     });
     await t.step("複数更新", () => {
@@ -163,7 +163,7 @@ Deno.test("SQL断片統合Class宣言テスト", async (t) => {
             },
           ],
         }),
-        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19',null),('title2','2022/04/20','comment2')`
+        `INSERT INTO ${TABLE}(title,view_date,comment) VALUES ('title','2022/04/19',null),('title2','2022/04/20','comment2')`,
       );
     });
   });
