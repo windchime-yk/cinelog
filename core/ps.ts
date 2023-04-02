@@ -27,7 +27,7 @@ export const fetchMovieInfo = async (
     );
 
     return result;
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 };
@@ -64,7 +64,7 @@ export const fetchTheaterInfo = async (
     );
 
     return result;
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 };
