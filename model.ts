@@ -1,5 +1,7 @@
 import { StatusCodeNumber } from "./deps.ts";
 
+export type Table = "tbl_movieinfo" | "tbl_theater";
+
 /**
  * 映画鑑賞情報
  */
@@ -14,8 +16,8 @@ export interface MovieInfo {
   is_domestic?: boolean;
   /** 実写かどうか */
   is_live_action?: boolean;
-  /** 鑑賞した映画館 */
-  theater: string;
+  /** 上映館テーブルID */
+  theater_id: number;
   /** 映画鑑賞日 */
   // view_date: `${string}/${string}/${string}`,
   view_date: string;
@@ -33,27 +35,37 @@ export interface MovieInfo {
   comment?: string;
 }
 
-type Inserts = Partial<Record<keyof MovieInfo, MovieInfo[keyof MovieInfo]>>;
+/**
+ * 上映館情報
+ */
+export interface TheaterInfo {
+  /** ID */
+  id?: string;
+  /** 鑑賞した上映館 */
+  name: string;
+}
+
+type Inserts<T> = Partial<Record<keyof T, T[keyof T]>>;
 
 /** SQL断片統合Class宣言のオプション */
-export interface CombineSqlOptions {
+export interface CombineSqlOptions<T> {
   /** テーブル名 */
-  table: string;
+  table: Table;
   /** フィールド名（デフォルトは"*"） */
-  fields?: Array<keyof MovieInfo>;
+  fields?: Array<keyof T>;
   /** 検索条件 */
   where?: string;
   /** 曖昧な検索条件 */
   like?: string | null;
   /** 昇順（asc）か降順（desc）で並べ替える */
   order?: {
-    target: keyof MovieInfo;
+    target: keyof T;
     sort: "desc" | "asc";
   };
   /** データ出力数 */
   limit?: number;
   /** 追加データ */
-  inserts?: Inserts | Inserts[];
+  inserts?: Inserts<T> | Array<Inserts<T>>;
 }
 
 export interface UserParam {

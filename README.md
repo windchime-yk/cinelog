@@ -122,4 +122,14 @@ sequenceDiagram
     end
     redirect ->> toppage : TOP画面にリダイレクト
   end
+
+  alt 映画館データ追加
+    dashboardpage ->> redirect : フォームデータをパラメータに保持して遷移
+    redirect ->> cookie : ログイン情報の取得
+    cookie -->> redirect : ログイン情報の返却
+    alt ログイン情報が正しい場合
+      redirect ->> db : 映画館データを追加
+    end
+    redirect ->> toppage : TOP画面にリダイレクト
+  end
 ```

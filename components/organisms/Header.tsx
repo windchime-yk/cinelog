@@ -2,7 +2,7 @@
 import { getCookies, h, VNode } from "../../deps.ts";
 import { SITE_NAME } from "../../config.ts";
 import { Heading } from "../atoms/Heading.tsx";
-import { isInvalidAccount } from "../../core.ts";
+import { isInvalidAccount } from "../../core/util.ts";
 
 interface HeaderProps {
   req: Request;
