@@ -17,7 +17,7 @@ export interface MovieInfo {
   /** 実写かどうか */
   is_live_action?: boolean;
   /** 上映館テーブルID */
-  theater_id: string;
+  theater_id: number;
   /** 映画鑑賞日 */
   // view_date: `${string}/${string}/${string}`,
   view_date: string;

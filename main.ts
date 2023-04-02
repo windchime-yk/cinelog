@@ -6,6 +6,7 @@ import { DashboardPage } from "./pages/DashboardPage.tsx";
 import { SearchPage } from "./pages/SearchPage.tsx";
 import { AuthRedirect } from "./pages/redirect/auth.ts";
 import { AddMovieRedirect } from "./pages/redirect/movie/add.ts";
+import { AddTheaterRedirect } from "./pages/redirect/theater/add.ts";
 import { NotFoundPage } from "./pages/error/NotFoundPage.tsx";
 import { cinelogApi } from "./api/mod.ts";
 
@@ -24,6 +25,7 @@ const handler: Handler = (req) => {
   // リダイレクト画面系
   if (pathname === "/auth") return AuthRedirect(req);
   if (pathname === "/movie/add") return AddMovieRedirect(req);
+  if (pathname === "/theater/add") return AddTheaterRedirect(req);
 
   // API
   if (pathname === "/api") return cinelogApi(req);

@@ -50,3 +50,15 @@ export const fetchTheaterInfo = (
     fields: options.fields,
   }));
 };
+
+export const addTheaterInfo = (
+  options: CombineSqlOptions<TheaterInfo>,
+): Promise<TheaterInfo[]> => {
+  const conn = new Conn();
+  const sql = new CombineSql<TheaterInfo>();
+
+  return conn.execute<TheaterInfo>(sql.generateInsertSql({
+    table: options.table,
+    inserts: options.inserts,
+  }));
+};

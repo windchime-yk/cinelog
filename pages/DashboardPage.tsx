@@ -24,7 +24,7 @@ export const DashboardPage = async (req: Request): Promise<Response> => {
   }
   const theaters = await fetchTheaterInfo({
     table: "tbl_theater",
-    fields: ["name"],
+    fields: ["id", "name"],
   });
 
   return html({
@@ -143,7 +143,7 @@ export const DashboardPage = async (req: Request): Promise<Response> => {
 
           <section>
             <Heading level={2}>鑑賞した映画館の追加</Heading>
-            <form action="">
+            <form action="/theater/add" method="post">
               <table>
                 <tr>
                   <th class="c-white bg-gray text-left py-1 px-2">
