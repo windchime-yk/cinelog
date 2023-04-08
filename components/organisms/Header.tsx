@@ -1,15 +1,16 @@
-/** @jsx h */
-import { getCookies, h, VNode } from "../../deps.ts";
-import { SITE_NAME } from "../../config.ts";
+import { type VNode } from "preact";
+import { getCookies } from "std/http/cookie.ts";
 import { Heading } from "../atoms/Heading.tsx";
 import { isInvalidAccount } from "../../core/util.ts";
+import { SITE_NAME } from "../../config.ts";
 
 interface HeaderProps {
-  req: Request;
+  req?: Request;
 }
 
 export const Header = ({ req }: HeaderProps): VNode => {
-  const cookie = getCookies(req.headers);
+  let cookie: Record<string, string> | undefined;
+  if (req) cookie = getCookies(req.headers);
 
   return (
     <header class="flex justify-between items-center py-5 px-5">
@@ -18,16 +19,16 @@ export const Header = ({ req }: HeaderProps): VNode => {
       </Heading>
       <nav>
         <ul class="flex items-center gap-3">
-          {!isInvalidAccount(cookie.username, cookie.password) && (
+          {cookie && !isInvalidAccount(cookie.username, cookie.password) && (
             <li>
               <a class="underline" href="/dashboard">ダッシュボード</a>
             </li>
           )}
-          {isInvalidAccount(cookie.username, cookie.password) && (
-            <li>
-              <a class="underline" href="/login">ログイン</a>
-            </li>
-          )}
+          {!cookie || isInvalidAccount(cookie.username, cookie.password) && (
+                <li>
+                  <a class="underline" href="/login">ログイン</a>
+                </li>
+              )}
           <li>
             <a class="underline" href="/search">検索</a>
           </li>

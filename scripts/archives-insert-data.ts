@@ -1,7 +1,7 @@
-import { isExistFile, writeFile } from "../deps.ts";
+import { isExistFile, writeFile } from "util/file.ts";
 import { Conn } from "../core/conn.ts";
 import { CombineSql } from "../core/sql.ts";
-import { MovieInfo, Table, TheaterInfo } from "../model.ts";
+import type { MovieInfo, Table, TheaterInfo } from "../model.ts";
 
 // PlanetScaleからデータ取得
 const outputPlanetScaleData = <T>(table: Table): Promise<T[]> => {
@@ -17,10 +17,6 @@ const movieinfoDataMap = movieinfoData.map((data: Partial<MovieInfo>) => {
   return data;
 });
 const theaterinfoData = await outputPlanetScaleData<TheaterInfo>("tbl_theater");
-const theaterinfoDataMap = theaterinfoData.map((data) => {
-  delete data.id;
-  return data;
-});
 
 const getSqlFileName = (table: Table) => `sql/insert_data_${table}.sql`;
 
@@ -39,4 +35,4 @@ const writeInsertSqlFile = async <T>(
 };
 
 await writeInsertSqlFile<MovieInfo>("tbl_movieinfo", movieinfoDataMap);
-await writeInsertSqlFile<TheaterInfo>("tbl_theater", theaterinfoDataMap);
+await writeInsertSqlFile<TheaterInfo>("tbl_theater", theaterinfoData);

@@ -1,5 +1,4 @@
-/** @jsx h */
-import { h, VNode } from "../../deps.ts";
+import { type VNode } from "preact";
 
 interface MainProps {
   children: VNode | VNode[];

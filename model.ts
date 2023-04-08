@@ -1,4 +1,4 @@
-import { StatusCodeNumber } from "./deps.ts";
+import { Status } from "std/http/http_status.ts";
 
 export type Table = "tbl_movieinfo" | "tbl_theater";
 
@@ -82,7 +82,7 @@ export interface ApiCodeOptions {
   /** HTTPメソッド */
   method: string;
   /** ステータスコード */
-  status?: StatusCodeNumber;
+  status?: Status;
 }
 
 /**

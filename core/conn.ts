@@ -1,5 +1,6 @@
+// @deno-types="https://esm.sh/@planetscale/database@1.5.0/dist/index.d.ts"
+import { connect, type Connection } from "ps";
 import { config } from "../config.ts";
-import { connect, Connection } from "../deps.ts";
 
 /**
  * PlanetScaleとの接続処理

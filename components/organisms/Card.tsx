@@ -1,5 +1,4 @@
-/** @jsx h */
-import { h, VNode } from "../../deps.ts";
+import { type VNode } from "preact";
 import { Heading } from "../atoms/Heading.tsx";
 
 interface CardProps {
@@ -9,7 +8,7 @@ interface CardProps {
 }
 
 export const Card = ({ title, viewDate, viewTime }: CardProps): VNode => (
-  <section class="flex max-w-2xl flex-col mx-a mt-5 pt-3 pb-5 px-2 border">
+  <section class="flex max-w-2xl flex-col mx-auto mt-5 pt-3 pb-5 px-2 border border-black">
     <Heading className="order-2 text-center" level={3}>
       {title}
     </Heading>

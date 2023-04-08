@@ -1,7 +1,6 @@
-import { dotenv } from "./deps.ts";
+import { load } from "std/dotenv/mod.ts";
 
-const { USERNAME, PASSWORD, PS_HOST, PS_USERNAME, PS_PASSWORD } = await dotenv
-  .config();
+const { USERNAME, PASSWORD, PS_HOST, PS_USERNAME, PS_PASSWORD } = await load();
 
 /** 環境変数 */
 export const config = {
