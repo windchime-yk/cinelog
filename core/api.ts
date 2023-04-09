@@ -39,7 +39,7 @@ export const redirectResponse = (path: `/${string}`): Response =>
     headers: {
       "Location": path,
     },
-    status: Status.MovedPermanently,
+    status: Status.Found,
   });
 
 /**
