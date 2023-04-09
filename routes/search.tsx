@@ -31,7 +31,7 @@ export const handler: Handlers<HandlerProps> = {
       like: search,
     });
     return ctx.render({ req, movies, search });
-  }
+  },
 };
 
 const PAGE_TITLE = "鑑賞作品の検索";
