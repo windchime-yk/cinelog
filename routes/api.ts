@@ -1,8 +1,8 @@
 import { Status } from "std/http/http_status.ts";
-import { getApiCode, jsonResponse } from "../../core/api.ts";
-import { fetchMovieInfo } from "../../core/ps.ts";
-import { isInvalidAccount } from "../../core/util.ts";
-import type { CommonApiResponse, MovieInfo } from "../../model.ts";
+import { getApiCode, jsonResponse } from "../core/api.ts";
+import { fetchMovieInfo } from "../core/ps.ts";
+import { isInvalidAccount } from "../core/util.ts";
+import type { CommonApiResponse, MovieInfo } from "../model.ts";
 
 /**
  * CineLogの鑑賞作品データ出力
