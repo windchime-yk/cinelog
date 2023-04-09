@@ -1,39 +1,18 @@
-import { type Handler, html, serve, UnoCSS } from "./deps.ts";
-import { TopPage } from "./pages/TopPage.tsx";
-import { ListPage } from "./pages/ListPage.tsx";
-import { LoginPage } from "./pages/LoginPage.tsx";
-import { DashboardPage } from "./pages/DashboardPage.tsx";
-import { SearchPage } from "./pages/SearchPage.tsx";
-import { AuthRedirect } from "./pages/redirect/auth.ts";
-import { AddMovieRedirect } from "./pages/redirect/movie/add.ts";
-import { AddTheaterRedirect } from "./pages/redirect/theater/add.ts";
-import { NotFoundPage } from "./pages/error/NotFoundPage.tsx";
-import { cinelogApi } from "./api/mod.ts";
+/// <reference no-default-lib="true" />
+/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
+/// <reference lib="dom.asynciterable" />
+/// <reference lib="deno.ns" />
 
-html.use(UnoCSS());
+import { type RenderFunction, start } from "$fresh/server.ts";
+import manifest from "./fresh.gen.ts";
 
-const handler: Handler = (req) => {
-  const { pathname } = new URL(req.url);
+import twindPlugin from "$fresh/plugins/twind.ts";
+import twindConfig from "./twind.config.ts";
 
-  // 主要画面系
-  if (pathname === "/") return TopPage(req);
-  if (pathname === "/list") return ListPage(req);
-  if (pathname === "/login") return LoginPage(req);
-  if (pathname === "/dashboard") return DashboardPage(req);
-  if (pathname === "/search") return SearchPage(req);
-
-  // リダイレクト画面系
-  if (pathname === "/auth") return AuthRedirect(req);
-  if (pathname === "/movie/add") return AddMovieRedirect(req);
-  if (pathname === "/theater/add") return AddTheaterRedirect(req);
-
-  // API
-  if (pathname === "/api") return cinelogApi(req);
-
-  // 404画面
-  return NotFoundPage(req);
+const render: RenderFunction = (ctx, render) => {
+  ctx.lang = "ja";
+  render();
 };
 
-const PORT = 8080;
-serve(handler, { addr: `:${PORT}` });
-console.log(`listen to http://localhost:${PORT}`);
+await start(manifest, { render, plugins: [twindPlugin(twindConfig)] });

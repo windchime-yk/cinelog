@@ -1,5 +1,5 @@
-import { statusCode, StatusCodeNumber } from "../deps.ts";
-import { ApiCodeOptions } from "../model.ts";
+import { Status } from "std/http/http_status.ts";
+import type { ApiCodeOptions } from "../model.ts";
 
 /**
  * APIコードを生成する
@@ -8,7 +8,7 @@ import { ApiCodeOptions } from "../model.ts";
  * @param options.status ステータスコード
  */
 export const getApiCode = (options: ApiCodeOptions): string => {
-  const { api = "common", method, status = statusCode.ok } = options;
+  const { api = "common", method, status = Status.OK } = options;
   return `${api}-${method.toLowerCase()}-${status}`;
 };
 
@@ -19,7 +19,7 @@ export const getApiCode = (options: ApiCodeOptions): string => {
  */
 export const jsonResponse = <T extends Record<never, never>>(
   data: T,
-  status: StatusCodeNumber = statusCode.ok,
+  status: Status = Status.OK,
 ): Response =>
   new Response(JSON.stringify(data), {
     headers: {
@@ -39,7 +39,7 @@ export const redirectResponse = (path: `/${string}`): Response =>
     headers: {
       "Location": path,
     },
-    status: statusCode.movedPermanently,
+    status: Status.Found,
   });
 
 /**

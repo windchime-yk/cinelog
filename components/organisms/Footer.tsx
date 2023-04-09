@@ -1,5 +1,4 @@
-/** @jsx h */
-import { h, VNode } from "../../deps.ts";
+import { type VNode } from "preact";
 
 export const Footer = (): VNode => (
   <footer class="pt-6 pb-3">

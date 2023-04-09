@@ -2,4 +2,4 @@
 .env
 sql/
 !sql/create_table.sql
-deno.lock
+!sql/init_table.sql

@@ -1,6 +1,6 @@
-import { assertEquals } from "../../deps.ts";
+import { assertEquals } from "std/testing/asserts.ts";
 import { CombineSql } from "../../core/sql.ts";
-import { MovieInfo } from "../../model.ts";
+import type { MovieInfo } from "../../model.ts";
 
 Deno.test("SQL断片統合Class宣言テスト", async (t) => {
   const TABLE = "tbl_movieinfo";

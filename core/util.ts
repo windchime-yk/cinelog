@@ -1,5 +1,5 @@
 import { config } from "../config.ts";
-import { MovieInfo } from "../model.ts";
+import type { MovieInfo } from "../model.ts";
 
 /**
  * ユーザー名かパスワードがシステム側に保存されているものと一致するか
