@@ -3,7 +3,7 @@ import { type VNode } from "preact";
 interface HeadingProps {
   className?: string;
   level: 1 | 2 | 3 | 4 | 5 | 6;
-  children: string | VNode;
+  children: VNode | VNode[] | string;
 }
 
 export const Heading = (
@@ -11,9 +11,9 @@ export const Heading = (
 ): VNode => {
   switch (level) {
     case 1:
-      return <h1 class={`text-4xl font-bold ${className}`}>{children}</h1>;
+      return <h1 class={`text-2xl font-bold ${className}`}>{children}</h1>;
     case 2:
-      return <h2 class={`text-3xl font-bold ${className}`}>{children}</h2>;
+      return <h2 class={`text-3xl font-bold mb-8 ${className}`}>{children}</h2>;
     case 3:
       return <h3 class={`text-2xl font-bold ${className}`}>{children}</h3>;
     case 4:

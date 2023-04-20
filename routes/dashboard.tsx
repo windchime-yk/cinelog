@@ -6,6 +6,13 @@ import { isInvalidAccount } from "../core/util.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Layout } from "../components/organisms/Layout.tsx";
 import type { TheaterInfo } from "../model.ts";
+import {
+  Checkbox,
+  Input,
+  Select,
+  Textarea,
+} from "../components/organisms/Input.tsx";
+import { Button } from "../components/atoms/Button.tsx";
 
 type HandlerProps = {
   req: Request;
@@ -38,123 +45,83 @@ export default function Dashboard({ data }: PageProps<HandlerProps>) {
       <section>
         <Heading level={2}>鑑賞作品の追加</Heading>
         <form action="/movie/add" method="post">
-          <table>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="title">タイトル</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="text" name="title" required />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="is_dubbed">字幕版かどうか</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="checkbox" name="is_dubbed" />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="is_domestic">国内映画かどうか</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="checkbox" name="is_domestic" />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="is_live_action">実写かどうか</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="checkbox" name="is_live_action" />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="theater_id">鑑賞した映画館</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <select name="theater_id" required>
-                  <option value="0">選択してください</option>
-                  {theaters.map((theater) => {
-                    return <option value={theater.id}>{theater.name}</option>;
-                  })}
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="view_date">鑑賞日</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="date" name="view_date" required />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="view_start_time">上映開始時間</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="time" name="view_start_time" required />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="view_end_time">上映終了時間</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="time" name="view_end_time" required />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="accompanier">同伴者</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="number" name="accompanier" />名
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="rating">評価</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="number" name="rating" />
-              </td>
-            </tr>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="comment">コメント</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="text" name="comment" />
-              </td>
-            </tr>
-          </table>
-          <button class="mt-6 py-2 px-5 bg-black text-white" type="submit">
-            追加
-          </button>
+          <Input
+            className="w-4/5 md:w-3/5 lg:w-1/3"
+            rounded="both"
+            name="title"
+            label="タイトル"
+            required
+          />
+          <fieldset class="flex gap-5 mt-6">
+            <legend class="mb-2 text-sm font-medium">映画属性</legend>
+            <Checkbox label="字幕版か" name="is_dubbed" />
+            <Checkbox label="邦画か" name="is_domestic" />
+            <Checkbox label="実写版か" name="is_live_action" />
+          </fieldset>
+          <Select
+            className="mt-6"
+            label="鑑賞した映画館"
+            name="theater_id"
+            required
+          >
+            <option value="0">選択してください</option>
+            <>
+              {theaters.map((theater) => {
+                return <option value={theater.id}>{theater.name}</option>;
+              })}
+            </>
+          </Select>
+          <fieldset class="flex flex-col md:flex-row mt-6 gap-6 md:gap-3">
+            <Input
+              rounded="both"
+              type="date"
+              name="view_date"
+              label="鑑賞日"
+              required
+            />
+            <Input
+              rounded="both"
+              type="time"
+              name="view_start_time"
+              label="上映開始時間"
+              required
+            />
+            <Input
+              rounded="both"
+              type="time"
+              name="view_end_time"
+              label="上映終了時間"
+              required
+            />
+          </fieldset>
+          <fieldset class="flex flex-col md:flex-row mt-6 gap-6 md:gap-3">
+            <Input
+              rounded="both"
+              type="number"
+              name="view_end_time"
+              label="同伴者"
+            />
+            <Input
+              rounded="both"
+              type="number"
+              name="view_end_time"
+              label="評価"
+            />
+          </fieldset>
+          <Textarea
+            className="w-full md:w-4/5 h-32 mt-6"
+            name="comment"
+            label="コメント"
+          />
+          <Button className="mt-6 rounded-lg" type="submit">追加</Button>
         </form>
       </section>
 
-      <section>
+      <section class="mt-12">
         <Heading level={2}>鑑賞した映画館の追加</Heading>
         <form action="/theater/add" method="post">
-          <table>
-            <tr>
-              <th class="text-white bg-gray-500 text-left py-1 px-2">
-                <label htmlFor="theater">館名</label>
-              </th>
-              <td class="bg-gray-200 py-1 px-2">
-                <input type="text" name="theater" required />
-              </td>
-            </tr>
-          </table>
-          <button class="mt-6 py-2 px-5 bg-black text-white" type="submit">
-            追加
-          </button>
+          <Input rounded="both" name="theater" label="館名" required />
+          <Button className="block mt-6 rounded-lg" type="submit">追加</Button>
         </form>
       </section>
     </Layout>
