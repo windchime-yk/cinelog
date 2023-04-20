@@ -5,6 +5,7 @@ import { Heading } from "../components/atoms/Heading.tsx";
 import { Card } from "../components/organisms/Card.tsx";
 import { Layout } from "../components/organisms/Layout.tsx";
 import type { MovieInfo } from "../model.ts";
+import { MovieCardList } from "../components/organisms/MovieCardList.tsx";
 
 type HandlerProps = {
   req: Request;
@@ -25,18 +26,10 @@ export default function List({ data }: PageProps<HandlerProps>) {
   const { req, movies } = data;
   return (
     <Layout title="鑑賞作品一覧" req={req}>
-      <section class="px-5 mt-9">
+      <section>
         <Heading level={2}>すべての鑑賞作品</Heading>
         {movies.length
-          ? movies.map((movie) => {
-            return (
-              <Card
-                title={movie.title}
-                viewDate={movie.view_date}
-                viewTime={elapsedTime(movie)}
-              />
-            );
-          })
+          ? <MovieCardList movies={movies} />
           : <p>データ取得失敗により表示するものがありません</p>}
       </section>
     </Layout>

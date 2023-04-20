@@ -5,7 +5,7 @@ interface MainProps {
 }
 
 export const Main = ({ children }: MainProps): VNode => (
-  <main class="px-9">
+  <main class="max-w-screen-xl w-full mx-auto mt-6 px-9">
     {children}
   </main>
 );

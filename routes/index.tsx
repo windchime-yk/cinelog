@@ -5,6 +5,9 @@ import { Heading } from "../components/atoms/Heading.tsx";
 import { Card } from "../components/organisms/Card.tsx";
 import { Layout } from "../components/organisms/Layout.tsx";
 import type { MovieInfo } from "../model.ts";
+import { MovieCardList } from "../components/organisms/MovieCardList.tsx";
+import { Button } from "../components/atoms/Button.tsx";
+import { Input, SearchField } from "../components/organisms/Input.tsx";
 
 type HandlerProps = {
   req: Request;
@@ -31,28 +34,17 @@ export default function Home({ data }: PageProps<HandlerProps>) {
       </p>
       <p>なお、APIも提供されています。</p>
 
-      <section class="px-5 mt-9">
+      <section class="mt-12">
         <Heading level={2}>クイック検索</Heading>
         <form action="/search" method="post">
-          <input type="text" name="search" />
-          <button class="mt-6 py-2 px-5 bg-black text-white" type="submit">
-            検索
-          </button>
+          <SearchField />
         </form>
       </section>
 
-      <section class="px-5 mt-9">
+      <section class="mt-12">
         <Heading level={2}>直近の鑑賞10作品</Heading>
-        {movies.length
-          ? movies.map((movie) => {
-            return (
-              <Card
-                title={movie.title}
-                viewDate={movie.view_date}
-                viewTime={elapsedTime(movie)}
-              />
-            );
-          })
+        {movies.length !== 0
+          ? <MovieCardList movies={movies} />
           : <p>データ取得失敗により表示するものがありません</p>}
       </section>
     </Layout>

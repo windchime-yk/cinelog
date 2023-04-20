@@ -1,11 +1,11 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
 import { getUrlParams } from "../core/api.ts";
 import { fetchMovieInfo } from "../core/ps.ts";
-import { elapsedTime } from "../core/util.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
-import { Card } from "../components/organisms/Card.tsx";
 import { Layout } from "../components/organisms/Layout.tsx";
 import type { MovieInfo } from "../model.ts";
+import { MovieCardList } from "../components/organisms/MovieCardList.tsx";
+import { SearchField } from "../components/organisms/Input.tsx";
 
 type HandlerProps = {
   req: Request;
@@ -43,28 +43,17 @@ export default function Search({ data }: PageProps<HandlerProps>) {
       <section>
         <Heading level={2}>{PAGE_TITLE}</Heading>
         <form action="/search" method="post">
-          <input type="text" name="search" value={search ?? ""} />
-          <button class="mt-6 py-2 px-5 bg-black text-white" type="submit">
-            検索
-          </button>
+          <SearchField value={search ?? ""} />
         </form>
       </section>
-      <section>
+      <section class="mt-12">
         <Heading level={2}>検索結果</Heading>
         {movies.length === 0 && (
           <span class="block mt-5">
             該当する検索結果はありませんでした。
           </span>
         )}
-        {movies.map((movie) => {
-          return (
-            <Card
-              title={movie.title}
-              viewDate={movie.view_date}
-              viewTime={elapsedTime(movie)}
-            />
-          );
-        })}
+        {<MovieCardList movies={movies} />}
       </section>
     </Layout>
   );
