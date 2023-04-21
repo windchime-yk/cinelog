@@ -23,7 +23,7 @@ export const Card = ({ title, viewDate, viewTime }: CardProps): VNode => (
     <div class="order-2">
       <a
         class="inline-flex items-center mt-5 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-8002"
-        href={`https://eiga.com/search/${title}/`}
+        href={`https://eiga.com/search/${title.replaceAll("/", "／")}/`}
         target="_blank"
         rel="noopener noreferrer"
       >
