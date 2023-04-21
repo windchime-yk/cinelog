@@ -23,18 +23,21 @@ export default function Login({ data }: PageProps<HandlerProps>) {
       <section>
         <Heading level={2}>{PAGE_TITLE}</Heading>
         <form action="/auth" method="post">
-          <Input
-            rounded="both"
-            label="ユーザー名"
-            name="username"
-          />
-          <Input
-            className="ml-5"
-            rounded="both"
-            type="password"
-            label="パスワード"
-            name="password"
-          />
+          <fieldset className="flex flex-col md:flex-row gap-5">
+            <Input
+              className="w-3/5 md:w-auto"
+              rounded="both"
+              label="ユーザー名"
+              name="username"
+            />
+            <Input
+              className="w-3/5 md:w-auto"
+              rounded="both"
+              type="password"
+              label="パスワード"
+              name="password"
+            />
+          </fieldset>
           <Button className="block rounded-lg mt-5" type="submit">
             ログイン
           </Button>
