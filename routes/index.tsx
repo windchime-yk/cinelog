@@ -30,10 +30,11 @@ export default function Home({ data }: PageProps<HandlerProps>) {
   return (
     <Layout req={req}>
       <p>
-        このWebサイトは、WhyKが映画館で鑑賞した映画をただ記録していくところです。感想や評価は今のところ載せる予定はありません。
+        このWebサイトは、WhyKが映画館で鑑賞した映画をただ記録していくところです。<br />感想や評価は今のところ載せる予定はありません。
       </p>
-      <p>なお、APIも提供されています。</p>
-
+      <p className="mt-3">
+        また、記載されている上映時間については劇場での上映時間であり、序盤の予告を含んでいるため実際の尺より少し長くなっています。
+      </p>
       <section class="mt-12">
         <Heading level={2}>クイック検索</Heading>
         <form action="/search" method="post">
