@@ -38,6 +38,23 @@ const PAGE_TITLE = "鑑賞作品の検索";
 
 export default function Search({ data }: PageProps<HandlerProps>) {
   const { req, movies, search } = data;
+
+  const showContent = () => {
+    if (!search) {
+      return (
+        <span class="block mt-5">
+          検索されていないため表示するものがありません
+        </span>
+      );
+    } else if (movies.length === 0) {
+      return (
+        <span class="block mt-5">該当する検索結果はありませんでした。</span>
+      );
+    } else {
+      return <MovieCardList movies={movies} />;
+    }
+  };
+
   return (
     <Layout title={PAGE_TITLE} req={req}>
       <section>
@@ -48,12 +65,7 @@ export default function Search({ data }: PageProps<HandlerProps>) {
       </section>
       <section class="mt-12">
         <Heading level={2}>検索結果</Heading>
-        {movies.length === 0 && (
-          <span class="block mt-5">
-            該当する検索結果はありませんでした。
-          </span>
-        )}
-        {<MovieCardList movies={movies} />}
+        {showContent()}
       </section>
     </Layout>
   );
