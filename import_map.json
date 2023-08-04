@@ -11,6 +11,7 @@
     "std/": "https://deno.land/std@0.182.0/",
     "ps": "https://esm.sh/@planetscale/database@1.4.0",
     "util/": "https://pax.deno.dev/windchime-yk/deno-util@v1.4.0/",
-    "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/"
+    "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/",
+    "$hono/": "https://deno.land/x/hono@v3.3.4/"
   }
 }
