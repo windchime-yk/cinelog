@@ -13,24 +13,6 @@ export const getApiCode = (options: ApiCodeOptions): string => {
 };
 
 /**
- * JSONのResponseを返却する
- * @param data HTML文字列
- * @param status ステータスコード
- */
-export const jsonResponse = <T extends Record<never, never>>(
-  data: T,
-  status: Status = Status.OK,
-): Response =>
-  new Response(JSON.stringify(data), {
-    headers: {
-      "content-type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "X-API-KEY",
-    },
-    status,
-  });
-
-/**
  * リダイレクトのResponseを返却する
  * @param path リダイレクト先
  */
