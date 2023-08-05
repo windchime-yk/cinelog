@@ -1,8 +1,6 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
 import { fetchMovieInfo } from "../core/ps.ts";
-import { elapsedTime } from "../core/util.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
-import { Card } from "../components/organisms/Card.tsx";
 import { Layout } from "../components/organisms/Layout.tsx";
 import type { MovieInfo } from "../model.ts";
 import { MovieCardList } from "../components/organisms/MovieCardList.tsx";
