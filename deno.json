@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run -A --watch=static/,routes/ dev.ts",
+    "start": "DEVELOP=true deno run -A --watch=static/,routes/ dev.ts",
     "test": "deno test --allow-read --allow-env --no-check",
     "archives": "deno run --allow-net=aws.connect.psdb.cloud --allow-write=sql/ --allow-read=.env,.env.defaults,.env.example,sql/ --allow-env scripts/archives-insert-data.ts"
   },
