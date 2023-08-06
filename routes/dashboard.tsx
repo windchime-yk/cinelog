@@ -1,11 +1,11 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
 import { getCookies } from "std/http/cookie.ts";
 import { redirectResponse } from "../core/api.ts";
-import { fetchTheaterInfo } from "../core/ps.ts";
+import { db } from "../core/db.ts";
 import { isInvalidAccount } from "../core/util.ts";
+import { type Theater, theaterTable } from "../db/schema/theater.ts";
 import { Heading } from "../components/atoms/Heading.tsx";
 import { Layout } from "../components/organisms/Layout.tsx";
-import type { TheaterInfo } from "../model.ts";
 import {
   Checkbox,
   Input,
@@ -16,7 +16,7 @@ import { Button } from "../components/atoms/Button.tsx";
 
 type HandlerProps = {
   req: Request;
-  theaters: Array<TheaterInfo>;
+  theaters: Array<Theater>;
 };
 
 export const handler: Handlers<HandlerProps> = {
@@ -27,10 +27,10 @@ export const handler: Handlers<HandlerProps> = {
       return redirectResponse("/login");
     }
 
-    const theaters = await fetchTheaterInfo({
-      table: "tbl_theater",
-      fields: ["id", "name"],
-    });
+    const theaters = await db.select({
+      id: theaterTable.id,
+      name: theaterTable.name,
+    }).from(theaterTable);
     return ctx.render({ req, theaters });
   },
 };

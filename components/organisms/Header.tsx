@@ -3,7 +3,6 @@ import { Heading } from "../atoms/Heading.tsx";
 import { SITE_NAME } from "../../config.ts";
 import IconMovie from "icons/movie.tsx";
 import { getCookies } from "std/http/cookie.ts";
-import { useState } from "preact/hooks";
 import { isInvalidAccount } from "../../core/util.ts";
 
 interface HeaderProps {

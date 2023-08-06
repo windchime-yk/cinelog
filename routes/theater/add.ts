@@ -1,8 +1,9 @@
 import { type Handlers } from "$fresh/server.ts";
 import { getCookies } from "std/http/cookie.ts";
 import { getUrlParams, redirectResponse } from "../../core/api.ts";
-import { addTheaterInfo } from "../../core/ps.ts";
+import { db } from "../../core/db.ts";
 import { isInvalidAccount } from "../../core/util.ts";
+import { type NewTheater, theaterTable } from "../../db/schema/theater.ts";
 
 export const handler: Handlers = {
   async POST(req) {
@@ -10,12 +11,10 @@ export const handler: Handlers = {
     const cookie = getCookies(req.headers);
 
     if (!isInvalidAccount(cookie.username, cookie.password)) {
-      addTheaterInfo({
-        table: "tbl_theater",
-        inserts: {
-          name: body.get("theater") as string,
-        },
-      });
+      const newTheater: NewTheater = {
+        name: body.get("theater")!,
+      };
+      await db.insert(theaterTable).values(newTheater);
     }
 
     return redirectResponse("/dashboard");

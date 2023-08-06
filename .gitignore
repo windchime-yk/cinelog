@@ -1,5 +1,3 @@
 .DS_Store
 .env
-sql/
-!sql/create_table.sql
-!sql/init_table.sql
+db/sql/insert_data_*.sql

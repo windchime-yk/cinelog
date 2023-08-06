@@ -2,10 +2,12 @@ import { type Handler } from "$fresh/server.ts";
 import { Hono } from "$hono/mod.ts";
 import { cors } from "$hono/middleware.ts";
 import { Status } from "std/http/http_status.ts";
+import { desc } from "drizzle-orm";
 import { getApiCode } from "../../core/api.ts";
-import { fetchMovieInfo } from "../../core/ps.ts";
+import { db } from "../../core/db.ts";
 import { isInvalidAccount } from "../../core/util.ts";
-import type { CommonApiResponse, MovieInfo } from "../../model.ts";
+import { movieTable, type PickApiMovie } from "../../db/schema/movie.ts";
+import type { CommonApiResponse } from "../../model.ts";
 
 const app = new Hono().basePath("/api");
 
@@ -26,17 +28,12 @@ app.get(async (ctx) => {
     }, Status.Unauthorized);
   }
 
-  const movies = await fetchMovieInfo({
-    table: "tbl_movieinfo",
-    fields: ["id", "title", "view_date", "view_start_time", "view_end_time"],
-    order: {
-      target: "view_date",
-      sort: "desc",
-    },
-    limit: Number(limit),
-  });
+  const movies = await db.select({
+    title: movieTable.title,
+    view_date: movieTable.view_date,
+  }).from(movieTable).orderBy(desc(movieTable.view_date)).limit(Number(limit));
 
-  return ctx.json<Array<MovieInfo>>(movies);
+  return ctx.json<Array<PickApiMovie>>(movies);
 });
 
 export const handler: Handler = (req) => app.fetch(req);

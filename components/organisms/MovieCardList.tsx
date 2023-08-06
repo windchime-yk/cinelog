@@ -1,10 +1,10 @@
 import { type VNode } from "preact";
 import { elapsedTime } from "../../core/util.ts";
+import { type PickMovie } from "../../db/schema/movie.ts";
 import { Card } from "./Card.tsx";
-import type { MovieInfo } from "../../model.ts";
 
 interface MovieCardListProps {
-  movies: Array<MovieInfo>;
+  movies: Array<PickMovie>;
 }
 
 export const MovieCardList = ({ movies }: MovieCardListProps): VNode => (
