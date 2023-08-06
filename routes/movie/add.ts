@@ -33,8 +33,6 @@ export const handler: Handlers = {
         comment: body.get("comment"),
       };
 
-      console.log(newMovie);
-
       await db.insert(movieTable).values(newMovie);
     }
 
