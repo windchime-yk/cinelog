@@ -1,38 +1,37 @@
-import { isExistFile, writeFile } from "util/file.ts";
-import { Conn } from "../core/conn.ts";
-import { CombineSql } from "../core/sql.ts";
-import type { MovieInfo, Table, TheaterInfo } from "../model.ts";
+import { connect } from "planetscale";
+import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { movieTable } from "../db/schema/movie.ts";
+import { theaterTable } from "../db/schema/theater.ts";
+import { generateInsertSql, writeInsertSqlFile } from "./lib.ts";
+import "std/dotenv/load.ts";
 
-// PlanetScaleからデータ取得
-const outputPlanetScaleData = <T>(table: Table): Promise<T[]> => {
-  const sql = new CombineSql();
-  const selectSql = sql.generateSelectSql({ table });
-  const conn = new Conn();
-  return conn.execute<T>(selectSql);
-};
-
-const movieinfoData = await outputPlanetScaleData<MovieInfo>("tbl_movieinfo");
-const movieinfoDataMap = movieinfoData.map((data: Partial<MovieInfo>) => {
-  delete data.id;
-  return data;
+const connection = connect({
+  host: Deno.env.get("PS_HOST"),
+  username: Deno.env.get("DEVELOP")
+    ? Deno.env.get("PS_DEV_USERNAME")
+    : Deno.env.get("PS_USERNAME"),
+  password: Deno.env.get("DEVELOP")
+    ? Deno.env.get("PS_DEV_PASSWORD")
+    : Deno.env.get("PS_PASSWORD"),
 });
-const theaterinfoData = await outputPlanetScaleData<TheaterInfo>("tbl_theater");
+const db = drizzle(connection);
 
-const getSqlFileName = (table: Table) => `sql/insert_data_${table}.sql`;
+const movieResult = await db.select({
+  title: movieTable.title,
+  is_dubbed: movieTable.is_dubbed,
+  is_domestic: movieTable.is_domestic,
+  is_live_action: movieTable.is_live_action,
+  theater_id: movieTable.theater_id,
+  view_date: movieTable.view_date,
+  view_start_time: movieTable.view_start_time,
+  view_end_time: movieTable.view_end_time,
+  accompanier: movieTable.accompanier,
+  rating: movieTable.rating,
+  comment: movieTable.comment,
+}).from(movieTable);
+const movieInsertSql = generateInsertSql("tbl_movieinfo", movieResult);
+await writeInsertSqlFile("movie", movieInsertSql);
 
-// SQLで全文取得してINSERT INTO文に整形して.sqlにして保存
-const writeInsertSqlFile = async <T>(
-  table: Table,
-  inserts: Partial<T>[],
-) => {
-  if (await isExistFile(getSqlFileName(table))) {
-    await Deno.truncate(getSqlFileName(table));
-  }
-  console.debug({ inserts });
-  const insertSql = new CombineSql<T>().generateInsertSql({ table, inserts });
-  await writeFile(`${insertSql};`, getSqlFileName(table));
-  console.log(`create insert data: ${table}`);
-};
-
-await writeInsertSqlFile<MovieInfo>("tbl_movieinfo", movieinfoDataMap);
-await writeInsertSqlFile<TheaterInfo>("tbl_theater", theaterinfoData);
+const theaterResult = await db.select().from(theaterTable);
+const theaterInsertSql = generateInsertSql("tbl_theater", theaterResult);
+await writeInsertSqlFile("theater", theaterInsertSql);

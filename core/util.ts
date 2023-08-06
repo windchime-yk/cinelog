@@ -1,5 +1,5 @@
+import { type PickMovie } from "../db/schema/movie.ts";
 import { config } from "../config.ts";
-import type { MovieInfo } from "../model.ts";
 
 /**
  * ユーザー名かパスワードがシステム側に保存されているものと一致するか
@@ -17,7 +17,7 @@ export const isInvalidAccount = (
  * @param startTime 上映開始時間
  * @param lastTime 上映終了時間
  */
-export const caliculateShowtimes = (
+const caliculateShowtimes = (
   startTime: string,
   lastTime: string,
 ): number => {
@@ -30,7 +30,7 @@ export const caliculateShowtimes = (
  * 経過時間か"不明"を表示する
  * @param movie 鑑賞作品データ
  */
-export const elapsedTime = (movie: MovieInfo) =>
+export const elapsedTime = (movie: PickMovie) =>
   movie.view_start_time === null || movie.view_end_time === null
     ? "不明"
     : `${
