@@ -10,7 +10,6 @@
     "twind/": "https://esm.sh/twind@0.16.17/",
     "std/": "https://deno.land/std@0.182.0/",
     "planetscale": "https://esm.sh/@planetscale/database@1.10.0",
-    "util/": "https://pax.deno.dev/windchime-yk/deno-util@v1.4.0/",
     "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/",
     "$hono/": "https://deno.land/x/hono@v3.3.4/",
     "drizzle-orm": "https://esm.sh/drizzle-orm@0.27.2",
