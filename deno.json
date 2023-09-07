@@ -2,7 +2,9 @@
   "tasks": {
     "start": "DEVELOP=true deno run -A --watch=static/,routes/ dev.ts",
     "test": "deno test --allow-read --allow-env --no-check",
-    "archives": "deno run --allow-net=aws.connect.psdb.cloud --allow-write=db/sql/ --allow-read=.env,.env.defaults,.env.example,db/sql/ --allow-env scripts/archives-insert-data.ts"
+    "dump": "deno run --allow-run=pscale --allow-env scripts/db-dump.ts",
+    "dump:main": "DATABASE_BRANCH=main deno task dump",
+    "dump:dev": "DATABASE_BRANCH=develop deno task dump"
   },
   "lock": false,
   "importMap": "./import_map.json",

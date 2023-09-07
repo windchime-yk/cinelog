@@ -1,3 +1,5 @@
 .DS_Store
 .env
-db/sql/insert_data_*.sql
+db/sql/dump_*/metadata
+db/sql/dump_*/*.sql
+!db/sql/dump_main_*/*-schema.sql
