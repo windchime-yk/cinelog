@@ -1,5 +1,5 @@
-import { Heading } from "../components/atoms/Heading.tsx";
-import { Layout } from "../components/organisms/Layout.tsx";
+import { Heading } from "~/components/atoms/Heading.tsx";
+import { Layout } from "~/components/organisms/Layout.tsx";
 
 const PAGE_TITLE = "404 Not Found";
 

@@ -1,5 +1,5 @@
 import { type VNode } from "preact";
-import { Heading } from "../atoms/Heading.tsx";
+import { Heading } from "~/components/atoms/Heading.tsx";
 
 interface CardProps {
   title: string;

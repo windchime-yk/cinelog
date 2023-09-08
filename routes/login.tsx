@@ -1,8 +1,8 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
-import { Button } from "../components/atoms/Button.tsx";
-import { Heading } from "../components/atoms/Heading.tsx";
-import { Input } from "../components/organisms/Input.tsx";
-import { Layout } from "../components/organisms/Layout.tsx";
+import { Button } from "~/components/atoms/Button.tsx";
+import { Heading } from "~/components/atoms/Heading.tsx";
+import { Input } from "~/components/organisms/Input.tsx";
+import { Layout } from "~/components/organisms/Layout.tsx";
 
 type HandlerProps = {
   req: Request;

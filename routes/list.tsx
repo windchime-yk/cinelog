@@ -1,10 +1,10 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
 import { desc } from "drizzle-orm";
-import { db } from "../core/db.ts";
-import { movieTable, type PickMovie } from "../db/schema/movie.ts";
-import { Heading } from "../components/atoms/Heading.tsx";
-import { Layout } from "../components/organisms/Layout.tsx";
-import { MovieCardList } from "../components/organisms/MovieCardList.tsx";
+import { db } from "~/core/db.ts";
+import { movieTable, type PickMovie } from "~/db/schema/movie.ts";
+import { Heading } from "~/components/atoms/Heading.tsx";
+import { Layout } from "~/components/organisms/Layout.tsx";
+import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
 
 type HandlerProps = {
   req: Request;

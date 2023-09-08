@@ -10,6 +10,7 @@
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
   "imports": {
+    "~/": "./",
     "$fresh/": "https://deno.land/x/fresh@1.4.3/",
     "preact": "npm:preact@10.15.1",
     "preact/hooks": "npm:preact@10.15.1/hooks",
