@@ -1,6 +1,4 @@
-// @deno-types="https://esm.sh/v130/drizzle-orm@0.27.2/planetscale-serverless/index.d.ts"
 import { drizzle } from "drizzle-orm/planetscale-serverless";
-// @deno-types="https://esm.sh/v130/@planetscale/database@1.10.0/dist/index.d.ts"
 import { connect } from "planetscale";
 import "std/dotenv/load.ts";
 
