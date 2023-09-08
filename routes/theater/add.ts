@@ -1,9 +1,9 @@
 import { type Handlers } from "$fresh/server.ts";
-import { getCookies } from "std/http/cookie.ts";
-import { getUrlParams, redirectResponse } from "../../core/api.ts";
-import { db } from "../../core/db.ts";
-import { isInvalidAccount } from "../../core/util.ts";
-import { type NewTheater, theaterTable } from "../../db/schema/theater.ts";
+import { getCookies } from "$std/http/cookie.ts";
+import { getUrlParams, redirectResponse } from "~/core/api.ts";
+import { db } from "~/core/db.ts";
+import { isInvalidAccount } from "~/core/util.ts";
+import { type NewTheater, theaterTable } from "~/db/schema/theater.ts";
 
 export const handler: Handlers = {
   async POST(req) {

@@ -1,5 +1,5 @@
-import { type PickMovie } from "../db/schema/movie.ts";
-import { config } from "../config.ts";
+import { type PickMovie } from "~/db/schema/movie.ts";
+import { config } from "~/config.ts";
 
 /**
  * ユーザー名かパスワードがシステム側に保存されているものと一致するか

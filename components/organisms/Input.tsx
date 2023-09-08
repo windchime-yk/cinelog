@@ -1,5 +1,5 @@
 import { type VNode } from "preact";
-import { Button } from "../atoms/Button.tsx";
+import { Button } from "~/components/atoms/Button.tsx";
 
 interface InputProps {
   className?: string;

@@ -1,4 +1,4 @@
-import "std/dotenv/load.ts";
+import "$std/dotenv/load.ts";
 
 /** 環境変数 */
 export const config = {

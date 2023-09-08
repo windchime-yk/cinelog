@@ -1,10 +1,10 @@
 import { type Handlers } from "$fresh/server.ts";
-import { getCookies } from "std/http/cookie.ts";
-import { getUrlParams, redirectResponse } from "../../core/api.ts";
-import { db } from "../../core/db.ts";
-import { Convert } from "../../core/convert.ts";
-import { isInvalidAccount } from "../../core/util.ts";
-import { movieTable, type NewMovie } from "../../db/schema/movie.ts";
+import { getCookies } from "$std/http/cookie.ts";
+import { getUrlParams, redirectResponse } from "~/core/api.ts";
+import { db } from "~/core/db.ts";
+import { Convert } from "~/core/convert.ts";
+import { isInvalidAccount } from "~/core/util.ts";
+import { movieTable, type NewMovie } from "~/db/schema/movie.ts";
 
 export const handler: Handlers = {
   async POST(req) {

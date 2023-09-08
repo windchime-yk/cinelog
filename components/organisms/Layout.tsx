@@ -1,9 +1,9 @@
 import { Head } from "$fresh/runtime.ts";
 import { type VNode } from "preact";
-import { Header } from "./Header.tsx";
-import { Main } from "./Main.tsx";
-import { Footer } from "./Footer.tsx";
-import { SITE_NAME } from "../../config.ts";
+import { Header } from "~/components/organisms/Header.tsx";
+import { Main } from "~/components/organisms/Main.tsx";
+import { Footer } from "~/components/organisms/Footer.tsx";
+import { SITE_NAME } from "~/config.ts";
 
 interface LayoutProps {
   req?: Request;

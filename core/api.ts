@@ -1,5 +1,5 @@
-import { Status } from "std/http/http_status.ts";
-import type { ApiCodeOptions } from "../model.ts";
+import { Status } from "$std/http/http_status.ts";
+import type { ApiCodeOptions } from "~/model.ts";
 
 /**
  * APIコードを生成する

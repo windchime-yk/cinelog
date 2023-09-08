@@ -8,7 +8,7 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
-import { theaterTable } from "./theater.ts";
+import { theaterTable } from "~/db/schema/theater.ts";
 
 export const movieTable = mysqlTable("tbl_movieinfo", {
   /** ID */

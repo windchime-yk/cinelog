@@ -1,18 +1,18 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
-import { getCookies } from "std/http/cookie.ts";
-import { redirectResponse } from "../core/api.ts";
-import { db } from "../core/db.ts";
-import { isInvalidAccount } from "../core/util.ts";
-import { type Theater, theaterTable } from "../db/schema/theater.ts";
-import { Heading } from "../components/atoms/Heading.tsx";
-import { Layout } from "../components/organisms/Layout.tsx";
+import { getCookies } from "$std/http/cookie.ts";
+import { redirectResponse } from "~/core/api.ts";
+import { db } from "~/core/db.ts";
+import { isInvalidAccount } from "~/core/util.ts";
+import { type Theater, theaterTable } from "~/db/schema/theater.ts";
+import { Heading } from "~/components/atoms/Heading.tsx";
+import { Layout } from "~/components/organisms/Layout.tsx";
 import {
   Checkbox,
   Input,
   Select,
   Textarea,
-} from "../components/organisms/Input.tsx";
-import { Button } from "../components/atoms/Button.tsx";
+} from "~/components/organisms/Input.tsx";
+import { Button } from "~/components/atoms/Button.tsx";
 
 type HandlerProps = {
   req: Request;
