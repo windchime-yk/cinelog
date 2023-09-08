@@ -1,4 +1,4 @@
-import { assertEquals } from "std/testing/asserts.ts";
+import { assertEquals } from "$std/testing/asserts.ts";
 import { Convert } from "../../core/convert.ts";
 
 Deno.test("文字列変換Class宣言テスト", async (t) => {

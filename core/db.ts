@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { connect } from "planetscale";
-import "std/dotenv/load.ts";
+import "$std/dotenv/load.ts";
 
 const connection = connect({
   host: Deno.env.get("PS_HOST"),

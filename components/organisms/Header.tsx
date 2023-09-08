@@ -2,7 +2,7 @@ import { type VNode } from "preact";
 import { Heading } from "../atoms/Heading.tsx";
 import { SITE_NAME } from "../../config.ts";
 import IconMovie from "icons/movie.tsx";
-import { getCookies } from "std/http/cookie.ts";
+import { getCookies } from "$std/http/cookie.ts";
 import { isInvalidAccount } from "../../core/util.ts";
 
 interface HeaderProps {

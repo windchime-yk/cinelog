@@ -1,4 +1,4 @@
-import { Status } from "std/http/http_status.ts";
+import { Status } from "$std/http/http_status.ts";
 
 export type Table = "tbl_movieinfo" | "tbl_theater";
 

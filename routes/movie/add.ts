@@ -1,5 +1,5 @@
 import { type Handlers } from "$fresh/server.ts";
-import { getCookies } from "std/http/cookie.ts";
+import { getCookies } from "$std/http/cookie.ts";
 import { getUrlParams, redirectResponse } from "../../core/api.ts";
 import { db } from "../../core/db.ts";
 import { Convert } from "../../core/convert.ts";

@@ -1,5 +1,5 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
-import { getCookies } from "std/http/cookie.ts";
+import { getCookies } from "$std/http/cookie.ts";
 import { redirectResponse } from "../core/api.ts";
 import { db } from "../core/db.ts";
 import { isInvalidAccount } from "../core/util.ts";

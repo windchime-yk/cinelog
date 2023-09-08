@@ -1,5 +1,5 @@
 import { type Handlers } from "$fresh/server.ts";
-import { setCookie } from "std/http/cookie.ts";
+import { setCookie } from "$std/http/cookie.ts";
 import { getUrlParams, redirectResponse } from "../core/api.ts";
 import { isInvalidAccount } from "../core/util.ts";
 
