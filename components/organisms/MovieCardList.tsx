@@ -14,7 +14,7 @@ export const MovieCardList = ({ movies }: MovieCardListProps): VNode => (
         <Card
           title={movie.title}
           viewDate={movie.view_date}
-          viewTime={elapsedTime(movie)}
+          viewTime={elapsedTime(movie.diff)}
         />
       </li>
     ))}

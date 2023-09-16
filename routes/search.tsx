@@ -1,5 +1,5 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
-import { desc, like } from "drizzle-orm";
+import { desc, like, sql } from "drizzle-orm";
 import { getUrlParams } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { movieTable, type PickMovie } from "~/db/schema/movie.ts";
@@ -25,11 +25,14 @@ export const handler: Handlers<HandlerProps> = {
 
     const movies = await db.select({
       title: movieTable.title,
-      view_date: movieTable.view_date,
-      view_start_time: movieTable.view_start_time,
-      view_end_time: movieTable.view_end_time,
+      view_date: sql<
+        string
+      >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
+      diff: sql<
+        string
+      >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
     }).from(movieTable).where(like(movieTable.title, `%${search}%`)).orderBy(
-      desc(movieTable.view_date),
+      desc(movieTable.view_start_datetime),
     );
 
     return ctx.render({ req, movies, search });

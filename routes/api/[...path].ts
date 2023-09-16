@@ -2,7 +2,7 @@ import { type Handler } from "$fresh/server.ts";
 import { Hono } from "$hono/mod.ts";
 import { cors } from "$hono/middleware.ts";
 import { Status } from "$std/http/http_status.ts";
-import { desc } from "drizzle-orm";
+import { desc, sql } from "drizzle-orm";
 import { getApiCode } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { isInvalidAccount } from "~/core/util.ts";
@@ -30,8 +30,12 @@ app.get(async (ctx) => {
 
   const movies = await db.select({
     title: movieTable.title,
-    view_date: movieTable.view_date,
-  }).from(movieTable).orderBy(desc(movieTable.view_date)).limit(Number(limit));
+    view_date: sql<
+      string
+    >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
+  }).from(movieTable).orderBy(desc(movieTable.view_start_datetime)).limit(
+    Number(limit),
+  );
 
   return ctx.json<Array<PickApiMovie>>(movies);
 });
