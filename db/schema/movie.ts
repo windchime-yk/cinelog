@@ -1,6 +1,7 @@
 import { type InferModel } from "drizzle-orm";
 import {
   boolean,
+  datetime,
   int,
   mysqlTable,
   serial,
@@ -23,12 +24,12 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
   is_live_action: boolean("is_live_action"),
   /** 上映館テーブルID */
   theater_id: int("theater_id").notNull().references(() => theaterTable.id),
-  /** 上映日 */
-  view_date: varchar("view_date", { length: 10 }).notNull(),
-  /** 上映開始時間 */
-  view_start_time: varchar("view_start_time", { length: 5 }),
-  /** 上映終了時間 */
-  view_end_time: varchar("view_end_time", { length: 5 }),
+  /** 上映開始日時 */
+  view_start_datetime: datetime("view_start_datetime", { mode: "string" })
+    .notNull(),
+  /** 上映終了日時 */
+  view_end_datetime: datetime("view_end_datetime", { mode: "string" })
+    .notNull(),
   /** 同伴者数 */
   accompanier: int("accompanier"),
   /** 5段階評価 */
@@ -38,11 +39,13 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
 });
 
 export type Movie = InferModel<typeof movieTable>;
-export type PickMovie = Pick<
-  Movie,
-  "title" | "view_date" | "view_start_time" | "view_end_time"
->;
-export type PickApiMovie = Pick<Movie, "title" | "view_date">;
+export type PickMovie = Pick<Movie, "title"> & {
+  view_date: string;
+  diff: string;
+};
+export type PickApiMovie = Pick<Movie, "title"> & {
+  view_date: string;
+};
 export type NewMovie = InferModel<typeof movieTable, "insert">;
 
 export const validateInsertMovieSchema = (movie: NewMovie) => {

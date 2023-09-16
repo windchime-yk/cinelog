@@ -10,4 +10,12 @@ export class Convert {
     if (value === "on") return true;
     return false;
   }
+  public formatDatetime(date: string | null, time: string | null): string {
+    return Intl.DateTimeFormat("ja-JP", {
+      dateStyle: "medium",
+      timeStyle: "medium",
+    }).format(
+      new Date(`${date} ${time}`),
+    );
+  }
 }

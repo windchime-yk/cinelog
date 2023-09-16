@@ -20,12 +20,14 @@ export const handler: Handlers = {
         is_domestic: convert.isFormToDatabase(body.get("is_domestic")),
         is_live_action: convert.isFormToDatabase(body.get("is_live_action")),
         theater_id: Number(body.get("theater_id")),
-        view_date: Intl.DateTimeFormat("ja-JP", { dateStyle: "medium" })
-          .format(
-            new Date(body.get("view_date") ?? ""),
-          ),
-        view_start_time: body.get("view_start_time"),
-        view_end_time: body.get("view_end_time"),
+        view_start_datetime: convert.formatDatetime(
+          body.get("view_date"),
+          body.get("view_start_time"),
+        ),
+        view_end_datetime: convert.formatDatetime(
+          body.get("view_date"),
+          body.get("view_end_time"),
+        ),
         accompanier: body.get("accompanier")
           ? Number(body.get("accompanier"))
           : null,
