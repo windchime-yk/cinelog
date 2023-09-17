@@ -1,4 +1,3 @@
-import { type InferModel } from "drizzle-orm";
 import {
   boolean,
   datetime,
@@ -8,8 +7,6 @@ import {
   text,
   varchar,
 } from "drizzle-orm/mysql-core";
-import { createInsertSchema } from "drizzle-zod";
-import { theaterTable } from "~/db/schema/theater.ts";
 
 export const movieTable = mysqlTable("tbl_movieinfo", {
   /** ID */
@@ -38,16 +35,9 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
   comment: text("comment"),
 });
 
-export type Movie = InferModel<typeof movieTable>;
-export type PickMovie = Pick<Movie, "title"> & {
-  view_date: string;
-  diff: string;
-};
-export type PickApiMovie = Pick<Movie, "title"> & {
-  view_date: string;
-};
-export type NewMovie = InferModel<typeof movieTable, "insert">;
-
-export const validateInsertMovieSchema = (movie: NewMovie) => {
-  return createInsertSchema(movieTable).safeParse(movie);
-};
+export const theaterTable = mysqlTable("tbl_theater", {
+  /** ID */
+  id: serial("id").autoincrement().primaryKey().unique(),
+  /** 上映館 */
+  name: varchar("name", { length: 246 }).notNull().unique(),
+});

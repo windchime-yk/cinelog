@@ -6,7 +6,8 @@ import { desc, sql } from "drizzle-orm";
 import { getApiCode } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { isInvalidAccount } from "~/core/util.ts";
-import { movieTable, type PickApiMovie } from "~/db/schema/movie.ts";
+import { movieTable } from "~/db/schema.ts";
+import type { PickApiMovie } from "~/db/model.ts";
 import type { CommonApiResponse } from "~/model.ts";
 
 const app = new Hono().basePath("/api");
