@@ -1,6 +1,6 @@
 import { type VNode } from "preact";
 import { elapsedTime } from "~/core/util.ts";
-import { type PickMovie } from "~/db/schema/movie.ts";
+import type { PickMovie } from "~/db/model.ts";
 import { Card } from "~/components/organisms/Card.tsx";
 
 interface MovieCardListProps {

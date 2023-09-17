@@ -4,7 +4,8 @@ import { getUrlParams, redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { Convert } from "~/core/convert.ts";
 import { isInvalidAccount } from "~/core/util.ts";
-import { movieTable, type NewMovie } from "~/db/schema/movie.ts";
+import { movieTable } from "~/db/schema.ts";
+import type { NewMovie } from "~/db/model.ts";
 
 export const handler: Handlers = {
   async POST(req) {

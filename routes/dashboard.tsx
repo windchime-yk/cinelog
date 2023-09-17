@@ -3,7 +3,8 @@ import { getCookies } from "$std/http/cookie.ts";
 import { redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { isInvalidAccount } from "~/core/util.ts";
-import { type Theater, theaterTable } from "~/db/schema/theater.ts";
+import { theaterTable } from "~/db/schema.ts";
+import type { Theater } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 import {

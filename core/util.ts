@@ -1,4 +1,4 @@
-import { type PickMovie } from "~/db/schema/movie.ts";
+import type { PickMovie } from "~/db/model.ts";
 import { config } from "~/config.ts";
 
 /**
