@@ -15,7 +15,7 @@ const app = new Hono().basePath("/api");
 app.use("*", cors({ origin: "*", allowHeaders: ["X-API-KEY"] }));
 
 app.get(async (ctx) => {
-  const { limit } = ctx.req.query();
+  const { limit, distinct } = ctx.req.query();
   const { username, password } = ctx.req.header();
 
   const method = ctx.req.method;
@@ -34,11 +34,39 @@ app.get(async (ctx) => {
     view_date: sql<
       string
     >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
-  }).from(movieTable).orderBy(desc(movieTable.view_start_datetime)).limit(
-    Number(limit),
+  }).from(movieTable).orderBy(
+    desc(movieTable.view_start_datetime),
   );
 
-  return ctx.json<Array<PickApiMovie>>(movies);
+  const removeDuplicatesMovie = (
+    array: PickApiMovie[],
+    movieKey: keyof PickApiMovie,
+  ): PickApiMovie[] => {
+    const uniqueKeys = new Set();
+    const result: PickApiMovie[] = [];
+    for (const item of array) {
+      const key = item[movieKey];
+      if (!uniqueKeys.has(key)) {
+        uniqueKeys.add(key);
+        result.push(item);
+      }
+    }
+    return result;
+  };
+
+  if (distinct && limit) {
+    return ctx.json<Array<PickApiMovie>>(
+      removeDuplicatesMovie(movies, "title").slice(0, Number(limit)),
+    );
+  } else if (distinct) {
+    return ctx.json<Array<PickApiMovie>>(
+      removeDuplicatesMovie(movies, "title"),
+    );
+  } else if (limit) {
+    return ctx.json<Array<PickApiMovie>>(movies.slice(0, Number(limit)));
+  } else {
+    return ctx.json<Array<PickApiMovie>>(movies);
+  }
 });
 
 export const handler: Handler = (req) => app.fetch(req);
