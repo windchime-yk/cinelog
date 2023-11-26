@@ -28,10 +28,16 @@ export const handler: Handlers<HandlerProps> = {
       return redirectResponse("/login");
     }
 
-    const theaters = await db.select({
-      id: theaterTable.id,
-      name: theaterTable.name,
-    }).from(theaterTable);
+    let theaters: Array<Theater>;
+    try {
+      theaters = await db.select({
+        id: theaterTable.id,
+        name: theaterTable.name,
+      }).from(theaterTable);
+    } catch (_error) {
+      theaters = []
+    }
+
     return ctx.render({ req, theaters });
   },
 };
@@ -67,9 +73,9 @@ export default function Dashboard({ data }: PageProps<HandlerProps>) {
           >
             <option value="0">選択してください</option>
             <>
-              {theaters.map((theater) => {
+              {theaters.length !== 0 ? theaters.map((theater) => {
                 return <option value={theater.id}>{theater.name}</option>;
-              })}
+              }) : <option value="none">データベースから値が取得できませんでした</option>}
             </>
           </Select>
           <fieldset class="flex flex-col md:flex-row mt-6 gap-6 md:gap-3">
