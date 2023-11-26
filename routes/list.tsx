@@ -12,7 +12,7 @@ type HandlerProps = {
 
 export const handler: Handlers<HandlerProps> = {
   async GET(req, ctx) {
-    const movies = await getCardData()
+    const movies = await getCardData();
 
     return ctx.render({ req, movies });
   },
