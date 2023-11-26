@@ -1,7 +1,5 @@
 import { type Handlers, type PageProps } from "$fresh/server.ts";
-import { desc, sql } from "drizzle-orm";
-import { db } from "~/core/db.ts";
-import { movieTable } from "~/db/schema.ts";
+import { getCardData } from "~/core/db.ts";
 import type { PickMovie } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
@@ -15,15 +13,7 @@ type HandlerProps = {
 
 export const handler: Handlers<HandlerProps> = {
   async GET(req, ctx) {
-    const movies = await db.select({
-      title: movieTable.title,
-      view_date: sql<
-        string
-      >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
-      diff: sql<
-        string
-      >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
-    }).from(movieTable).limit(10).orderBy(desc(movieTable.view_start_datetime));
+    const movies = await getCardData();
 
     return ctx.render({ req, movies });
   },
