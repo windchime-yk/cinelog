@@ -1,0 +1,27 @@
+{
+  "name": "cinelog",
+  "version": "1.0.0",
+  "description": "`CineLog === Cinema Log`   私が映画館で今まで観た映画を載せた個人サイト。   取得データは、自分のGoogleカレンダーに記載されていた2016年9月〜現在まで。",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/windchime-yk/cinelog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/windchime-yk/cinelog/issues"
+  },
+  "homepage": "https://github.com/windchime-yk/cinelog#readme",
+  "devDependencies": {
+    "drizzle-kit": "^0.20.14",
+    "drizzle-orm": "^0.30.1"
+  }
+}
