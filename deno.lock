@@ -516,6 +516,12 @@
       "npm:preact-render-to-string@6.2.1",
       "npm:preact@10.15.1",
       "npm:twind@0.16.19"
-    ]
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:drizzle-kit@^0.20.14",
+        "npm:drizzle-orm@^0.30.1"
+      ]
+    }
   }
 }

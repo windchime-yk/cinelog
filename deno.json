@@ -11,6 +11,7 @@
     "dump:dev": "DATABASE_BRANCH=develop deno task dump",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
+  "unstable": ["byonm"],
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.4.3/",
     "$hono/": "https://deno.land/x/hono@v3.3.4/",
