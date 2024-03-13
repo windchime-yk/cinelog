@@ -6,3 +6,4 @@ db/sql/dump_*/*.sql
 
 # Fresh build directory
 _fresh/
+node_modules/
