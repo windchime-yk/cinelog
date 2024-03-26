@@ -1,18 +1,16 @@
 import { desc, sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { connect } from "planetscale";
+import { drizzle } from "drizzle-orm/mysql2";
+import { createConnection } from "mysql2";
 import { movieTable } from "~/db/schema.ts";
 import type { PickMovie } from "~/db/model.ts";
 import "$std/dotenv/load.ts";
 
-const connection = connect({
-  host: Deno.env.get("PS_HOST"),
-  username: Deno.env.get("DEVELOP")
-    ? Deno.env.get("PS_DEV_USERNAME")
-    : Deno.env.get("PS_USERNAME"),
-  password: Deno.env.get("DEVELOP")
-    ? Deno.env.get("PS_DEV_PASSWORD")
-    : Deno.env.get("PS_PASSWORD"),
+const connection = createConnection({
+  host: Deno.env.get("DB_HOST"),
+  user: Deno.env.get("DB_USERNAME"),
+  password: Deno.env.get("DB_PASSWORD"),
+  database: "cinelog",
+  ssl: "Amazon RDS"
 });
 
 export const db = drizzle(connection);
