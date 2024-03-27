@@ -10,7 +10,11 @@ const connection = createConnection({
   user: Deno.env.get("DB_USERNAME"),
   password: Deno.env.get("DB_PASSWORD"),
   database: "cinelog",
-  ssl: "Amazon RDS"
+  /**
+   * NOTE: mysql2内の`node:tls`のデフォルトCAを使うための設定
+   * @see https://zenn.dev/link/comments/378474ec5af4e7
+   */
+  ssl: {},
 });
 
 export const db = drizzle(connection);
@@ -47,8 +51,9 @@ export const getCardData = async (
         desc(movieTable.view_start_datetime),
       );
     }
-  } catch (_error) {
+  } catch (error) {
     movies = [];
+    console.log(error);
   }
 
   return movies;
