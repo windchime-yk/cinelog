@@ -5,7 +5,7 @@
 
 ## 必要なもの
 - Denoの最新版
-- PlanetScaleのアカウント情報
+- TiDB Cloudのアカウント情報
 
 ## データ構造
 ### シーケンス図
@@ -27,7 +27,7 @@ sequenceDiagram
   participant toppage as TOP画面
   participant searchpage as 検索画面
   participant cookie as Cookie
-  participant db as PlanetScale
+  participant db as TiDB Cloud
 
   alt 初期表示
     alt 鑑賞作品データ取得
@@ -45,7 +45,7 @@ sequenceDiagram
 ``` mermaid
 sequenceDiagram
   participant app as 鑑賞作品一覧画面
-  participant db as PlanetScale
+  participant db as TiDB Cloud
 
   alt 初期表示
     alt 鑑賞作品データ取得
@@ -59,7 +59,7 @@ sequenceDiagram
 ``` mermaid
 sequenceDiagram
   participant app as 検索画面
-  participant db as PlanetScale
+  participant db as TiDB Cloud
 
   alt 初期表示
     alt 鑑賞作品データ取得
@@ -103,7 +103,7 @@ sequenceDiagram
   participant redirect as データ追加画面
   participant toppage as TOP画面
   participant cookie as Cookie
-  participant db as PlanetScale
+  participant db as TiDB Cloud
   
   alt 初期表示
     dashboardpage ->> cookie : ログイン情報を取得

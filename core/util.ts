@@ -17,4 +17,4 @@ export const isInvalidAccount = (
  * @param movie 鑑賞作品データ
  */
 export const elapsedTime = (diff: PickMovie["diff"]) =>
-  diff === "0" ? "不明" : `${diff}分`;
+  diff === 0 ? "不明" : `${diff}分`;

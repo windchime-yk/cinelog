@@ -1,18 +1,20 @@
 import { desc, sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { connect } from "planetscale";
+import { drizzle } from "drizzle-orm/mysql2";
+import { createConnection } from "mysql2";
 import { movieTable } from "~/db/schema.ts";
+import { config } from "~/config.ts";
 import type { PickMovie } from "~/db/model.ts";
-import "$std/dotenv/load.ts";
 
-const connection = connect({
-  host: Deno.env.get("PS_HOST"),
-  username: Deno.env.get("DEVELOP")
-    ? Deno.env.get("PS_DEV_USERNAME")
-    : Deno.env.get("PS_USERNAME"),
-  password: Deno.env.get("DEVELOP")
-    ? Deno.env.get("PS_DEV_PASSWORD")
-    : Deno.env.get("PS_PASSWORD"),
+const connection = createConnection({
+  host: config.db_host,
+  user: config.db_username,
+  password: config.db_password,
+  database: "cinelog",
+  /**
+   * NOTE: mysql2内の`node:tls`のデフォルトCAを使うための設定
+   * @see https://zenn.dev/link/comments/378474ec5af4e7
+   */
+  ssl: {},
 });
 
 export const db = drizzle(connection);
@@ -33,7 +35,7 @@ export const getCardData = async (
           string
         >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
         diff: sql<
-          string
+          number
         >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
       }).from(movieTable).orderBy(desc(movieTable.view_start_datetime));
     } else {
@@ -43,14 +45,15 @@ export const getCardData = async (
           string
         >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
         diff: sql<
-          string
+          number
         >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
       }).from(movieTable).limit(limit).orderBy(
         desc(movieTable.view_start_datetime),
       );
     }
-  } catch (_error) {
+  } catch (error) {
     movies = [];
+    console.log(error);
   }
 
   return movies;
