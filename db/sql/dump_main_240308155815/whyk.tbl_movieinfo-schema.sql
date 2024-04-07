@@ -9,8 +9,8 @@ CREATE TABLE `tbl_movieinfo` (
   `view_end_datetime` datetime NOT NULL COMMENT '上映終了日時',
   `accompanier` int unsigned DEFAULT NULL COMMENT '同伴者数',
   `rating` int unsigned DEFAULT NULL COMMENT '5段階評価',
-  `comment` text COMMENT 'コメント',
+  `comment` text DEFAULT NULL COMMENT 'コメント',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
-  FOREIGN KEY (`theater_id`) REFERENCES `tbl_theater`(`id`)
-);
+  FOREIGN KEY (`theater_id`) REFERENCES `tbl_theater` (`id`)
+) AUTO_ID_CACHE=1;

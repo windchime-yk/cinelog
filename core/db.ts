@@ -35,7 +35,7 @@ export const getCardData = async (
           string
         >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
         diff: sql<
-          string
+          number
         >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
       }).from(movieTable).orderBy(desc(movieTable.view_start_datetime));
     } else {
@@ -45,7 +45,7 @@ export const getCardData = async (
           string
         >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
         diff: sql<
-          string
+          number
         >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
       }).from(movieTable).limit(limit).orderBy(
         desc(movieTable.view_start_datetime),

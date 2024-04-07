@@ -4,7 +4,7 @@ import { movieTable, theaterTable } from "~/db/schema.ts";
 export type Movie = InferModel<typeof movieTable>;
 export type PickMovie = Pick<Movie, "title"> & {
   view_date: string;
-  diff: string;
+  diff: number;
 };
 export type PickApiMovie = Pick<Movie, "title"> & {
   view_date: string;

@@ -14,11 +14,11 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
   /** 作品タイトル */
   title: varchar("title", { length: 246 }).notNull(),
   /** 吹替版かどうか */
-  is_dubbed: boolean("is_dubbed"),
+  is_dubbed: boolean("is_dubbed").notNull(),
   /** 国内映画かどうか */
-  is_domestic: boolean("is_domestic"),
+  is_domestic: boolean("is_domestic").notNull(),
   /** 実写かどうか */
-  is_live_action: boolean("is_live_action"),
+  is_live_action: boolean("is_live_action").notNull(),
   /** 上映館テーブルID */
   theater_id: int("theater_id").notNull().references(() => theaterTable.id),
   /** 上映開始日時 */
