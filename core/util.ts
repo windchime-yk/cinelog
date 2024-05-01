@@ -1,5 +1,4 @@
 import type { PickMovie } from "~/db/model.ts";
-import { config } from "~/config.ts";
 
 /**
  * ユーザー名かパスワードがシステム側に保存されているものと一致するか
@@ -10,7 +9,9 @@ import { config } from "~/config.ts";
 export const isInvalidAccount = (
   username: string | null,
   password: string | null,
-): boolean => username !== config.username || password !== config.password;
+): boolean =>
+  username !== Deno.env.get("USERNAME") ||
+  password !== Deno.env.get("PASSWORD");
 
 /**
  * 経過時間か"不明"を表示する
