@@ -10,7 +10,16 @@ import { config } from "~/config.ts";
 export const isInvalidAccount = (
   username: string | null,
   password: string | null,
-): boolean => username !== config.username || password !== config.password;
+): boolean => {
+  console.log({
+    username,
+    config_username: config.username,
+    password,
+    config_password: config.password,
+  });
+
+  return username !== config.username || password !== config.password;
+};
 
 /**
  * 経過時間か"不明"を表示する
