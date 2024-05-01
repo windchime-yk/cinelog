@@ -8,7 +8,12 @@ interface CardProps {
 }
 
 export const Card = ({ title, viewDate, viewTime }: CardProps): VNode => (
-  <section class="h-full flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <section
+    class="h-full grid grid-cols-subgrid p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+    style={{
+      gridTemplateRows: "auto 1fr auto",
+    }}
+  >
     <Heading className="order-2 dark:text-white" level={3}>
       {title}
     </Heading>
