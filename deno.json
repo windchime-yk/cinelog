@@ -3,7 +3,9 @@
     "start": "DEVELOP=true deno run -A --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
-    "test": "deno test --allow-read --allow-env --no-check",
+    "test": "deno test --allow-read --allow-env --coverage=coverage",
+    "coverage": "deno coverage coverage",
+    "coverage:output": "deno coverage coverage --lcov --output=coverage.lcov",
     "dump": "deno run --allow-run=pscale --allow-env scripts/db-dump.ts",
     "dump:main": "DATABASE_BRANCH=main deno task dump",
     "dump:dev": "DATABASE_BRANCH=develop deno task dump",
@@ -32,12 +34,12 @@
     "jsxImportSource": "preact"
   },
   "fmt": {
-    "exclude": ["README.md", "_fresh"]
+    "exclude": ["README.md", "coverage", "_fresh"]
   },
   "lint": {
     "rules": {
       "tags": ["fresh", "recommended"]
     },
-    "exclude": ["_fresh"]
+    "exclude": ["coverage", "_fresh"]
   }
 }

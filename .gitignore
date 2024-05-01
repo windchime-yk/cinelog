@@ -3,6 +3,7 @@
 db/sql/dump_*/metadata
 db/sql/dump_*/*.sql
 !db/sql/dump_main_*/*-schema.sql
+coverage/
 
 # Fresh build directory
 _fresh/

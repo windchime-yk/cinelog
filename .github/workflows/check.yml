@@ -20,3 +20,10 @@ jobs:
         run: deno fmt --check
       - name: Test
         run: deno task test
+      - name: Create code coverage
+        run: deno task coverage:output
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.lcov

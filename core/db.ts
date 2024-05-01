@@ -2,13 +2,16 @@ import { desc, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createConnection } from "mysql2";
 import { movieTable } from "~/db/schema.ts";
-import { config } from "~/config.ts";
 import type { PickMovie } from "~/db/model.ts";
 
 const connection = createConnection({
-  host: config.db_host,
-  user: config.db_username,
-  password: config.db_password,
+  host: Deno.env.get("DB_HOST"),
+  user: Deno.env.get("DEVELOP")
+    ? Deno.env.get("DB_DEV_USERNAME")
+    : Deno.env.get("DB_USERNAME"),
+  password: Deno.env.get("DEVELOP")
+    ? Deno.env.get("DB_DEV_PASSWORD")
+    : Deno.env.get("DB_PASSWORD"),
   database: "cinelog",
   /**
    * NOTE: mysql2内の`node:tls`のデフォルトCAを使うための設定
