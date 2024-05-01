@@ -6,6 +6,7 @@
     "test": "deno test --allow-read --allow-env --coverage=coverage",
     "coverage": "deno coverage coverage",
     "coverage:output": "deno coverage coverage --lcov --output=coverage.lcov",
+    "drizzle": "deno run --allow-run=npm,deno,git --allow-read --allow-env scripts/create-schema.ts",
     "dump": "deno run --allow-run=pscale --allow-env scripts/db-dump.ts",
     "dump:main": "DATABASE_BRANCH=main deno task dump",
     "dump:dev": "DATABASE_BRANCH=develop deno task dump",
@@ -34,12 +35,12 @@
     "jsxImportSource": "preact"
   },
   "fmt": {
-    "exclude": ["README.md", "coverage", "_fresh"]
+    "exclude": ["README.md", "coverage", "_fresh", "drizzle"]
   },
   "lint": {
     "rules": {
       "tags": ["fresh", "recommended"]
     },
-    "exclude": ["coverage", "_fresh"]
+    "exclude": ["coverage", "_fresh", "drizzle"]
   }
 }
