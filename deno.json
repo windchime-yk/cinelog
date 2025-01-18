@@ -7,7 +7,7 @@
     "coverage": "deno coverage coverage",
     "coverage:output": "deno coverage coverage --lcov --output=coverage.lcov",
     "drizzle": "deno run --allow-run=npm,deno,git --allow-read --allow-env scripts/create-schema.ts",
-    "dump": "deno run --allow-run=pscale --allow-env scripts/db-dump.ts",
+    "dump": "deno run -E --env-file=.env --allow-run=tiup scripts/db-dump.ts",
     "dump:main": "DATABASE_BRANCH=main deno task dump",
     "dump:dev": "DATABASE_BRANCH=develop deno task dump",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
