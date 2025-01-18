@@ -2,6 +2,7 @@
 .env
 db/sql/dump_*/metadata
 db/sql/dump_*/*.sql
+!db/sql/dump_main_*/cinelog-schema-create.sql
 !db/sql/dump_main_*/*-schema.sql
 coverage/
 
