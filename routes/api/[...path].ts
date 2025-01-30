@@ -1,7 +1,7 @@
 import { type Handler } from "$fresh/server.ts";
 import { Hono } from "$hono/mod.ts";
 import { cors } from "$hono/middleware.ts";
-import { STATUS_CODE } from "$std/http/status.ts";
+import { Status } from "$std/http/http_status.ts";
 import { desc, sql } from "drizzle-orm";
 import { getApiCode } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
@@ -23,10 +23,10 @@ app.get(async (ctx) => {
     return ctx.json<CommonApiResponse>({
       code: getApiCode({
         method,
-        status: STATUS_CODE.Unauthorized,
+        status: Status.Unauthorized,
       }),
       message: "ログイン時のユーザー名とパスワードで認証してください",
-    }, STATUS_CODE.Unauthorized);
+    }, Status.Unauthorized);
   }
 
   const movies = await db.select({

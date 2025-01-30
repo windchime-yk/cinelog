@@ -2,36 +2,34 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
-import * as $_404 from "./routes/_404.tsx";
-import * as $_app from "./routes/_app.tsx";
-import * as $api_path_ from "./routes/api/[...path].ts";
-import * as $auth from "./routes/auth.ts";
-import * as $dashboard from "./routes/dashboard.tsx";
-import * as $index from "./routes/index.tsx";
-import * as $list from "./routes/list.tsx";
-import * as $login from "./routes/login.tsx";
-import * as $movie_add from "./routes/movie/add.ts";
-import * as $search from "./routes/search.tsx";
-import * as $theater_add from "./routes/theater/add.ts";
-
-import type { Manifest } from "$fresh/server.ts";
+import * as $0 from "./routes/_404.tsx";
+import * as $1 from "./routes/_app.tsx";
+import * as $2 from "./routes/api/[...path].ts";
+import * as $3 from "./routes/auth.ts";
+import * as $4 from "./routes/dashboard.tsx";
+import * as $5 from "./routes/index.tsx";
+import * as $6 from "./routes/list.tsx";
+import * as $7 from "./routes/login.tsx";
+import * as $8 from "./routes/movie/add.ts";
+import * as $9 from "./routes/search.tsx";
+import * as $10 from "./routes/theater/add.ts";
 
 const manifest = {
   routes: {
-    "./routes/_404.tsx": $_404,
-    "./routes/_app.tsx": $_app,
-    "./routes/api/[...path].ts": $api_path_,
-    "./routes/auth.ts": $auth,
-    "./routes/dashboard.tsx": $dashboard,
-    "./routes/index.tsx": $index,
-    "./routes/list.tsx": $list,
-    "./routes/login.tsx": $login,
-    "./routes/movie/add.ts": $movie_add,
-    "./routes/search.tsx": $search,
-    "./routes/theater/add.ts": $theater_add,
+    "./routes/_404.tsx": $0,
+    "./routes/_app.tsx": $1,
+    "./routes/api/[...path].ts": $2,
+    "./routes/auth.ts": $3,
+    "./routes/dashboard.tsx": $4,
+    "./routes/index.tsx": $5,
+    "./routes/list.tsx": $6,
+    "./routes/login.tsx": $7,
+    "./routes/movie/add.ts": $8,
+    "./routes/search.tsx": $9,
+    "./routes/theater/add.ts": $10,
   },
   islands: {},
   baseUrl: import.meta.url,
-} satisfies Manifest;
+};
 
 export default manifest;
