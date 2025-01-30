@@ -1,4 +1,4 @@
-import { Status } from "$std/http/http_status.ts";
+import { STATUS_CODE } from "$std/http/status.ts";
 import type { ApiCodeOptions } from "~/model.ts";
 
 /**
@@ -8,7 +8,7 @@ import type { ApiCodeOptions } from "~/model.ts";
  * @param options.status ステータスコード
  */
 export const getApiCode = (options: ApiCodeOptions): string => {
-  const { api = "common", method, status = Status.OK } = options;
+  const { api = "common", method, status = STATUS_CODE.OK } = options;
   return `${api}-${method.toLowerCase()}-${status}`;
 };
 
@@ -21,7 +21,7 @@ export const redirectResponse = (path: `/${string}`): Response =>
     headers: {
       "Location": path,
     },
-    status: Status.Found,
+    status: STATUS_CODE.Found,
   });
 
 /**
