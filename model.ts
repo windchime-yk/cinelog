@@ -1,4 +1,4 @@
-import { Status } from "$std/http/http_status.ts";
+import { STATUS_CODE } from "$std/http/status.ts";
 
 /**
  * APIコードオプション
@@ -9,7 +9,7 @@ export interface ApiCodeOptions {
   /** HTTPメソッド */
   method: string;
   /** ステータスコード */
-  status?: Status;
+  status?: typeof STATUS_CODE;
 }
 
 /**
