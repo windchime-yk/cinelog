@@ -17,18 +17,8 @@
   },
   "lock": false,
   "nodeModulesDir": "auto",
-  "lint": {
-    "rules": {
-      "tags": [
-        "fresh",
-        "recommended"
-      ]
-    }
-  },
-  "exclude": [
-    "**/_fresh/*",
-    "README.md", "coverage", "drizzle"
-  ],
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
+  "exclude": ["**/_fresh/*", "README.md", "coverage", "drizzle"],
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "$hono/": "https://deno.land/x/hono@v3.3.4/",
