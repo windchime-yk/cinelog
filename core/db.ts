@@ -1,23 +1,21 @@
 import { desc, sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
-import { createConnection } from "mysql2";
+import { drizzle } from "drizzle-orm/tidb-serverless";
+import { connect } from "@tidbcloud/serverless";
 import { movieTable } from "~/db/schema.ts";
 import type { PickMovie } from "~/db/model.ts";
 
-const connection = createConnection({
-  host: Deno.env.get("DB_HOST"),
-  user: Deno.env.get("DEVELOP")
+const username = Deno.env.get("DEVELOP")
     ? Deno.env.get("DB_DEV_USERNAME")
-    : Deno.env.get("DB_USERNAME"),
-  password: Deno.env.get("DEVELOP")
+    : Deno.env.get("DB_USERNAME")
+const password = Deno.env.get("DEVELOP")
     ? Deno.env.get("DB_DEV_PASSWORD")
-    : Deno.env.get("DB_PASSWORD"),
+    : Deno.env.get("DB_PASSWORD")
+
+const connection = connect({ 
+  host: Deno.env.get("DB_HOST"),
+  username,
+  password,
   database: "cinelog",
-  /**
-   * NOTE: mysql2内の`node:tls`のデフォルトCAを使うための設定
-   * @see https://zenn.dev/link/comments/378474ec5af4e7
-   */
-  ssl: {},
 });
 
 export const db = drizzle(connection);
