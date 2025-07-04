@@ -76,7 +76,11 @@ export default function Dashboard({ data }: PageProps<HandlerProps>) {
             <>
               {theaters.length !== 0
                 ? theaters.map((theater) => {
-                  return <option key={theater.id} value={theater.id}>{theater.name}</option>;
+                  return (
+                    <option key={theater.id} value={theater.id}>
+                      {theater.name}
+                    </option>
+                  );
                 })
                 : (
                   <option value="none">
