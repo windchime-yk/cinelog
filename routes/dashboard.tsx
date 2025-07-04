@@ -1,3 +1,4 @@
+// deno-lint-ignore-file jsx-no-useless-fragment -- Fragmentを消すと配列により別の問題が出るため
 import { type Handlers, type PageProps } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
 import { redirectResponse } from "~/core/api.ts";
@@ -75,7 +76,11 @@ export default function Dashboard({ data }: PageProps<HandlerProps>) {
             <>
               {theaters.length !== 0
                 ? theaters.map((theater) => {
-                  return <option value={theater.id}>{theater.name}</option>;
+                  return (
+                    <option key={theater.id} value={theater.id}>
+                      {theater.name}
+                    </option>
+                  );
                 })
                 : (
                   <option value="none">
