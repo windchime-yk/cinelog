@@ -5,13 +5,13 @@ import { movieTable } from "~/db/schema.ts";
 import type { PickMovie } from "~/db/model.ts";
 
 const username = Deno.env.get("DEVELOP")
-    ? Deno.env.get("DB_DEV_USERNAME")
-    : Deno.env.get("DB_USERNAME")
+  ? Deno.env.get("DB_DEV_USERNAME")
+  : Deno.env.get("DB_USERNAME");
 const password = Deno.env.get("DEVELOP")
-    ? Deno.env.get("DB_DEV_PASSWORD")
-    : Deno.env.get("DB_PASSWORD")
+  ? Deno.env.get("DB_DEV_PASSWORD")
+  : Deno.env.get("DB_PASSWORD");
 
-const connection = connect({ 
+const connection = connect({
   host: Deno.env.get("DB_HOST"),
   username,
   password,
