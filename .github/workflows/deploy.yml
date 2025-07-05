@@ -1,9 +1,11 @@
 name: Deploy
 on:
   push:
-    branches: replace-to-tailwind
+    branches:
+    - main
   pull_request:
-    branches: replace-to-tailwind
+    branches:
+    - main
 
 jobs:
   deploy:
@@ -32,5 +34,3 @@ jobs:
           project: "cinelog"
           entrypoint: "main.ts"
           root: "."
-          
-          
