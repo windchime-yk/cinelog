@@ -10,8 +10,12 @@
     "dump": "deno run -E --env-file=.env --allow-run=tiup scripts/db-dump.ts",
     "dump:main": "DATABASE_BRANCH=main deno task dump",
     "dump:dev": "DATABASE_BRANCH=develop deno task dump",
+    "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
+    "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
+    "manifest": "deno task cli manifest $(pwd)",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
+  "nodeModulesDir": "auto",
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "$hono/": "https://deno.land/x/hono@v3.3.4/",
@@ -24,10 +28,12 @@
     "drizzle-zod": "npm:drizzle-zod@0.8.2",
     "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/",
     "preact": "npm:preact@10.22.0",
-    "preact-render-to-string": "npm:preact-render-to-string@6.2.1",
     "preact/": "npm:/preact@10.22.0/",
     "twind": "npm:twind@0.16.19",
     "twind/": "npm:/twind@0.16.19/",
+    "tailwindcss": "npm:tailwindcss@3.4.1",
+    "tailwindcss/": "npm:/tailwindcss@3.4.1/",
+    "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
     "~/": "./"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
