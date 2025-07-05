@@ -30,7 +30,7 @@ export const handler: Handlers<HandlerProps> = {
         string
       >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
       diff: sql<
-        string
+        number
       >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
     }).from(movieTable).where(like(movieTable.title, `%${search}%`)).orderBy(
       desc(movieTable.view_start_datetime),
