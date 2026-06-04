@@ -1,6 +1,6 @@
 // deno-lint-ignore-file jsx-no-useless-fragment -- Fragmentを消すと配列により別の問題が出るため
 import { type Handlers, type PageProps } from "$fresh/server.ts";
-import { getCookies } from "$std/http/cookie.ts";
+import { getCookies } from "@std/http/cookie";
 import { redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { isInvalidAccount } from "~/core/util.ts";
