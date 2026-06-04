@@ -1,7 +1,7 @@
 import { type Handler } from "$fresh/server.ts";
 import { Hono } from "$hono/mod.ts";
 import { cors } from "$hono/middleware.ts";
-import { STATUS_CODE } from "@std/http/status-code";
+import { STATUS_CODE } from "@std/http";
 import { desc, sql } from "drizzle-orm";
 import { getApiCode } from "~/core/api.ts";
 import { db } from "~/core/db.ts";

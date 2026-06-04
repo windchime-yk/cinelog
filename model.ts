@@ -1,4 +1,4 @@
-import { type StatusCode } from "@std/http/status-code";
+import { type StatusCode } from "@std/http";
 
 /**
  * APIコードオプション

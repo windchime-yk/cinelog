@@ -1,4 +1,4 @@
-import { STATUS_CODE } from "@std/http/status-code";
+import { STATUS_CODE } from "@std/http";
 import type { ApiCodeOptions } from "~/model.ts";
 
 /**
