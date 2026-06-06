@@ -6,9 +6,8 @@
 
 import "@std/dotenv/load";
 import { App, fsRoutes, staticFiles } from "fresh";
-import { define } from "~/utils.ts";
 
-const app = new App<void>();
+const app = new App<{ title?: string }>();
 app.use(staticFiles());
 await fsRoutes(app, {
   dir: "./",

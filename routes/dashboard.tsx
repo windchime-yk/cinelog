@@ -1,5 +1,5 @@
 // deno-lint-ignore-file jsx-no-useless-fragment -- Fragmentを消すと配列により別の問題が出るため
-import { type Handlers, type PageProps } from "$fresh/server.ts";
+import { define } from "~/utils.ts";
 import { getCookies } from "@std/http/cookie";
 import { redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
@@ -16,14 +16,14 @@ import {
 } from "~/components/organisms/Input.tsx";
 import { Button } from "~/components/atoms/Button.tsx";
 
-type HandlerProps = {
+type HandlerData = {
   req: Request;
   theaters: Array<Theater>;
 };
 
-export const handler: Handlers<HandlerProps> = {
-  async GET(req, ctx) {
-    const cookie = getCookies(req.headers);
+export const handler = define.handlers<HandlerData>({
+  async GET(ctx) {
+    const cookie = getCookies(ctx.req.headers);
 
     if (isInvalidAccount(cookie.username, cookie.password)) {
       return redirectResponse("/login");
@@ -39,13 +39,13 @@ export const handler: Handlers<HandlerProps> = {
       theaters = [];
     }
 
-    return ctx.render({ req, theaters });
+    return ctx.render({ req: ctx.req, theaters });
   },
-};
+});
 
 const PAGE_TITLE = "ダッシュボード";
 
-export default function Dashboard({ data }: PageProps<HandlerProps>) {
+export default define.page<HandlerData>(function Dashboard({ data }) {
   const { req, theaters } = data;
 
   return (
@@ -144,4 +144,4 @@ export default function Dashboard({ data }: PageProps<HandlerProps>) {
       </section>
     </Layout>
   );
-}
+});

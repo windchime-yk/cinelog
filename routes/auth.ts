@@ -1,11 +1,11 @@
-import { type Handlers } from "$fresh/server.ts";
+import { define } from "~/utils.ts";
 import { setCookie } from "@std/http/cookie";
 import { getUrlParams, redirectResponse } from "~/core/api.ts";
 import { isInvalidAccount } from "~/core/util.ts";
 
-export const handler: Handlers = {
-  async POST(req) {
-    const body = await getUrlParams(req);
+export const handler = define.handlers({
+  async POST(ctx) {
+    const body = await getUrlParams(ctx.req);
     const response = redirectResponse("/");
 
     if (!isInvalidAccount(body.get("username"), body.get("password"))) {
@@ -21,4 +21,4 @@ export const handler: Handlers = {
 
     return response;
   },
-};
+});

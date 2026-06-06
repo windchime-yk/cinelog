@@ -1,2 +1,4 @@
 import { createDefine } from "fresh";
-export const define = createDefine<void>();
+
+export type AppState = { title?: string };
+export const define = createDefine<AppState>();
