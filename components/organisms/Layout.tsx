@@ -1,4 +1,4 @@
-import { Head } from "$fresh/runtime.ts";
+import { Head } from "fresh/runtime";
 import { type VNode } from "preact";
 import { Header } from "~/components/organisms/Header.tsx";
 import { Main } from "~/components/organisms/Main.tsx";
@@ -13,10 +13,11 @@ interface LayoutProps {
 
 export const Layout = ({ req, title, children }: LayoutProps): VNode => (
   <>
-    <Head>
-      <title>{title ? `${title} | ${SITE_NAME}` : SITE_NAME}</title>
-      <link rel="shortcut icon" href="favicon.jpg" type="image/jpeg" />
-    </Head>
+    {title && (
+      <Head>
+        <title>{title} | {SITE_NAME}</title>
+      </Head>
+    )}
     <div
       class="min-h-screen grid bg-gray-50 dark:bg-gray-900 dark:text-white"
       style={{

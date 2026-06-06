@@ -1,25 +1,18 @@
-import { type Handlers, type PageProps } from "$fresh/server.ts";
+import { define } from "~/utils.ts";
 import { getCardData } from "~/core/db.ts";
-import type { PickMovie } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
 
-type HandlerProps = {
-  req: Request;
-  movies: Array<PickMovie>;
-};
-
-export const handler: Handlers<HandlerProps> = {
-  async GET(req, ctx) {
+export const handler = define.handlers({
+  async GET(_ctx) {
     const movies = await getCardData();
-
-    return ctx.render({ req, movies });
+    return { data: { movies } };
   },
-};
+});
 
-export default function List({ data }: PageProps<HandlerProps>) {
-  const { req, movies } = data;
+export default define.page<typeof handler>(function List({ data, req }) {
+  const movies = data.movies ?? [];
   return (
     <Layout title="鑑賞作品一覧" req={req}>
       <section>
@@ -30,4 +23,4 @@ export default function List({ data }: PageProps<HandlerProps>) {
       </section>
     </Layout>
   );
-}
+});

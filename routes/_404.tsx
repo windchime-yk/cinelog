@@ -3,7 +3,7 @@ import { Layout } from "~/components/organisms/Layout.tsx";
 
 const PAGE_TITLE = "404 Not Found";
 
-export default function Login() {
+export default function NotFound() {
   return (
     <Layout title={PAGE_TITLE}>
       <section>

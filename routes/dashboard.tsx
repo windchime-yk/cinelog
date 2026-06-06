@@ -1,11 +1,10 @@
 // deno-lint-ignore-file jsx-no-useless-fragment -- Fragmentを消すと配列により別の問題が出るため
-import { type Handlers, type PageProps } from "$fresh/server.ts";
+import { define } from "~/utils.ts";
 import { getCookies } from "@std/http/cookie";
 import { redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { isInvalidAccount } from "~/core/util.ts";
 import { theaterTable } from "~/db/schema.ts";
-import type { Theater } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 import {
@@ -16,20 +15,15 @@ import {
 } from "~/components/organisms/Input.tsx";
 import { Button } from "~/components/atoms/Button.tsx";
 
-type HandlerProps = {
-  req: Request;
-  theaters: Array<Theater>;
-};
-
-export const handler: Handlers<HandlerProps> = {
-  async GET(req, ctx) {
-    const cookie = getCookies(req.headers);
+export const handler = define.handlers({
+  async GET(ctx) {
+    const cookie = getCookies(ctx.req.headers);
 
     if (isInvalidAccount(cookie.username, cookie.password)) {
       return redirectResponse("/login");
     }
 
-    let theaters: Array<Theater>;
+    let theaters: Array<{ id: number; name: string }> = [];
     try {
       theaters = await db.select({
         id: theaterTable.id,
@@ -39,14 +33,14 @@ export const handler: Handlers<HandlerProps> = {
       theaters = [];
     }
 
-    return ctx.render({ req, theaters });
+    return { data: { theaters } };
   },
-};
+});
 
 const PAGE_TITLE = "ダッシュボード";
 
-export default function Dashboard({ data }: PageProps<HandlerProps>) {
-  const { req, theaters } = data;
+export default define.page<typeof handler>(function Dashboard({ data, req }) {
+  const theaters = data.theaters ?? [];
 
   return (
     <Layout title={PAGE_TITLE} req={req}>
@@ -144,4 +138,4 @@ export default function Dashboard({ data }: PageProps<HandlerProps>) {
       </section>
     </Layout>
   );
-}
+});

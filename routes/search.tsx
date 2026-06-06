@@ -1,27 +1,19 @@
-import { type Handlers, type PageProps } from "$fresh/server.ts";
+import { define } from "~/utils.ts";
 import { desc, like, sql } from "drizzle-orm";
 import { getUrlParams } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { movieTable } from "~/db/schema.ts";
-import type { PickMovie } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
 import { SearchField } from "~/components/organisms/Input.tsx";
 
-type HandlerProps = {
-  req: Request;
-  search?: string | null;
-  movies: Array<PickMovie>;
-};
-
-export const handler: Handlers<HandlerProps> = {
-  GET(req, ctx) {
-    const movies: Array<PickMovie> = [];
-    return ctx.render({ req, movies });
+export const handler = define.handlers({
+  GET(_ctx) {
+    return { data: { movies: [], search: null } };
   },
-  async POST(req, ctx) {
-    const body = await getUrlParams(req);
+  async POST(ctx) {
+    const body = await getUrlParams(ctx.req);
     const search = body.get("search");
 
     const movies = await db.select({
@@ -36,14 +28,15 @@ export const handler: Handlers<HandlerProps> = {
       desc(movieTable.view_start_datetime),
     );
 
-    return ctx.render({ req, movies, search });
+    return { data: { movies, search } };
   },
-};
+});
 
 const PAGE_TITLE = "鑑賞作品の検索";
 
-export default function Search({ data }: PageProps<HandlerProps>) {
-  const { req, movies, search } = data;
+export default define.page<typeof handler>(function Search({ data, req }) {
+  const movies = data.movies ?? [];
+  const search = data.search;
 
   const showContent = () => {
     if (!search) {
@@ -75,4 +68,4 @@ export default function Search({ data }: PageProps<HandlerProps>) {
       </section>
     </Layout>
   );
-}
+});

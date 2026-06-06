@@ -1,23 +1,12 @@
-import { type Handlers, type PageProps } from "$fresh/server.ts";
+import { define } from "~/utils.ts";
 import { Button } from "~/components/atoms/Button.tsx";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Input } from "~/components/organisms/Input.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 
-type HandlerProps = {
-  req: Request;
-};
-
-export const handler: Handlers<HandlerProps> = {
-  GET(req, ctx) {
-    return ctx.render({ req });
-  },
-};
-
 const PAGE_TITLE = "ログイン";
 
-export default function Login({ data }: PageProps<HandlerProps>) {
-  const { req } = data;
+export default define.page(function Login({ req }) {
   return (
     <Layout title={PAGE_TITLE} req={req}>
       <section>
@@ -45,4 +34,4 @@ export default function Login({ data }: PageProps<HandlerProps>) {
       </section>
     </Layout>
   );
-}
+});
