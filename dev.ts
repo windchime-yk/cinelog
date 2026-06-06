@@ -1,10 +1,9 @@
 import { Builder } from "fresh/dev";
-import { app } from "./main.ts";
 
 const builder = new Builder();
 
 if (Deno.args.includes("build")) {
-  await builder.build(app);
+  await builder.build(() => import("./main.ts"));
 } else {
-  await builder.listen(app);
+  await builder.listen(() => import("./main.ts"));
 }
