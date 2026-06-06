@@ -5,9 +5,19 @@
 /// <reference lib="deno.ns" />
 
 import "@std/dotenv/load";
+import { App, fsRoutes, staticFiles } from "fresh";
+import { define } from "~/utils.ts";
 
-import { start } from "$fresh/server.ts";
-import manifest from "~/fresh.gen.ts";
-import config from "~/fresh.config.ts";
+const app = new App<void>();
+app.use(staticFiles());
+await fsRoutes(app, {
+  dir: "./",
+  loadIsland: (path) => import(`./islands/${path}`),
+  loadRoute: (path) => import(`./routes/${path}`),
+});
 
-await start(manifest, config);
+if (import.meta.main) {
+  await app.listen();
+}
+
+export { app };
