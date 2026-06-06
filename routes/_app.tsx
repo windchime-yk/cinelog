@@ -1,8 +1,9 @@
 import type { PageProps } from "fresh";
+import type { AppState } from "~/utils.ts";
 import { SITE_NAME } from "~/config.ts";
 
-export default function App({ Component, state }: PageProps) {
-  const title = (state as { title?: string }).title;
+export default function App({ Component, state }: PageProps<unknown, AppState>) {
+  const title = state?.title;
   return (
     <html lang="ja">
       <head>
