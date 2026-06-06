@@ -23,23 +23,24 @@ export const handler = define.handlers({
       return redirectResponse("/login");
     }
 
+    let theaters: Array<{ id: number; name: string }> = [];
     try {
-      ctx.state.theaters = await db.select({
+      theaters = await db.select({
         id: theaterTable.id,
         name: theaterTable.name,
       }).from(theaterTable);
     } catch (_error) {
-      ctx.state.theaters = [];
+      theaters = [];
     }
 
-    return ctx.render();
+    return { data: { theaters } };
   },
 });
 
 const PAGE_TITLE = "ダッシュボード";
 
-export default define.page(function Dashboard({ state, req }) {
-  const theaters = state.theaters ?? [];
+export default define.page<typeof handler>(function Dashboard({ data, req }) {
+  const theaters = data.theaters ?? [];
 
   return (
     <Layout title={PAGE_TITLE} req={req}>

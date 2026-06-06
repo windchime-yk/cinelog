@@ -9,16 +9,14 @@ import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
 import { SearchField } from "~/components/organisms/Input.tsx";
 
 export const handler = define.handlers({
-  GET(ctx) {
-    ctx.state.movies = [];
-    return ctx.render();
+  GET(_ctx) {
+    return { data: { movies: [], search: null } };
   },
   async POST(ctx) {
     const body = await getUrlParams(ctx.req);
     const search = body.get("search");
 
-    ctx.state.search = search;
-    ctx.state.movies = await db.select({
+    const movies = await db.select({
       title: movieTable.title,
       view_date: sql<
         string
@@ -30,15 +28,15 @@ export const handler = define.handlers({
       desc(movieTable.view_start_datetime),
     );
 
-    return ctx.render();
+    return { data: { movies, search } };
   },
 });
 
 const PAGE_TITLE = "鑑賞作品の検索";
 
-export default define.page(function Search({ state, req }) {
-  const movies = state.movies ?? [];
-  const search = state.search;
+export default define.page<typeof handler>(function Search({ data, req }) {
+  const movies = data.movies ?? [];
+  const search = data.search;
 
   const showContent = () => {
     if (!search) {

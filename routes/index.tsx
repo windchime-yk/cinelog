@@ -6,14 +6,14 @@ import { SearchField } from "~/components/organisms/Input.tsx";
 import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
 
 export const handler = define.handlers({
-  async GET(ctx) {
-    ctx.state.movies = await getCardData(10);
-    return ctx.render();
+  async GET(_ctx) {
+    const movies = await getCardData(10);
+    return { data: { movies } };
   },
 });
 
-export default define.page(function Home({ state, req }) {
-  const movies = state.movies ?? [];
+export default define.page<typeof handler>(function Home({ data, req }) {
+  const movies = data.movies ?? [];
   return (
     <Layout req={req}>
       <p>

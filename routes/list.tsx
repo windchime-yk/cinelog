@@ -5,14 +5,14 @@ import { Layout } from "~/components/organisms/Layout.tsx";
 import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
 
 export const handler = define.handlers({
-  async GET(ctx) {
-    ctx.state.movies = await getCardData();
-    return ctx.render();
+  async GET(_ctx) {
+    const movies = await getCardData();
+    return { data: { movies } };
   },
 });
 
-export default define.page(function List({ state, req }) {
-  const movies = state.movies ?? [];
+export default define.page<typeof handler>(function List({ data, req }) {
+  const movies = data.movies ?? [];
   return (
     <Layout title="鑑賞作品一覧" req={req}>
       <section>

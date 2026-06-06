@@ -4,12 +4,6 @@ import { Heading } from "~/components/atoms/Heading.tsx";
 import { Input } from "~/components/organisms/Input.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 
-export const handler = define.handlers({
-  GET(ctx) {
-    return ctx.render();
-  },
-});
-
 const PAGE_TITLE = "ログイン";
 
 export default define.page(function Login({ req }) {
