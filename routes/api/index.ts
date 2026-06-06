@@ -26,7 +26,9 @@ export const handler = define.handlers({
 
     const movies = await db.select({
       title: movieTable.title,
-      view_date: sql<string>`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
+      view_date: sql<
+        string
+      >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
     }).from(movieTable).orderBy(desc(movieTable.view_start_datetime));
 
     const removeDuplicates = (arr: PickApiMovie[]): PickApiMovie[] => {
