@@ -1,11 +1,8 @@
-import type { FreshContext } from "fresh";
+import { define } from "~/utils.ts";
 
-export async function handler(ctx: FreshContext): Promise<Response> {
+export const handler = define.middleware(async (ctx) => {
   if (ctx.req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-      headers: corsHeaders(),
-    });
+    return new Response(null, { status: 204, headers: corsHeaders() });
   }
   const resp = await ctx.next();
   const headers = new Headers(resp.headers);
@@ -13,7 +10,7 @@ export async function handler(ctx: FreshContext): Promise<Response> {
     headers.set(k, v);
   }
   return new Response(resp.body, { status: resp.status, headers });
-}
+});
 
 function corsHeaders(): Record<string, string> {
   return {
