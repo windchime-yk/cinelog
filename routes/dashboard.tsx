@@ -5,7 +5,6 @@ import { redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { isInvalidAccount } from "~/core/util.ts";
 import { theaterTable } from "~/db/schema.ts";
-import type { Theater } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 import {
@@ -16,12 +15,7 @@ import {
 } from "~/components/organisms/Input.tsx";
 import { Button } from "~/components/atoms/Button.tsx";
 
-type HandlerData = {
-  req: Request;
-  theaters: Array<Theater>;
-};
-
-export const handler = define.handlers<HandlerData>({
+export const handler = define.handlers({
   async GET(ctx) {
     const cookie = getCookies(ctx.req.headers);
 
@@ -29,24 +23,23 @@ export const handler = define.handlers<HandlerData>({
       return redirectResponse("/login");
     }
 
-    let theaters: Array<Theater>;
     try {
-      theaters = await db.select({
+      ctx.state.theaters = await db.select({
         id: theaterTable.id,
         name: theaterTable.name,
       }).from(theaterTable);
     } catch (_error) {
-      theaters = [];
+      ctx.state.theaters = [];
     }
 
-    return ctx.render({ req: ctx.req, theaters });
+    return ctx.render();
   },
 });
 
 const PAGE_TITLE = "ダッシュボード";
 
-export default define.page<HandlerData>(function Dashboard({ data }) {
-  const { req, theaters } = data;
+export default define.page(function Dashboard({ state, req }) {
+  const theaters = state.theaters ?? [];
 
   return (
     <Layout title={PAGE_TITLE} req={req}>

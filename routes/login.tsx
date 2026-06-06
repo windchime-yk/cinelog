@@ -4,20 +4,15 @@ import { Heading } from "~/components/atoms/Heading.tsx";
 import { Input } from "~/components/organisms/Input.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 
-type HandlerData = {
-  req: Request;
-};
-
-export const handler = define.handlers<HandlerData>({
+export const handler = define.handlers({
   GET(ctx) {
-    return ctx.render({ req: ctx.req });
+    return ctx.render();
   },
 });
 
 const PAGE_TITLE = "ログイン";
 
-export default define.page<HandlerData>(function Login({ data }) {
-  const { req } = data;
+export default define.page(function Login({ req }) {
   return (
     <Layout title={PAGE_TITLE} req={req}>
       <section>

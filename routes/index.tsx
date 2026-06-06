@@ -1,26 +1,19 @@
 import { define } from "~/utils.ts";
 import { getCardData } from "~/core/db.ts";
-import type { PickMovie } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 import { SearchField } from "~/components/organisms/Input.tsx";
 import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
 
-type HandlerData = {
-  req: Request;
-  movies: Array<PickMovie>;
-};
-
-export const handler = define.handlers<HandlerData>({
+export const handler = define.handlers({
   async GET(ctx) {
-    const movies = await getCardData(10);
-
-    return ctx.render({ req: ctx.req, movies });
+    ctx.state.movies = await getCardData(10);
+    return ctx.render();
   },
 });
 
-export default define.page<HandlerData>(function Home({ data }) {
-  const { req, movies } = data;
+export default define.page(function Home({ state, req }) {
+  const movies = state.movies ?? [];
   return (
     <Layout req={req}>
       <p>
