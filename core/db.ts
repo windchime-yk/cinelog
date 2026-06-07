@@ -1,8 +1,8 @@
-import { desc, sql } from "drizzle-orm";
+import { desc, max, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/tidb-serverless";
 import { connect } from "@tidbcloud/serverless";
 import { movieTable } from "~/db/schema.ts";
-import type { PickMovie } from "~/db/model.ts";
+import type { PickApiMovie, PickMovie } from "~/db/model.ts";
 
 const username = Deno.env.get("DEVELOP")
   ? Deno.env.get("DB_DEV_USERNAME")
@@ -58,4 +58,30 @@ export const getCardData = async (
   }
 
   return movies;
+};
+
+/**
+ * 公開APIの作品一覧表示に必要なデータをDBから取得
+ * @param distinct タイトルで重複排除するか
+ */
+export const getApiMovies = (
+  distinct: boolean,
+): Promise<Array<PickApiMovie>> => {
+  if (distinct) {
+    return db.select({
+      title: movieTable.title,
+      view_date: sql<
+        string
+      >`DATE_FORMAT(DATE(MAX(${movieTable.view_start_datetime})), '%Y/%m/%d')`,
+    }).from(movieTable).groupBy(movieTable.title).orderBy(
+      desc(max(movieTable.view_start_datetime)),
+    );
+  }
+
+  return db.select({
+    title: movieTable.title,
+    view_date: sql<
+      string
+    >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
+  }).from(movieTable).orderBy(desc(movieTable.view_start_datetime));
 };

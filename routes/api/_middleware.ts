@@ -15,7 +15,7 @@ export const handler = define.middleware(async (ctx) => {
 function corsHeaders(): Record<string, string> {
   return {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "X-API-KEY, username, password",
+    "Access-Control-Allow-Headers": "X-API-KEY",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
   };
 }
