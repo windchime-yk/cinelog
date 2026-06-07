@@ -1,9 +1,7 @@
 import { STATUS_CODE } from "@std/http";
-import { desc, max, sql } from "drizzle-orm";
 import { define } from "~/utils.ts";
 import { getApiCode } from "~/core/api.ts";
-import { db } from "~/core/db.ts";
-import { movieTable } from "~/db/schema.ts";
+import { getApiMovies } from "~/core/db.ts";
 import type { PickApiMovie } from "~/db/model.ts";
 import type { CommonApiResponse } from "~/model.ts";
 
@@ -25,27 +23,8 @@ export const handler = define.handlers({
       }, { status: STATUS_CODE.Unauthorized });
     }
 
-    let result: PickApiMovie[];
-
-    if (distinct) {
-      result = await db.select({
-        title: movieTable.title,
-        view_date: sql<
-          string
-        >`DATE_FORMAT(DATE(MAX(${movieTable.view_start_datetime})), '%Y/%m/%d')`,
-      }).from(movieTable).groupBy(movieTable.title).orderBy(
-        desc(max(movieTable.view_start_datetime)),
-      );
-    } else {
-      result = await db.select({
-        title: movieTable.title,
-        view_date: sql<
-          string
-        >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
-      }).from(movieTable).orderBy(desc(movieTable.view_start_datetime));
-    }
-
-    if (limit) result = result.slice(0, Number(limit));
+    const movies = await getApiMovies(!!distinct);
+    const result = limit ? movies.slice(0, Number(limit)) : movies;
 
     return Response.json<PickApiMovie[]>(result);
   },
