@@ -1,7 +1,8 @@
-import { type VNode } from "preact";
+import { type ComponentChildren, type VNode } from "preact";
 
 interface MainProps {
-  children: VNode | VNode[];
+  // 条件付きレンダリングの結果を受け取れるよう、VNode以外も許容する
+  children: ComponentChildren;
 }
 
 export const Main = ({ children }: MainProps): VNode => (

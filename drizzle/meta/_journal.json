@@ -8,6 +8,13 @@
       "when": 1714577763286,
       "tag": "0000_magenta_mathemanic",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1786430310009,
+      "tag": "0001_add_format_and_companion_type",
+      "breakpoints": true
     }
   ]
 }

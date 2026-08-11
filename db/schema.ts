@@ -21,6 +21,8 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
   is_live_action: boolean("is_live_action").notNull(),
   /** 上映館テーブルID */
   theater_id: int("theater_id").notNull().references(() => theaterTable.id),
+  /** 鑑賞形式テーブルID */
+  format_id: int("format_id").references(() => formatTable.id),
   /** 上映開始日時 */
   view_start_datetime: datetime("view_start_datetime", { mode: "string" })
     .notNull(),
@@ -29,6 +31,10 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
     .notNull(),
   /** 同伴者数 */
   accompanier: int("accompanier"),
+  /** 同伴者分類テーブルID */
+  companion_type_id: int("companion_type_id").references(() =>
+    companionTypeTable.id
+  ),
   /** 5段階評価 */
   rating: int("rating"),
   /** コメント */
@@ -39,5 +45,19 @@ export const theaterTable = mysqlTable("tbl_theater", {
   /** ID */
   id: serial("id").autoincrement().primaryKey().unique(),
   /** 上映館 */
+  name: varchar("name", { length: 246 }).notNull().unique(),
+});
+
+export const formatTable = mysqlTable("tbl_format", {
+  /** ID */
+  id: serial("id").autoincrement().primaryKey().unique(),
+  /** 鑑賞形式 */
+  name: varchar("name", { length: 246 }).notNull().unique(),
+});
+
+export const companionTypeTable = mysqlTable("tbl_companion_type", {
+  /** ID */
+  id: serial("id").autoincrement().primaryKey().unique(),
+  /** 同伴者分類 */
   name: varchar("name", { length: 246 }).notNull().unique(),
 });

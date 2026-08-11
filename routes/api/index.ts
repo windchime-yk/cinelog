@@ -17,15 +17,20 @@ export const handler = define.handlers({
 
     const method = ctx.req.method;
     if (isInvalidApiKey(apiKey)) {
-      return Response.json<CommonApiResponse>({
+      const unauthorized: CommonApiResponse = {
         code: getApiCode({ method, status: STATUS_CODE.Unauthorized }),
         message: "有効なAPIキーをX-API-KEYヘッダに指定してください",
-      }, { status: STATUS_CODE.Unauthorized });
+      };
+      return Response.json(unauthorized, {
+        status: STATUS_CODE.Unauthorized,
+      });
     }
 
     const movies = await getApiMovies(!!distinct);
-    const result = limit ? movies.slice(0, Number(limit)) : movies;
+    const result: PickApiMovie[] = limit
+      ? movies.slice(0, Number(limit))
+      : movies;
 
-    return Response.json<PickApiMovie[]>(result);
+    return Response.json(result);
   },
 });

@@ -37,7 +37,6 @@
     "@tidbcloud/serverless": "npm:@tidbcloud/serverless@^0.2.0",
     "drizzle-orm": "npm:drizzle-orm@0.45.2",
     "drizzle-orm/": "npm:/drizzle-orm@0.45.2/",
-    "drizzle-zod": "npm:drizzle-zod@0.8.3",
     "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/"
   },
   "compilerOptions": {

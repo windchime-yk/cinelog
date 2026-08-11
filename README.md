@@ -111,25 +111,41 @@ sequenceDiagram
     alt ログイン情報が不正な場合
       dashboardpage ->> loginpage : ログイン画面にリダイレクト
     end
+    dashboardpage ->> db : マスタデータ（映画館・鑑賞形式・同伴者分類）をリクエスト
+    db -->> dashboardpage : マスタデータを返却
+    alt errorパラメータがある場合
+      dashboardpage ->> dashboardpage : エラーコードに対応するメッセージを表示
+    end
   end
   
   alt 鑑賞作品データ追加
     dashboardpage ->> redirect : フォームデータをパラメータに保持して遷移
     redirect ->> cookie : ログイン情報の取得
     cookie -->> redirect : ログイン情報の返却
-    alt ログイン情報が正しい場合
-      redirect ->> db : 鑑賞作品データを追加
+    alt ログイン情報が不正な場合
+      redirect ->> loginpage : ログイン画面にリダイレクト
     end
-    redirect ->> toppage : TOP画面にリダイレクト
+    alt 入力値が不正、ないし「日を跨ぐ」と上映終了時間が不整合な場合
+      redirect ->> dashboardpage : errorパラメータを保持してリダイレクト
+    end
+    alt 入力値が正しい場合
+      redirect ->> redirect : 上映終了時間が開始時間以下なら終了日を翌日に繰り上げ
+      redirect ->> db : 鑑賞作品データを追加
+      redirect ->> toppage : TOP画面にリダイレクト
+    end
   end
 
-  alt 映画館データ追加
+  alt マスタデータ追加（映画館・鑑賞形式・同伴者分類）
     dashboardpage ->> redirect : フォームデータをパラメータに保持して遷移
     redirect ->> cookie : ログイン情報の取得
     cookie -->> redirect : ログイン情報の返却
     alt ログイン情報が正しい場合
-      redirect ->> db : 映画館データを追加
+      redirect ->> db : マスタデータを追加
+      alt 名称が重複していた場合
+        db -->> redirect : UNIQUE制約違反
+        redirect ->> dashboardpage : errorパラメータを保持してリダイレクト
+      end
     end
-    redirect ->> toppage : TOP画面にリダイレクト
+    redirect ->> dashboardpage : ダッシュボード画面にリダイレクト
   end
 ```

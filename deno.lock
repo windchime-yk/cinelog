@@ -64,7 +64,6 @@
     "npm:autoprefixer@10.4.17": "10.4.17_postcss@8.4.35",
     "npm:cssnano@6.0.3": "6.0.3_postcss@8.4.35",
     "npm:drizzle-orm@0.45.2": "0.45.2_@opentelemetry+api@1.9.1_@tidbcloud+serverless@0.2.0",
-    "npm:drizzle-zod@0.8.3": "0.8.3_drizzle-orm@0.45.2__@opentelemetry+api@1.9.1__@tidbcloud+serverless@0.2.0_zod@4.4.3_@opentelemetry+api@1.9.1_@tidbcloud+serverless@0.2.0",
     "npm:esbuild-wasm@~0.25.11": "0.25.12",
     "npm:esbuild@0.25.7": "0.25.7",
     "npm:esbuild@~0.25.5": "0.25.7",
@@ -75,6 +74,7 @@
     "npm:preact@^10.29.1": "10.29.2",
     "npm:rollup@^4.55.1": "4.61.1",
     "npm:tailwindcss@^4.1.10": "4.3.0",
+    "npm:vite@*": "7.3.5_@types+node@22.5.4_picomatch@4.0.4",
     "npm:vite@^7.1.3": "7.3.5_@types+node@22.5.4_picomatch@4.0.4",
     "npm:vite@^7.1.4": "7.3.5_@types+node@22.5.4_picomatch@4.0.4"
   },
@@ -1263,13 +1263,6 @@
         "@tidbcloud/serverless"
       ]
     },
-    "drizzle-zod@0.8.3_drizzle-orm@0.45.2__@opentelemetry+api@1.9.1__@tidbcloud+serverless@0.2.0_zod@4.4.3_@opentelemetry+api@1.9.1_@tidbcloud+serverless@0.2.0": {
-      "integrity": "sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==",
-      "dependencies": [
-        "drizzle-orm",
-        "zod"
-      ]
-    },
     "electron-to-chromium@1.5.179": {
       "integrity": "sha512-UWKi/EbBopgfFsc5k61wFpV7WrnnSlSzW/e2XcBmS6qKYTivZlLtoll5/rdqRTxGglGHkmkW0j0pFNJG10EUIQ=="
     },
@@ -1874,9 +1867,6 @@
     },
     "yallist@3.1.1": {
       "integrity": "sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g=="
-    },
-    "zod@4.4.3": {
-      "integrity": "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ=="
     }
   },
   "redirects": {
@@ -2595,7 +2585,6 @@
       "npm:@tidbcloud/serverless@0.2",
       "npm:@types/babel__core@^7.20.5",
       "npm:drizzle-orm@0.45.2",
-      "npm:drizzle-zod@0.8.3",
       "npm:preact@10.29.2",
       "npm:preact@^10.29.1",
       "npm:tailwindcss@^4.1.10",

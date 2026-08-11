@@ -1,8 +1,13 @@
 import { desc, max, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/tidb-serverless";
 import { connect } from "@tidbcloud/serverless";
-import { movieTable } from "~/db/schema.ts";
-import type { PickApiMovie, PickMovie } from "~/db/model.ts";
+import {
+  companionTypeTable,
+  formatTable,
+  movieTable,
+  theaterTable,
+} from "~/db/schema.ts";
+import type { MasterRecord, PickApiMovie, PickMovie } from "~/db/model.ts";
 
 const username = Deno.env.get("DEVELOP")
   ? Deno.env.get("DB_DEV_USERNAME")
@@ -58,6 +63,35 @@ export const getCardData = async (
   }
 
   return movies;
+};
+
+/**
+ * ダッシュボードのセレクトボックス用マスタデータをDBから取得
+ */
+export const getMasterData = async (): Promise<{
+  theaters: Array<MasterRecord>;
+  formats: Array<MasterRecord>;
+  companionTypes: Array<MasterRecord>;
+}> => {
+  try {
+    const [theaters, formats, companionTypes] = await Promise.all([
+      db.select({ id: theaterTable.id, name: theaterTable.name }).from(
+        theaterTable,
+      ),
+      db.select({ id: formatTable.id, name: formatTable.name }).from(
+        formatTable,
+      ),
+      db.select({
+        id: companionTypeTable.id,
+        name: companionTypeTable.name,
+      }).from(companionTypeTable),
+    ]);
+
+    return { theaters, formats, companionTypes };
+  } catch (error) {
+    console.log(error);
+    return { theaters: [], formats: [], companionTypes: [] };
+  }
 };
 
 /**
