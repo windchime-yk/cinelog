@@ -85,12 +85,16 @@ export class Convert {
   }
 
   /**
-   * 上映終了時間が上映開始時間以下なら、日を跨いだ鑑賞と判定する
+   * 上映終了時間が上映開始時間より前なら、日を跨いだ鑑賞と判定する
+   *
+   * 開始と終了が同時刻の場合は日を跨いだ扱いにしない。Googleカレンダーの
+   * 終日予定から取り込んだ00:00→00:00が「時刻不明」を意味しており、
+   * 翌日に繰り上げると上映時間0分（=「不明」表示）が1440分になってしまうため
    * @param startTime 上映開始時間
    * @param endTime 上映終了時間
    */
   public isCrossDay(startTime: string | null, endTime: string | null): boolean {
     // HH:MM:SSに揃えた固定幅の文字列同士なら、辞書順比較が時系列比較と一致する
-    return this.normalizeTime(endTime) <= this.normalizeTime(startTime);
+    return this.normalizeTime(endTime) < this.normalizeTime(startTime);
   }
 }

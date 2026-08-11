@@ -113,11 +113,14 @@ Deno.test("文字列変換Class宣言テスト", async (t) => {
     await t.step("日を跨ぐ鑑賞", () => {
       assertEquals<boolean>(convert.isCrossDay("23:30", "01:45"), true);
     });
-    await t.step("開始と終了が同時刻", () => {
-      assertEquals<boolean>(convert.isCrossDay("21:00", "21:00"), true);
+    await t.step("開始と終了が同時刻なら日を跨がない", () => {
+      assertEquals<boolean>(convert.isCrossDay("21:00", "21:00"), false);
     });
     await t.step("秒の有無が異なる同時刻", () => {
-      assertEquals<boolean>(convert.isCrossDay("21:00", "21:00:00"), true);
+      assertEquals<boolean>(convert.isCrossDay("21:00", "21:00:00"), false);
+    });
+    await t.step("時刻不明レコードの00:00→00:00", () => {
+      assertEquals<boolean>(convert.isCrossDay("00:00", "00:00"), false);
     });
     await t.step("0時開始で日を跨がない", () => {
       assertEquals<boolean>(convert.isCrossDay("00:00", "23:59"), false);
