@@ -11,6 +11,8 @@ interface InputProps {
   value?: string;
   placeholder?: string;
   required?: boolean;
+  min?: number;
+  max?: number;
 }
 
 export const Input = (
@@ -18,14 +20,18 @@ export const Input = (
     className = "",
     rounded,
     type = "text",
-    id,
+    // idを省略した場合もlabelと紐付くようnameで代用する
+    id: inputId,
     label,
     name,
     value,
     placeholder,
     required,
+    min,
+    max,
   }: InputProps,
 ): VNode => {
+  const id = inputId ?? name;
   let round: string;
   switch (rounded) {
     case "right":
@@ -67,6 +73,8 @@ export const Input = (
         class={`bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${round}`}
         placeholder={placeholder}
         required={required}
+        min={min}
+        max={max}
       />
     </div>
   );

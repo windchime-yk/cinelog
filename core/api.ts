@@ -28,10 +28,6 @@ export const redirectResponse = (path: `/${string}`): Response =>
  * URLパラメータ取得関数を取得する
  * @param req Request
  */
-export const getUrlParams = async (req: Request) => {
-  const bodyReader = await req.body?.getReader().read();
-  const bodyReaderValue = bodyReader?.value;
-  const decoder = new TextDecoder();
-
-  return new URLSearchParams(decoder.decode(bodyReaderValue));
-};
+export const getUrlParams = async (req: Request): Promise<URLSearchParams> =>
+  // ReadableStreamを直接読むとボディが複数チャンクに分かれた際に切り捨ててしまう
+  new URLSearchParams(await req.text());

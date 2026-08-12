@@ -1,0 +1,279 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "4e534bd3-0352-4cc5-8cf5-0e8d8ea9ef96",
+  "prevId": "55012362-ce25-467c-ab54-fa460b89a901",
+  "tables": {
+    "tbl_movieinfo": {
+      "name": "tbl_movieinfo",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(246)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "is_dubbed": {
+          "name": "is_dubbed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "is_domestic": {
+          "name": "is_domestic",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "is_live_action": {
+          "name": "is_live_action",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "theater_id": {
+          "name": "theater_id",
+          "type": "varchar(26)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "format_id": {
+          "name": "format_id",
+          "type": "varchar(26)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "view_start_datetime": {
+          "name": "view_start_datetime",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "view_end_datetime": {
+          "name": "view_end_datetime",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "accompanier": {
+          "name": "accompanier",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "companion_type_id": {
+          "name": "companion_type_id",
+          "type": "varchar(26)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rating": {
+          "name": "rating",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "comment": {
+          "name": "comment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tbl_movieinfo_theater_id_tbl_theater_id_fk": {
+          "name": "tbl_movieinfo_theater_id_tbl_theater_id_fk",
+          "tableFrom": "tbl_movieinfo",
+          "tableTo": "tbl_theater",
+          "columnsFrom": [
+            "theater_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "tbl_movieinfo_format_id_tbl_format_id_fk": {
+          "name": "tbl_movieinfo_format_id_tbl_format_id_fk",
+          "tableFrom": "tbl_movieinfo",
+          "tableTo": "tbl_format",
+          "columnsFrom": [
+            "format_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "tbl_movieinfo_companion_type_id_tbl_companion_type_id_fk": {
+          "name": "tbl_movieinfo_companion_type_id_tbl_companion_type_id_fk",
+          "tableFrom": "tbl_movieinfo",
+          "tableTo": "tbl_companion_type",
+          "columnsFrom": [
+            "companion_type_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "tbl_movieinfo_id": {
+          "name": "tbl_movieinfo_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "tbl_movieinfo_id_unique": {
+          "name": "tbl_movieinfo_id_unique",
+          "columns": [
+            "id"
+          ]
+        }
+      }
+    },
+    "tbl_theater": {
+      "name": "tbl_theater",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(26)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(246)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "tbl_theater_id": {
+          "name": "tbl_theater_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "tbl_theater_name_unique": {
+          "name": "tbl_theater_name_unique",
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    },
+    "tbl_format": {
+      "name": "tbl_format",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(26)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(246)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "tbl_format_id": {
+          "name": "tbl_format_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "tbl_format_name_unique": {
+          "name": "tbl_format_name_unique",
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    },
+    "tbl_companion_type": {
+      "name": "tbl_companion_type",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(26)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(246)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "tbl_companion_type_id": {
+          "name": "tbl_companion_type_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "tbl_companion_type_name_unique": {
+          "name": "tbl_companion_type_name_unique",
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

@@ -12,7 +12,11 @@
     "drizzle": "deno run --allow-run=npm,deno,git --allow-read --allow-env scripts/create-schema.ts",
     "dump": "deno run -E --env-file=.env --allow-run=tiup scripts/db-dump.ts",
     "dump:main": "DATABASE_BRANCH=main deno task dump",
-    "dump:dev": "DATABASE_BRANCH=develop deno task dump"
+    "dump:dev": "DATABASE_BRANCH=develop deno task dump",
+    "db": "deno run -E --env-file=.env --allow-read=drizzle,db/sql --allow-net scripts/db-migrate.ts",
+    "db:main": "DATABASE_BRANCH=main deno task db",
+    "db:dev": "DATABASE_BRANCH=develop deno task db",
+    "db:restore": "deno run -E --env-file=.env --allow-read=db/sql --allow-net scripts/db-restore.ts"
   },
   "lint": {
     "rules": { "tags": ["fresh", "recommended"] },
@@ -34,10 +38,10 @@
     "@std/assert": "jsr:@std/assert@^1.0.0",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.0",
     "@std/http": "jsr:@std/http@^1.0.0",
+    "@std/ulid": "jsr:@std/ulid@^1.0.0",
     "@tidbcloud/serverless": "npm:@tidbcloud/serverless@^0.2.0",
     "drizzle-orm": "npm:drizzle-orm@0.45.2",
     "drizzle-orm/": "npm:/drizzle-orm@0.45.2/",
-    "drizzle-zod": "npm:drizzle-zod@0.8.3",
     "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/"
   },
   "compilerOptions": {
