@@ -8,6 +8,11 @@
 -- 素の「IMAX」を、立川シネマシティは通称「極音」で書かれていたため正式名と
 -- 併記した形にしている。
 --
+-- 立川シネマシティは2025年12月12日公開作品より、独自開発の音響装置[02 system]の
+-- 導入にあわせて【極上音響上映02】【極上爆音上映02】へ改称した。設備が異なるため
+-- 旧称と02を別の行として持つ。
+-- https://ccnews.cinemacity.co.jp/goku-on_goku-baku_02system/
+--
 -- 舞台挨拶付き特別興行・先行上映・4Kリマスターもコメントに出てくるが、
 -- IMAXや極音と併用できる別の軸であり、1列FKに混ぜると組み合わせが爆発するため
 -- 含めていない。引き続きコメントで記録する。
@@ -22,30 +27,32 @@
 -- 概ね登録順で表示される。使用頻度の高い順に並べてある。
 
 INSERT IGNORE INTO `tbl_format` (`id`, `name`) VALUES
-  ('01KZTD6JQ1757AQ59V56EHY33Q', 'IMAX'),             -- 種別を問わない場合
-  ('01KZTD6JQ2D8JXCTEW8MRWA20A', 'IMAXレーザー'),         -- TOHOシネマズ / T・ジョイ / ユナイテッド・シネマ ほか
-  ('01KZTD6JQ2D8JXCTEW8MRWA20B', 'IMAXレーザー/GT'),      -- グランドシネマサンシャイン池袋（1.43:1）
-  ('01KZTD6JQ2D8JXCTEW8MRWA20C', 'IMAXデジタル'),         -- TOHOシネマズ府中 ほか
-  ('01KZTD6JQ2D8JXCTEW8MRWA20D', 'Dolby Cinema'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20E', 'TCX'),              -- TOHOシネマズ
-  ('01KZTD6JQ2D8JXCTEW8MRWA20F', 'ULTIRA'),           -- ユナイテッド・シネマ
-  ('01KZTD6JQ2D8JXCTEW8MRWA20G', 'BESTIA'),           -- グランドシネマサンシャイン池袋
-  ('01KZTD6JQ2D8JXCTEW8MRWA20H', 'BESTIA enhanced'),  -- グランドシネマサンシャイン池袋
-  ('01KZTD6JQ2D8JXCTEW8MRWA20J', 'ScreenX'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20K', '4DX'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20M', '4DX Screen'),       -- 4DX + ScreenX
-  ('01KZTD6JQ2D8JXCTEW8MRWA20N', 'MX4D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20P', 'Dolby Atmos'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20Q', 'LIVE ZOUND'),       -- チネチッタ
-  ('01KZTD6JQ2D8JXCTEW8MRWA20R', '極上音響上映（極音）'),       -- 立川シネマシティ
-  ('01KZTD6JQ2D8JXCTEW8MRWA20S', '極上爆音上映（極爆）'),       -- 立川シネマシティ
-  ('01KZTD6JQ2D8JXCTEW8MRWA20T', '轟音上映'),             -- TOHOシネマズ
-  ('01KZTD6JQ2D8JXCTEW8MRWA20V', '3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20W', 'IMAX 3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20X', 'IMAXレーザー3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20Y', 'IMAXレーザー/GT 3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA20Z', 'Dolby Cinema 3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA210', 'ScreenX 3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA211', '4DX 3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA212', '4DX Screen 3D'),
-  ('01KZTD6JQ2D8JXCTEW8MRWA213', 'MX4D 3D');
+  ('01KZTEE58EVES7AYPV4VFKQP8W', 'IMAX'),             -- 種別を問わない場合
+  ('01KZTEE58EVES7AYPV4VFKQP8X', 'IMAXレーザー'),         -- TOHOシネマズ / T・ジョイ / ユナイテッド・シネマ ほか
+  ('01KZTEE58EVES7AYPV4VFKQP8Y', 'IMAXレーザー/GT'),      -- グランドシネマサンシャイン池袋（1.43:1）
+  ('01KZTEE58EVES7AYPV4VFKQP8Z', 'IMAXデジタル'),         -- TOHOシネマズ府中 ほか
+  ('01KZTEE58EVES7AYPV4VFKQP90', 'Dolby Cinema'),
+  ('01KZTEE58EVES7AYPV4VFKQP91', 'TCX'),              -- TOHOシネマズ
+  ('01KZTEE58EVES7AYPV4VFKQP92', 'ULTIRA'),           -- ユナイテッド・シネマ
+  ('01KZTEE58EVES7AYPV4VFKQP93', 'BESTIA'),           -- グランドシネマサンシャイン池袋
+  ('01KZTEE58EVES7AYPV4VFKQP94', 'BESTIA enhanced'),  -- グランドシネマサンシャイン池袋
+  ('01KZTEE58EVES7AYPV4VFKQP95', 'ScreenX'),
+  ('01KZTEE58EVES7AYPV4VFKQP96', '4DX'),
+  ('01KZTEE58EVES7AYPV4VFKQP97', '4DX Screen'),       -- 4DX + ScreenX
+  ('01KZTEE58EVES7AYPV4VFKQP98', 'MX4D'),
+  ('01KZTEE58EVES7AYPV4VFKQP99', 'Dolby Atmos'),
+  ('01KZTEE58EVES7AYPV4VFKQP9A', 'LIVE ZOUND'),       -- チネチッタ
+  ('01KZTEE58EVES7AYPV4VFKQP9B', '極上音響上映02（極音02）'),   -- 立川シネマシティ / 2025-12-12〜
+  ('01KZTEE58EVES7AYPV4VFKQP9C', '極上爆音上映02（極爆02）'),   -- 立川シネマシティ / 2025-12-12〜
+  ('01KZTEE58EVES7AYPV4VFKQP9D', '極上音響上映（極音）'),       -- 立川シネマシティ / 〜2025-12-11
+  ('01KZTEE58EVES7AYPV4VFKQP9E', '極上爆音上映（極爆）'),       -- 立川シネマシティ / 〜2025-12-11
+  ('01KZTEE58EVES7AYPV4VFKQP9F', '轟音上映'),             -- TOHOシネマズ
+  ('01KZTEE58EVES7AYPV4VFKQP9G', '3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9H', 'IMAX 3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9J', 'IMAXレーザー3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9K', 'IMAXレーザー/GT 3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9M', 'Dolby Cinema 3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9N', 'ScreenX 3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9P', '4DX 3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9Q', '4DX Screen 3D'),
+  ('01KZTEE58EVES7AYPV4VFKQP9R', 'MX4D 3D');
