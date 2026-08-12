@@ -7,10 +7,14 @@ import {
 } from "~/db/schema.ts";
 
 export type Movie = InferModel<typeof movieTable>;
-export type PickMovie = Pick<Movie, "title"> & {
-  view_date: string;
-  diff: number;
-};
+export type PickMovie =
+  & Pick<Movie, "title" | "is_subtitled" | "is_domestic">
+  & {
+    view_date: string;
+    diff: number;
+    /** 鑑賞形式の名称。指定なしの場合はnull */
+    format: string | null;
+  };
 export type PickApiMovie = Pick<Movie, "title"> & {
   view_date: string;
 };

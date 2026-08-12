@@ -5,9 +5,37 @@ interface CardProps {
   title: string;
   viewDate: string;
   viewTime: string;
+  /** 鑑賞形式の名称。指定なしの場合は表示しない */
+  format?: string | null;
+  /** 字幕版だったか。falseの場合は表示しない */
+  isSubtitled?: boolean;
 }
 
-export const Card = ({ title, viewDate, viewTime }: CardProps): VNode => (
+/**
+ * 鑑賞形式や字幕の有無を示すバッジ。
+ *
+ * spanのままだとインライン要素で上下paddingが行ボックスの高さに参入せず、
+ * 親のitems-centerが実際に描かれるピルとズレた箱を中央揃えしてしまう。
+ * inline-flexで実寸の箱にし、leading-noneで余分な行高を除く
+ */
+const BADGE_CLASS =
+  "inline-flex items-center px-2 py-1 text-xs leading-none font-medium rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200";
+
+/**
+ * バッジ1つ分のリスト項目。
+ *
+ * liをflexにしているのは、ブロックのままだと親から継承した行高のストラットが
+ * 残り、liの高さがバッジの実寸より高くなってしまうため
+ */
+const BadgeItem = ({ children }: { children: string }): VNode => (
+  <li class="flex">
+    <span class={BADGE_CLASS}>{children}</span>
+  </li>
+);
+
+export const Card = (
+  { title, viewDate, viewTime, format, isSubtitled }: CardProps,
+): VNode => (
   <section
     class="h-full grid grid-cols-subgrid p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
     style={{
@@ -17,13 +45,15 @@ export const Card = ({ title, viewDate, viewTime }: CardProps): VNode => (
     <Heading className="order-2 dark:text-white" level={3}>
       {title}
     </Heading>
-    <ul class="flex gap-2 order-1 dark:text-white">
+    <ul class="flex flex-wrap items-center gap-2 order-1 dark:text-white">
       <li>
         <time>{viewDate}</time>
       </li>
       <li>
         <time>{viewTime}</time>
       </li>
+      {format && <BadgeItem>{format}</BadgeItem>}
+      {isSubtitled && <BadgeItem>字幕</BadgeItem>}
     </ul>
     <div class="order-2">
       <a

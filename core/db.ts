@@ -1,4 +1,4 @@
-import { desc, max, sql } from "drizzle-orm";
+import { desc, eq, like, max, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/tidb-serverless";
 import { connect } from "@tidbcloud/serverless";
 import {
@@ -26,43 +26,60 @@ const connection = connect({
 export const db = drizzle(connection);
 
 /**
+ * Cardコンポーネントの表示に必要な列を選択するクエリを組み立てる。
+ *
+ * 一覧・TOP・検索で同じ形を使うため共通化してある。呼び出し側で
+ * where / orderBy / limit を足す
+ */
+const selectCardData = () =>
+  db.select({
+    title: movieTable.title,
+    view_date: sql<
+      string
+    >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
+    diff: sql<
+      number
+    >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
+    is_subtitled: movieTable.is_subtitled,
+    is_domestic: movieTable.is_domestic,
+    format: formatTable.name,
+  })
+    .from(movieTable)
+    .leftJoin(formatTable, eq(movieTable.format_id, formatTable.id));
+
+/**
  * Cardコンポーネントの表示に必要なデータをDBから取得
  * @param limit 取得件数
  */
 export const getCardData = async (
   limit?: number,
 ): Promise<Array<PickMovie>> => {
-  let movies: Array<PickMovie>;
   try {
-    if (!limit) {
-      movies = await db.select({
-        title: movieTable.title,
-        view_date: sql<
-          string
-        >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
-        diff: sql<
-          number
-        >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
-      }).from(movieTable).orderBy(desc(movieTable.view_start_datetime));
-    } else {
-      movies = await db.select({
-        title: movieTable.title,
-        view_date: sql<
-          string
-        >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
-        diff: sql<
-          number
-        >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
-      }).from(movieTable).limit(limit).orderBy(
-        desc(movieTable.view_start_datetime),
-      );
-    }
+    const query = selectCardData().orderBy(
+      desc(movieTable.view_start_datetime),
+    );
+    return await (limit ? query.limit(limit) : query);
   } catch (error) {
-    movies = [];
     console.log(error);
+    return [];
   }
+};
 
-  return movies;
+/**
+ * タイトルの部分一致でCardコンポーネントの表示に必要なデータをDBから取得
+ * @param search 検索文字列
+ */
+export const searchCardData = async (
+  search: string | null,
+): Promise<Array<PickMovie>> => {
+  try {
+    return await selectCardData()
+      .where(like(movieTable.title, `%${search}%`))
+      .orderBy(desc(movieTable.view_start_datetime));
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
 /**
