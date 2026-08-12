@@ -15,6 +15,9 @@ export const MovieCardList = ({ movies }: MovieCardListProps): VNode => (
           title={movie.title}
           viewDate={movie.view_date}
           viewTime={elapsedTime(movie.diff)}
+          format={movie.format}
+          // 邦画は字幕の有無を記録していないため、洋画のときだけ表示する
+          isSubtitled={!movie.is_domestic && movie.is_subtitled}
         />
       </li>
     ))}

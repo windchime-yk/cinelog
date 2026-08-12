@@ -1,8 +1,6 @@
 import { define } from "~/utils.ts";
-import { desc, like, sql } from "drizzle-orm";
 import { getUrlParams } from "~/core/api.ts";
-import { db } from "~/core/db.ts";
-import { movieTable } from "~/db/schema.ts";
+import { searchCardData } from "~/core/db.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
 import { MovieCardList } from "~/components/organisms/MovieCardList.tsx";
@@ -16,17 +14,7 @@ export const handler = define.handlers({
     const body = await getUrlParams(ctx.req);
     const search = body.get("search");
 
-    const movies = await db.select({
-      title: movieTable.title,
-      view_date: sql<
-        string
-      >`DATE_FORMAT(DATE(${movieTable.view_start_datetime}), '%Y/%m/%d')`,
-      diff: sql<
-        number
-      >`TIMESTAMPDIFF(MINUTE, ${movieTable.view_start_datetime}, ${movieTable.view_end_datetime})`,
-    }).from(movieTable).where(like(movieTable.title, `%${search}%`)).orderBy(
-      desc(movieTable.view_start_datetime),
-    );
+    const movies = await searchCardData(search);
 
     return { data: { movies, search } };
   },
