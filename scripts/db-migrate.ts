@@ -33,6 +33,21 @@ const DATABASE_BRANCH = Deno.env.get("DATABASE_BRANCH") as
 /** 参照のみのクエリか（確認プロンプトを省略してよいか）を判定する */
 const READ_ONLY_PATTERN = /^\s*(SELECT|SHOW|DESC|DESCRIBE|EXPLAIN)\b/i;
 
+/**
+ * 参照のみのクエリかを判定する。
+ *
+ * 文の前に説明コメントが付いていても本体で判定できるよう、先頭のコメント行を
+ * 落としてから照合する
+ * @param statement SQLの1文
+ */
+const isReadOnlyStatement = (statement: string): boolean => {
+  const body = statement
+    .split("\n")
+    .filter((line) => !line.trim().startsWith("--"))
+    .join("\n");
+  return READ_ONLY_PATTERN.test(body);
+};
+
 const exit = (message: string): never => {
   console.error(`%c${message}`, "color: red");
   Deno.exit(1);
@@ -157,7 +172,7 @@ const [identity] = await connection.execute(
 ) as Array<{ db: string; user: string }>;
 console.log(`接続先   : ${identity.user} @ ${identity.db}`);
 
-const isReadOnly = statements.every((s) => READ_ONLY_PATTERN.test(s));
+const isReadOnly = statements.every(isReadOnlyStatement);
 if (!isReadOnly && !skipsConfirm) {
   const answer = prompt(
     `\n上記に ${statements.length} 文を適用します。続けますか？ (yes/no)`,
@@ -176,7 +191,7 @@ try {
       console.log(`[${label}] ${statement.split("\n")[0].slice(0, 80)}`);
     }
     const result = await connection.execute(statement);
-    if (READ_ONLY_PATTERN.test(statement)) printRows(result);
+    if (isReadOnlyStatement(statement)) printRows(result);
     applied++;
   }
 } catch (error) {
