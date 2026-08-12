@@ -1,5 +1,6 @@
 import { define } from "~/utils.ts";
 import { getCookies } from "@std/http/cookie";
+import { monotonicUlid } from "@std/ulid";
 import { getUrlParams, redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { isInvalidAccount } from "~/core/util.ts";
@@ -20,7 +21,10 @@ export const handler = define.handlers({
     const errorCode = validateMasterName(name);
     if (errorCode) return redirectResponse(`/dashboard?error=${errorCode}`);
 
-    const newCompanionType: NewCompanionType = { name: name! };
+    const newCompanionType: NewCompanionType = {
+      id: monotonicUlid(),
+      name: name!,
+    };
 
     try {
       await db.insert(companionTypeTable).values(newCompanionType);

@@ -15,6 +15,13 @@
       "when": 1786430310009,
       "tag": "0001_add_format_and_companion_type",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1786468461265,
+      "tag": "0002_master_id_to_ulid",
+      "breakpoints": true
     }
   ]
 }

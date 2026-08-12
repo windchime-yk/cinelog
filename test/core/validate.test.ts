@@ -2,6 +2,11 @@ import { assertEquals } from "@std/assert";
 import { validateMasterName, validateMovieForm } from "~/core/validate.ts";
 import type { DashboardErrorCode } from "~/core/message.ts";
 
+/** 検証用のULID。実在する値である必要はないが形式は正しいもの */
+const THEATER_ID = "01KZRWVJ3F0J3Y8ER5YDT45CGY";
+const FORMAT_ID = "01KZRWZDYKPJNZFNNJ8WSJWHYB";
+const COMPANION_TYPE_ID = "01KZRX1P8QW4V7T2N5J3H6D9F0";
+
 /**
  * 検証を通る鑑賞作品フォームの入力値を生成する
  * @param overrides 上書きする項目
@@ -11,12 +16,12 @@ const buildBody = (
 ): URLSearchParams =>
   new URLSearchParams({
     title: "君の名は。",
-    theater_id: "1",
+    theater_id: THEATER_ID,
     view_date: "2023-09-11",
     view_start_time: "19:00",
     view_end_time: "21:30",
-    format_id: "2",
-    companion_type_id: "3",
+    format_id: FORMAT_ID,
+    companion_type_id: COMPANION_TYPE_ID,
     accompanier: "2",
     rating: "4",
     comment: "面白かった",
@@ -78,22 +83,53 @@ Deno.test("鑑賞作品フォームの検証テスト", async (t) => {
     });
   });
 
-  await t.step("映画館", async (t) => {
+  await t.step("映画館（ULID）", async (t) => {
     await t.step("未選択", () => {
       assertEquals<DashboardErrorCode | null>(
         validateMovieForm(buildBody({ theater_id: "" })),
         "invalid-theater",
       );
     });
-    await t.step("0は弾く", () => {
+    await t.step("移行前の連番idは弾く", () => {
       assertEquals<DashboardErrorCode | null>(
-        validateMovieForm(buildBody({ theater_id: "0" })),
+        validateMovieForm(buildBody({ theater_id: "1" })),
         "invalid-theater",
       );
     });
-    await t.step("数値ではない", () => {
+    await t.step("ULIDではない文字列", () => {
       assertEquals<DashboardErrorCode | null>(
         validateMovieForm(buildBody({ theater_id: "none" })),
+        "invalid-theater",
+      );
+    });
+    await t.step("25文字は弾く", () => {
+      assertEquals<DashboardErrorCode | null>(
+        validateMovieForm(buildBody({ theater_id: THEATER_ID.slice(0, 25) })),
+        "invalid-theater",
+      );
+    });
+    await t.step("27文字は弾く", () => {
+      assertEquals<DashboardErrorCode | null>(
+        validateMovieForm(buildBody({ theater_id: `${THEATER_ID}0` })),
+        "invalid-theater",
+      );
+    });
+    await t.step("Crockford Base32で使わない文字は弾く", async (t) => {
+      // I・L・O・Uは可読性のためULIDの文字集合から除かれている
+      for (const char of ["I", "L", "O", "U"]) {
+        await t.step(char, () => {
+          assertEquals<DashboardErrorCode | null>(
+            validateMovieForm(
+              buildBody({ theater_id: THEATER_ID.slice(0, 25) + char }),
+            ),
+            "invalid-theater",
+          );
+        });
+      }
+    });
+    await t.step("小文字は弾く", () => {
+      assertEquals<DashboardErrorCode | null>(
+        validateMovieForm(buildBody({ theater_id: THEATER_ID.toLowerCase() })),
         "invalid-theater",
       );
     });
@@ -126,16 +162,22 @@ Deno.test("鑑賞作品フォームの検証テスト", async (t) => {
     });
   });
 
-  await t.step("鑑賞形式・同伴者分類", async (t) => {
-    await t.step("鑑賞形式が数値ではない", () => {
+  await t.step("鑑賞形式・同伴者分類（任意のULID）", async (t) => {
+    await t.step("鑑賞形式がULIDではない", () => {
       assertEquals<DashboardErrorCode | null>(
         validateMovieForm(buildBody({ format_id: "imax" })),
         "invalid-format",
       );
     });
-    await t.step("同伴者分類が0", () => {
+    await t.step("鑑賞形式が移行前の連番id", () => {
       assertEquals<DashboardErrorCode | null>(
-        validateMovieForm(buildBody({ companion_type_id: "0" })),
+        validateMovieForm(buildBody({ format_id: "2" })),
+        "invalid-format",
+      );
+    });
+    await t.step("同伴者分類がULIDではない", () => {
+      assertEquals<DashboardErrorCode | null>(
+        validateMovieForm(buildBody({ companion_type_id: "3" })),
         "invalid-companion-type",
       );
     });

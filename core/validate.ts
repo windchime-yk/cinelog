@@ -1,5 +1,6 @@
 import { isDateString, isTimeString } from "~/core/convert.ts";
 import type { DashboardErrorCode } from "~/core/message.ts";
+import { ULID_LENGTH } from "~/db/schema.ts";
 
 /** 名称系カラムの最大文字数 */
 const MAX_NAME_LENGTH = 246;
@@ -7,16 +8,15 @@ const MAX_NAME_LENGTH = 246;
 const MIN_RATING = 1;
 /** 評価の上限 */
 const MAX_RATING = 5;
+/** ULIDの形式（Crockford Base32。I・L・O・Uは使われない） */
+const ULID_PATTERN = new RegExp(`^[0-9A-HJKMNP-TV-Z]{${ULID_LENGTH}}$`);
 
 /**
- * 外部キーとして使える正の整数か
+ * 外部キーとして使えるULIDか
  * @param value フォームの入力値
  */
-const isPositiveInteger = (value: string | null): boolean => {
-  if (!value) return false;
-  const num = Number(value);
-  return Number.isInteger(num) && num > 0;
-};
+const isUlid = (value: string | null): boolean =>
+  !!value && ULID_PATTERN.test(value);
 
 /**
  * 未入力、ないし指定範囲の整数か
@@ -35,11 +35,11 @@ const isOptionalInteger = (
 };
 
 /**
- * 未入力、ないし外部キーとして使える正の整数か
+ * 未入力、ないし外部キーとして使えるULIDか
  * @param value フォームの入力値
  */
-const isOptionalPositiveInteger = (value: string | null): boolean =>
-  !value || isPositiveInteger(value);
+const isOptionalUlid = (value: string | null): boolean =>
+  !value || isUlid(value);
 
 /**
  * 鑑賞作品フォームの入力値を検証する
@@ -52,17 +52,15 @@ export const validateMovieForm = (
   const title = body.get("title");
   if (!title || title.length > MAX_NAME_LENGTH) return "invalid-title";
 
-  // 「選択してください」のvalueは空文字なので、0やNaNもここで弾く
-  if (!isPositiveInteger(body.get("theater_id"))) return "invalid-theater";
+  // 「選択してください」のvalueは空文字なので、未選択もここで弾く
+  if (!isUlid(body.get("theater_id"))) return "invalid-theater";
 
   if (!isDateString(body.get("view_date"))) return "invalid-datetime";
   if (!isTimeString(body.get("view_start_time"))) return "invalid-datetime";
   if (!isTimeString(body.get("view_end_time"))) return "invalid-datetime";
 
-  if (!isOptionalPositiveInteger(body.get("format_id"))) {
-    return "invalid-format";
-  }
-  if (!isOptionalPositiveInteger(body.get("companion_type_id"))) {
+  if (!isOptionalUlid(body.get("format_id"))) return "invalid-format";
+  if (!isOptionalUlid(body.get("companion_type_id"))) {
     return "invalid-companion-type";
   }
   if (

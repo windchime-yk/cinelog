@@ -15,6 +15,12 @@ import type { NewMovie } from "~/db/model.ts";
 const toNullableNumber = (value: string | null): number | null =>
   value ? Number(value) : null;
 
+/**
+ * 未選択（空文字）をNULLに変換する
+ * @param value フォームから取得した値
+ */
+const toNullableString = (value: string | null): string | null => value || null;
+
 export const handler = define.handlers({
   async POST(ctx) {
     const body = await getUrlParams(ctx.req);
@@ -44,15 +50,15 @@ export const handler = define.handlers({
       is_dubbed: convert.isFormToDatabase(body.get("is_dubbed")),
       is_domestic: convert.isFormToDatabase(body.get("is_domestic")),
       is_live_action: convert.isFormToDatabase(body.get("is_live_action")),
-      theater_id: Number(body.get("theater_id")),
-      format_id: toNullableNumber(body.get("format_id")),
+      theater_id: body.get("theater_id")!,
+      format_id: toNullableString(body.get("format_id")),
       view_start_datetime: convert.formatDatetime(viewDate, startTime),
       view_end_datetime: convert.formatDatetime(
         isCrossDay ? convert.addDays(viewDate, 1) : viewDate,
         endTime,
       ),
       accompanier: toNullableNumber(body.get("accompanier")),
-      companion_type_id: toNullableNumber(body.get("companion_type_id")),
+      companion_type_id: toNullableString(body.get("companion_type_id")),
       rating: toNullableNumber(body.get("rating")),
       comment: body.get("comment") || null,
     };

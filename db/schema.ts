@@ -8,6 +8,9 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+/** ULIDの文字数 */
+export const ULID_LENGTH = 26;
+
 export const movieTable = mysqlTable("tbl_movieinfo", {
   /** ID */
   id: serial("id").autoincrement().primaryKey().unique(),
@@ -20,9 +23,12 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
   /** 実写かどうか */
   is_live_action: boolean("is_live_action").notNull(),
   /** 上映館テーブルID */
-  theater_id: int("theater_id").notNull().references(() => theaterTable.id),
+  theater_id: varchar("theater_id", { length: ULID_LENGTH })
+    .notNull()
+    .references(() => theaterTable.id),
   /** 鑑賞形式テーブルID */
-  format_id: int("format_id").references(() => formatTable.id),
+  format_id: varchar("format_id", { length: ULID_LENGTH })
+    .references(() => formatTable.id),
   /** 上映開始日時 */
   view_start_datetime: datetime("view_start_datetime", { mode: "string" })
     .notNull(),
@@ -32,9 +38,8 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
   /** 同伴者数 */
   accompanier: int("accompanier"),
   /** 同伴者分類テーブルID */
-  companion_type_id: int("companion_type_id").references(() =>
-    companionTypeTable.id
-  ),
+  companion_type_id: varchar("companion_type_id", { length: ULID_LENGTH })
+    .references(() => companionTypeTable.id),
   /** 5段階評価 */
   rating: int("rating"),
   /** コメント */
@@ -43,21 +48,21 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
 
 export const theaterTable = mysqlTable("tbl_theater", {
   /** ID */
-  id: serial("id").autoincrement().primaryKey().unique(),
+  id: varchar("id", { length: ULID_LENGTH }).primaryKey(),
   /** 上映館 */
   name: varchar("name", { length: 246 }).notNull().unique(),
 });
 
 export const formatTable = mysqlTable("tbl_format", {
   /** ID */
-  id: serial("id").autoincrement().primaryKey().unique(),
+  id: varchar("id", { length: ULID_LENGTH }).primaryKey(),
   /** 鑑賞形式 */
   name: varchar("name", { length: 246 }).notNull().unique(),
 });
 
 export const companionTypeTable = mysqlTable("tbl_companion_type", {
   /** ID */
-  id: serial("id").autoincrement().primaryKey().unique(),
+  id: varchar("id", { length: ULID_LENGTH }).primaryKey(),
   /** 同伴者分類 */
   name: varchar("name", { length: 246 }).notNull().unique(),
 });
