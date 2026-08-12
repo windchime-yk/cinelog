@@ -16,8 +16,8 @@ export const movieTable = mysqlTable("tbl_movieinfo", {
   id: serial("id").autoincrement().primaryKey().unique(),
   /** 作品タイトル */
   title: varchar("title", { length: 246 }).notNull(),
-  /** 吹替版かどうか */
-  is_dubbed: boolean("is_dubbed").notNull(),
+  /** 字幕版かどうか */
+  is_subtitled: boolean("is_subtitled").notNull(),
   /** 国内映画かどうか */
   is_domestic: boolean("is_domestic").notNull(),
   /** 実写かどうか */

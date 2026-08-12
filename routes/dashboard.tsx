@@ -88,7 +88,7 @@ export default define.page<typeof handler>(function Dashboard(
           />
           <fieldset class="flex gap-5 mt-6">
             <legend class="mb-2 text-sm font-medium">映画属性</legend>
-            <Checkbox label="字幕版か" name="is_dubbed" />
+            <Checkbox label="字幕版か" name="is_subtitled" />
             <Checkbox label="邦画か" name="is_domestic" />
             <Checkbox label="実写版か" name="is_live_action" />
           </fieldset>

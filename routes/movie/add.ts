@@ -47,7 +47,7 @@ export const handler = define.handlers({
 
     const newMovie: NewMovie = {
       title: body.get("title")!,
-      is_dubbed: convert.isFormToDatabase(body.get("is_dubbed")),
+      is_subtitled: convert.isFormToDatabase(body.get("is_subtitled")),
       is_domestic: convert.isFormToDatabase(body.get("is_domestic")),
       is_live_action: convert.isFormToDatabase(body.get("is_live_action")),
       theater_id: body.get("theater_id")!,
