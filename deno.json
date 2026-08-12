@@ -12,7 +12,11 @@
     "drizzle": "deno run --allow-run=npm,deno,git --allow-read --allow-env scripts/create-schema.ts",
     "dump": "deno run -E --env-file=.env --allow-run=tiup scripts/db-dump.ts",
     "dump:main": "DATABASE_BRANCH=main deno task dump",
-    "dump:dev": "DATABASE_BRANCH=develop deno task dump"
+    "dump:dev": "DATABASE_BRANCH=develop deno task dump",
+    "db": "deno run -E --env-file=.env --allow-read=drizzle,db/sql --allow-net scripts/db-migrate.ts",
+    "db:main": "DATABASE_BRANCH=main deno task db",
+    "db:dev": "DATABASE_BRANCH=develop deno task db",
+    "db:restore": "deno run -E --env-file=.env --allow-read=db/sql --allow-net scripts/db-restore.ts"
   },
   "lint": {
     "rules": { "tags": ["fresh", "recommended"] },
