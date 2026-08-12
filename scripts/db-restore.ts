@@ -12,7 +12,7 @@ import { connect } from "@tidbcloud/serverless";
  *
  * 使い方:
  *   deno task db:restore                                  # 最新のdump_main_*を使う
- *   deno task db:restore db/sql/dump_main_260812004058    # dumpを指定する
+ *   deno task db:restore db/sql/dump_main_<timestamp>     # dumpを指定する
  *   deno task db:restore --dry-run                        # 実行せず内容だけ見る
  */
 
