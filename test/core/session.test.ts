@@ -1,6 +1,5 @@
 import { assertEquals, assertStringIncludes } from "@std/assert";
 import {
-  clearLegacyCookies,
   createSessionToken,
   isLoggedIn,
   isValidSessionToken,
@@ -109,15 +108,6 @@ Deno.test(
           false,
         );
       });
-    });
-
-    await t.step("平文Cookieを失効させる", () => {
-      const headers = new Headers();
-      clearLegacyCookies(headers);
-      const cookie = headers.getSetCookie().join("\n");
-
-      assertStringIncludes(cookie, "username=;");
-      assertStringIncludes(cookie, "password=;");
     });
   },
 );

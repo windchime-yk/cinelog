@@ -93,7 +93,6 @@ sequenceDiagram
 
   alt ログイン時
     loginpage ->> redirect : usernameパラメータとpasswordパラメータを保持して遷移
-    redirect ->> cookie : 平文保存していた頃のCookieを失効
     alt 環境変数と照合して正規のログイン情報だった場合
       redirect ->> redirect : 有効期限に署名してセッショントークンを発行
       redirect -->> toppage : セッションCookieを保持してリダイレクト

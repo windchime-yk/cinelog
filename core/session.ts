@@ -1,4 +1,4 @@
-import { deleteCookie, getCookies, setCookie } from "@std/http/cookie";
+import { getCookies, setCookie } from "@std/http/cookie";
 import { createHmac, timingSafeEqual } from "node:crypto";
 
 /** セッションCookieの名前 */
@@ -6,9 +6,6 @@ const SESSION_COOKIE_NAME = "session";
 
 /** セッションの有効期間（秒） */
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
-
-/** ユーザー名・パスワードを平文保存していた頃のCookie */
-const LEGACY_COOKIE_NAMES = ["username", "password"];
 
 /**
  * 署名鍵を組み立てる
@@ -85,18 +82,6 @@ export const setSessionCookie = (headers: Headers): void => {
     sameSite: "Lax",
     maxAge: SESSION_MAX_AGE,
   });
-};
-
-/**
- * 平文のユーザー名・パスワードCookieを失効させる
- *
- * ブラウザに残っているパスワードを消すためのもので、移行が済めば削除してよい
- * @param headers レスポンスヘッダ
- */
-export const clearLegacyCookies = (headers: Headers): void => {
-  for (const name of LEGACY_COOKIE_NAMES) {
-    deleteCookie(headers, name, { path: "/" });
-  }
 };
 
 /**
