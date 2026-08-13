@@ -49,6 +49,13 @@ Deno.test(
       });
     });
 
+    await t.step("署名の長さが異なるトークンは無効", async () => {
+      await withAccount(() => {
+        const [expiresAt] = createSessionToken().split(".");
+        assertEquals<boolean>(isValidSessionToken(`${expiresAt}.abc`), false);
+      });
+    });
+
     await t.step("有効期限だけ引き伸ばしたトークンは無効", async () => {
       await withAccount(() => {
         const [expiresAt, signature] = createSessionToken().split(".");
