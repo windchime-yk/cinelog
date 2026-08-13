@@ -10,6 +10,19 @@ import { connect } from "@tidbcloud/serverless";
  * 0000は手作業で適用済みのため、自動判定すると0000を再実行してしまう。
  * 実行するファイルは引数で明示する。
  *
+ * drizzle-ormのmigrate()は意図的に導入していない。理由は2つ。
+ *
+ * 1. 上記のとおり__drizzle_migrationsテーブルが無いため、初回実行時に
+ *    drizzle/meta/_journal.jsonの0000〜0003をすべて未適用と判断して流し直し、
+ *    CREATE TABLE tbl_movieinfoで失敗する。
+ * 2. 0002_master_id_to_ulid.sqlのように手書き調整が必須のマイグレーションがある。
+ *    実DBのマスタIDはint(10) unsignedだがschema.tsはserialを宣言しており、
+ *    外部キーの型を一致させるためDDLを実DB側に合わせている。自動生成された
+ *    SQLをそのまま流す運用とは相性が悪い。
+ *
+ * 将来migrate()を導入する場合は、先に__drizzle_migrationsテーブルを作り、
+ * 0000〜0003を適用済みとして投入してから切り替えること。
+ *
  * 使い方:
  *   # SQLファイルを適用する
  *   deno task db:dev drizzle/0002_master_id_to_ulid.sql
