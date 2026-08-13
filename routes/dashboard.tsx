@@ -1,10 +1,9 @@
 import { type VNode } from "preact";
 import { define } from "~/utils.ts";
-import { getCookies } from "@std/http/cookie";
 import { redirectResponse } from "~/core/api.ts";
 import { getMasterData } from "~/core/db.ts";
 import { getDashboardErrorMessage } from "~/core/message.ts";
-import { isInvalidAccount } from "~/core/util.ts";
+import { isLoggedIn } from "~/core/session.ts";
 import type { MasterRecord } from "~/db/model.ts";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { Layout } from "~/components/organisms/Layout.tsx";
@@ -18,9 +17,7 @@ import { Button } from "~/components/atoms/Button.tsx";
 
 export const handler = define.handlers({
   async GET(ctx) {
-    const cookie = getCookies(ctx.req.headers);
-
-    if (isInvalidAccount(cookie.username, cookie.password)) {
+    if (!isLoggedIn(ctx.req)) {
       return redirectResponse("/login");
     }
 

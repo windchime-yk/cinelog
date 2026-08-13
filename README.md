@@ -7,6 +7,13 @@
 - Denoの最新版
 - TiDB Cloudのアカウント情報
 
+## ダッシュボードの認証
+ログイン情報（`USERNAME` / `PASSWORD`）との照合はログイン時だけ行い、以降はセッションCookieで判定する。
+
+- Cookieに載せるのは「有効期限」と「その署名」だけで、ユーザー名・パスワードは載せない
+- Cookieには`HttpOnly` / `Secure` / `SameSite=Lax` / `Path=/` / `Max-Age`（30日）を付与する（`Secure`はローカル開発時を除く）
+- 署名鍵は`PASSWORD`から導出しているため、パスワードを変更すると発行済みのセッションはすべて無効になる
+
 ## データ構造
 ### シーケンス図
 #### 共通ヘッダー
@@ -16,8 +23,9 @@ sequenceDiagram
   participant cookie as Cookie
 
   alt 初期表示
-    app ->> cookie : ログイン情報を取得
-    cookie -->> app : ログイン情報ないしundefinedを返却
+    app ->> cookie : セッションを取得
+    cookie -->> app : セッショントークンないしundefinedを返却
+    app ->> app : 署名と有効期限を検証してログイン状態を判定
   end
 ```
 
@@ -86,8 +94,9 @@ sequenceDiagram
   alt ログイン時
     loginpage ->> redirect : usernameパラメータとpasswordパラメータを保持して遷移
     alt 環境変数と照合して正規のログイン情報だった場合
-      redirect -->> toppage : Cookie情報を保持してリダイレクト
-      toppage ->> cookie : ログイン情報を保存
+      redirect ->> redirect : 有効期限に署名してセッショントークンを発行
+      redirect -->> toppage : セッションCookieを保持してリダイレクト
+      toppage ->> cookie : セッショントークンを保存
     end
     alt 正規のログイン情報ではなかった場合 
       redirect ->> toppage : リダイレクト
@@ -106,9 +115,9 @@ sequenceDiagram
   participant db as TiDB Cloud
   
   alt 初期表示
-    dashboardpage ->> cookie : ログイン情報を取得
-    cookie -->> dashboardpage : ログイン情報を返却
-    alt ログイン情報が不正な場合
+    dashboardpage ->> cookie : セッションを取得
+    cookie -->> dashboardpage : セッショントークンを返却
+    alt セッションが無効な場合
       dashboardpage ->> loginpage : ログイン画面にリダイレクト
     end
     dashboardpage ->> db : マスタデータ（映画館・鑑賞形式・同伴者分類）をリクエスト
@@ -120,9 +129,9 @@ sequenceDiagram
   
   alt 鑑賞作品データ追加
     dashboardpage ->> redirect : フォームデータをパラメータに保持して遷移
-    redirect ->> cookie : ログイン情報の取得
-    cookie -->> redirect : ログイン情報の返却
-    alt ログイン情報が不正な場合
+    redirect ->> cookie : セッションの取得
+    cookie -->> redirect : セッショントークンの返却
+    alt セッションが無効な場合
       redirect ->> loginpage : ログイン画面にリダイレクト
     end
     alt 入力値が不正、ないし「日を跨ぐ」と上映終了時間が不整合な場合
@@ -137,9 +146,9 @@ sequenceDiagram
 
   alt マスタデータ追加（映画館・鑑賞形式・同伴者分類）
     dashboardpage ->> redirect : フォームデータをパラメータに保持して遷移
-    redirect ->> cookie : ログイン情報の取得
-    cookie -->> redirect : ログイン情報の返却
-    alt ログイン情報が正しい場合
+    redirect ->> cookie : セッションの取得
+    cookie -->> redirect : セッショントークンの返却
+    alt セッションが有効な場合
       redirect ->> db : マスタデータを追加
       alt 名称が重複していた場合
         db -->> redirect : UNIQUE制約違反
