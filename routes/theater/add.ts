@@ -1,9 +1,8 @@
 import { define } from "~/utils.ts";
-import { getCookies } from "@std/http/cookie";
 import { monotonicUlid } from "@std/ulid";
 import { getUrlParams, redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
-import { isInvalidAccount } from "~/core/util.ts";
+import { isLoggedIn } from "~/core/session.ts";
 import { validateMasterName } from "~/core/validate.ts";
 import { theaterTable } from "~/db/schema.ts";
 import type { NewTheater } from "~/db/model.ts";
@@ -11,9 +10,8 @@ import type { NewTheater } from "~/db/model.ts";
 export const handler = define.handlers({
   async POST(ctx) {
     const body = await getUrlParams(ctx.req);
-    const cookie = getCookies(ctx.req.headers);
 
-    if (isInvalidAccount(cookie.username, cookie.password)) {
+    if (!isLoggedIn(ctx.req)) {
       return redirectResponse("/login");
     }
 

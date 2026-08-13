@@ -1,9 +1,8 @@
 import { define } from "~/utils.ts";
-import { getCookies } from "@std/http/cookie";
 import { getUrlParams, redirectResponse } from "~/core/api.ts";
 import { db } from "~/core/db.ts";
 import { Convert } from "~/core/convert.ts";
-import { isInvalidAccount } from "~/core/util.ts";
+import { isLoggedIn } from "~/core/session.ts";
 import { validateMovieForm } from "~/core/validate.ts";
 import { movieTable } from "~/db/schema.ts";
 import type { NewMovie } from "~/db/model.ts";
@@ -24,9 +23,8 @@ const toNullableString = (value: string | null): string | null => value || null;
 export const handler = define.handlers({
   async POST(ctx) {
     const body = await getUrlParams(ctx.req);
-    const cookie = getCookies(ctx.req.headers);
 
-    if (isInvalidAccount(cookie.username, cookie.password)) {
+    if (!isLoggedIn(ctx.req)) {
       return redirectResponse("/login");
     }
 

@@ -2,8 +2,7 @@ import { type VNode } from "preact";
 import { Heading } from "~/components/atoms/Heading.tsx";
 import { SITE_NAME } from "~/config.ts";
 import IconMovie from "icons/movie.tsx";
-import { getCookies } from "@std/http/cookie";
-import { isInvalidAccount } from "~/core/util.ts";
+import { isLoggedIn } from "~/core/session.ts";
 
 interface HeaderProps {
   req?: Request;
@@ -36,9 +35,7 @@ const linklist: Array<Links> = [
 ];
 
 export const Header = ({ req }: HeaderProps): VNode => {
-  let cookie: Record<string, string> = {};
-  if (req) cookie = getCookies(req.headers);
-  const isLogin = isInvalidAccount(cookie.username, cookie.password);
+  const logged = isLoggedIn(req);
 
   return (
     <header class="bg-white border-gray-200 dark:bg-gray-900">
@@ -50,10 +47,8 @@ export const Header = ({ req }: HeaderProps): VNode => {
         <nav class="w-full md:block md:w-auto">
           <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {linklist.map((link) => {
-              if (
-                link.logged !== undefined &&
-                (!isLogin && !link.logged || isLogin && link.logged)
-              ) return;
+              // ログイン状態を指定しているリンクは、状態が一致する時だけ表示する
+              if (link.logged !== undefined && link.logged !== logged) return;
 
               return (
                 <li key={link.id}>
