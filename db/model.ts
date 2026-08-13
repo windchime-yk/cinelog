@@ -1,4 +1,4 @@
-import { type InferModel } from "drizzle-orm";
+import { type InferInsertModel, type InferSelectModel } from "drizzle-orm";
 import {
   companionTypeTable,
   formatTable,
@@ -6,7 +6,7 @@ import {
   theaterTable,
 } from "~/db/schema.ts";
 
-export type Movie = InferModel<typeof movieTable>;
+export type Movie = InferSelectModel<typeof movieTable>;
 export type PickMovie =
   & Pick<Movie, "title" | "is_subtitled" | "is_domestic">
   & {
@@ -18,19 +18,16 @@ export type PickMovie =
 export type PickApiMovie = Pick<Movie, "title"> & {
   view_date: string;
 };
-export type NewMovie = InferModel<typeof movieTable, "insert">;
+export type NewMovie = InferInsertModel<typeof movieTable>;
 
-export type Theater = InferModel<typeof theaterTable>;
-export type NewTheater = InferModel<typeof theaterTable, "insert">;
+export type Theater = InferSelectModel<typeof theaterTable>;
+export type NewTheater = InferInsertModel<typeof theaterTable>;
 
-export type Format = InferModel<typeof formatTable>;
-export type NewFormat = InferModel<typeof formatTable, "insert">;
+export type Format = InferSelectModel<typeof formatTable>;
+export type NewFormat = InferInsertModel<typeof formatTable>;
 
-export type CompanionType = InferModel<typeof companionTypeTable>;
-export type NewCompanionType = InferModel<
-  typeof companionTypeTable,
-  "insert"
->;
+export type CompanionType = InferSelectModel<typeof companionTypeTable>;
+export type NewCompanionType = InferInsertModel<typeof companionTypeTable>;
 
 /** マスタテーブル共通のセレクトボックス用レコード */
 export type MasterRecord = Pick<Theater, "id" | "name">;
