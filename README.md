@@ -11,7 +11,7 @@
 ログイン情報（`USERNAME` / `PASSWORD`）との照合はログイン時だけ行い、以降はセッションCookieで判定する。
 
 - Cookieに載せるのは「有効期限」と「その署名」だけで、ユーザー名・パスワードは載せない
-- Cookieには`HttpOnly` / `Secure` / `SameSite=Lax` / `Path=/` / `Max-Age`（7日）を付与する（`Secure`はローカル開発時を除く）
+- Cookieには`HttpOnly` / `Secure` / `SameSite=Lax` / `Path=/` / `Max-Age`（30日）を付与する（`Secure`はローカル開発時を除く）
 - 署名鍵は`PASSWORD`から導出しているため、パスワードを変更すると発行済みのセッションはすべて無効になる
 
 ## データ構造

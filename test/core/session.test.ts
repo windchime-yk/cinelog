@@ -35,8 +35,8 @@ Deno.test(
     await t.step("有効期限を過ぎたトークンは無効", async () => {
       await withAccount(() => {
         const token = createSessionToken();
-        // 有効期間（7日）より先の時刻で検証する
-        const future = Date.now() + 1000 * 60 * 60 * 24 * 8;
+        // 有効期間（30日）より先の時刻で検証する
+        const future = Date.now() + 1000 * 60 * 60 * 24 * 31;
         assertEquals<boolean>(isValidSessionToken(token, future), false);
       });
     });
@@ -96,7 +96,7 @@ Deno.test(
         assertStringIncludes(cookie, "Secure");
         assertStringIncludes(cookie, "SameSite=Lax");
         assertStringIncludes(cookie, "Path=/");
-        assertStringIncludes(cookie, "Max-Age=604800");
+        assertStringIncludes(cookie, "Max-Age=2592000");
       });
     });
 

@@ -5,7 +5,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 const SESSION_COOKIE_NAME = "session";
 
 /** セッションの有効期間（秒） */
-const SESSION_MAX_AGE = 60 * 60 * 24 * 7;
+const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
 
 /** ユーザー名・パスワードを平文保存していた頃のCookie */
 const LEGACY_COOKIE_NAMES = ["username", "password"];
